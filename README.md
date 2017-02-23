@@ -14,10 +14,7 @@ This README would normally document whatever steps are necessary to get your app
 * Configuration
 * Dependencies
 * Database configuration
-+ How to run tests
-  * run server
-  * open localhost:3000 in browser
-  * rails page will opened
+* How to run tests
 * Deployment instructions
 
 ### Contribution guidelines ###
