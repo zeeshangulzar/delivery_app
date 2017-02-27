@@ -23,3 +23,4 @@
 coverage
 cscope.out
 tags
+/test
