@@ -34,7 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :password
       t.string :cell
       t.boolean :verified
-      t.boolean :verified_token
+      t.string :verified_token
       t.string :role
 
       t.timestamps null: false

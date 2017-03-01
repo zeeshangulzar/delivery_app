@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228124505) do
+ActiveRecord::Schema.define(version: 20170301042942) do
+
+  create_table "authentication_tokens", force: :cascade do |t|
+    t.string   "body",         limit: 255
+    t.integer  "user_id",      limit: 4
+    t.datetime "last_used_at"
+    t.string   "ip_address",   limit: 255
+    t.string   "user_agent",   limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
 
   create_table "social_logins", force: :cascade do |t|
     t.string   "platform_name",     limit: 255
@@ -47,5 +59,6 @@ ActiveRecord::Schema.define(version: 20170228124505) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "authentication_tokens", "users"
   add_foreign_key "social_logins", "users"
 end
