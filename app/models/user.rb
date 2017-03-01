@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   has_many :authentication_tokens
 
   validates :name, presence: { message: "Name is required" }, length: {in: 3..150}, numericality: false
-  validates :email, presence: { message: "Email is required"}, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-  validates :password, presence: true,  length: {in: 6..30},  confirmation: true
+  validates :email, presence: { message: "Email is required"}
+  validates :password, presence: true,  confirmation: true
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
