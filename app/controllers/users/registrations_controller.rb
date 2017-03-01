@@ -4,14 +4,19 @@ module V1
 
     def create
       user = User.create(create_params)
-      if user.blank?
+      unless user.blank?
+        check=true
         if (params[:facebook_id].present? || params[:google_id].present?)
           login = SocialLogin.create_social_login(params, user)
-          if login.blank?
-            render json: {error: "social id already exists"}, status: 406
+          unless login.blank?
+            check=false
+            #render json: {error: "social id already exists"}, status: 406
+            render json: login.errors, status: 406
           end
         end
-        render json: {signup: "successful"}, status: 201
+        if check
+          render json: {signup: "successful"}, status: 201
+        end
       else
         render json: user.errors, status: 406
       end

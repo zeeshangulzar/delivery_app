@@ -14,7 +14,7 @@ class SocialLogin < ActiveRecord::Base
       authentication_id = params[:google_id]
     end
 
-    return SocialLogin.create(user: user, platform_name: platform_name, authentication_id: authentication_id)
+    return login=SocialLogin.create(user_id: user, platform_name: platform_name, authentication_id: authentication_id)
 
   end
 end
