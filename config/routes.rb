@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+
+  # Devise routes for API clients (custom sessions controller)
+  devise_scope :user do
+    post 'v1/login', to: 'users/sessions#create'
+    delete 'v1/logout', to: 'users/sessions#destroy'
+  end
+
+  # Devise routes for web clients (built-in sessions controller)
+  devise_for :users
+
+  # For API through browser
+  resources :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
