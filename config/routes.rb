@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   # Devise routes for API clients (custom sessions controller)
   devise_scope :user do
+    post 'v1/signup', to: 'users/registrations#create'
     post 'v1/login', to: 'users/sessions#create'
     delete 'v1/logout', to: 'users/sessions#destroy'
   end

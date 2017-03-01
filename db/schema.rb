@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301042942) do
+ActiveRecord::Schema.define(version: 20170301114343) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -36,12 +36,12 @@ ActiveRecord::Schema.define(version: 20170301042942) do
   add_index "social_logins", ["user_id"], name: "index_social_logins_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "email",                  limit: 255, default: "",    null: false
+    t.string   "encrypted_password",     limit: 255, default: "",    null: false
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
@@ -49,11 +49,11 @@ ActiveRecord::Schema.define(version: 20170301042942) do
     t.string   "name",                   limit: 255
     t.string   "password",               limit: 255
     t.string   "cell",                   limit: 255
-    t.boolean  "verified"
+    t.boolean  "verified",                           default: false
     t.boolean  "verified_token"
     t.string   "role",                   limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
