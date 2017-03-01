@@ -24,3 +24,8 @@ coverage
 cscope.out
 tags
 /test
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
