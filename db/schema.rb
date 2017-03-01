@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301114343) do
+ActiveRecord::Schema.define(version: 20170301134139) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20170301114343) do
     t.string   "password",               limit: 255
     t.string   "cell",                   limit: 255
     t.boolean  "verified",                           default: false
-    t.boolean  "verified_token"
+    t.string   "verified_token",         limit: 255
     t.string   "role",                   limit: 255
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
