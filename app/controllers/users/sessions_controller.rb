@@ -1,11 +1,37 @@
 module V1
   class Users::SessionsController < Devise::SessionsController
-    skip_before_action :verify_signed_out_user
 
     def create
-      user = warden.authenticate!(:scope => :user)
-      token = Tiddle.create_and_return_token(user, request)
-      render json: { authentication_token: token }
+      if !params[:password].present?
+        render json: {error: "password can't be nil"}, status: 404
+
+      elsif params[:cell].present?
+        user = User.find_by_cell(params[:cell])
+        if user.blank? || !user.valid_password?(params[:password])
+          render json: {error: "invalid cell or password"}, status: 401
+        else
+          token = Tiddle.create_and_return_token(user, request)
+          login=SocialLogin.get_social_login(user)
+          if login.blank?
+            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, authentication_token: token}
+          else
+            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, "#{login.platform_name}": login.authentication_id, authentication_token: token}
+          end
+        end
+
+      elsif (params[:facebook_id].present? || params[:google_id].present?)
+        user = SocialLogin.check_social_login(params)
+        if user.blank? || !user.valid_password?(params[:password])
+          render json: {error: "invalid social_id or password"}, status: 401
+        else
+          token = Tiddle.create_and_return_token(user, request)
+          render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, authentication_token: token}
+        end
+
+      else
+        render json: {error: "cell or social_id can't be nil"}, status: 404
+      end
+
     end
 
     def destroy
