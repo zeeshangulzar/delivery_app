@@ -8,13 +8,19 @@ module V1
         check=true
         if (params[:facebook_id].present? || params[:google_id].present?)
           login = SocialLogin.create_social_login(params, user.id)
-          unless login.blank?
+          if login.id.nil?
+            if !user.id.nil? && login.id.nil?
+              User.delete(user.id)
+            end
             check=false
             render json: {error: "social_id already exists"}, status: 409
           end
         end
         if check
           render json: {signup: "successful"}, status: 201
+          user.verified_token=rand(1111..9999)
+          user.save
+          user.send_sms
         end
       else
         render json: user.errors, status: 406
