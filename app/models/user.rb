@@ -28,4 +28,27 @@ class User < ActiveRecord::Base
     body: "ANA PIN: #{verified_token}"
   end
 
+  def verification_json(request)
+    {
+      status: 'true',
+      user: {
+        id: id,
+        name: name,
+        email: email,
+        cell: cell,
+        type: user_login_type,
+      },
+      token: generate_authenticate_token(request)
+    }
+  end
+
+  def user_login_type
+   login = self.social_logins.last
+   login.blank? ? 'local' : login.platform_name
+  end
+
+  def generate_authenticate_token(request)
+    Tiddle.create_and_return_token(self, request)
+  end
+
 end
