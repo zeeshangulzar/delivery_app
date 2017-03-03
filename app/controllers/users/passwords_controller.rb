@@ -11,7 +11,7 @@ module V1
         user.verified_token=rand(1111..9999)
         user.save
         user.send_sms
-        render json: {message: "verification code has been sent"}, status: 201
+        render json: {message: "verification code has been sent"}, status: 200
       end
     end
 
@@ -21,7 +21,7 @@ module V1
         if params[:code]==user.verified_token
           user.password=params[:password]
           if user.save
-            render json: {message: "password updated successfully"}, status: 201
+            render json: {message: "password updated successfully"}, status: 200
           else
             render json: {error: user.errors.full_messages.to_sentence}, status: 406
           end
