@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: { message: "Name is required" }, length: {in: 3..150}, numericality: false
   validates :email, presence: { message: "Email is required"}
-  validates :password, presence: true,  confirmation: true
+  #validates :password, presence: true,  confirmation: true
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
@@ -26,6 +26,29 @@ class User < ActiveRecord::Base
     client.messages.create to: cell,
     from: TWILLIO_NUMBER,
     body: "ANA PIN: #{verified_token}"
+  end
+
+  def verification_json(request)
+    {
+      status: 'true',
+      user: {
+        id: id,
+        name: name,
+        email: email,
+        cell: cell,
+        type: user_login_type,
+      },
+      token: generate_authenticate_token(request)
+    }
+  end
+
+  def user_login_type
+   login = self.social_logins.last
+   login.blank? ? 'local' : login.platform_name
+  end
+
+  def generate_authenticate_token(request)
+    Tiddle.create_and_return_token(self, request)
   end
 
 end

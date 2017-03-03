@@ -1,6 +1,9 @@
 module V1
   class Users::RegistrationsController < Devise::RegistrationsController
-    before_action :get_user
+
+    before_action :validate_verification_user, only: [:verify]
+    before_action :get_user, except: [:verify]
+    before_action :non_admin_users, only: [:verify]
 
     def create
       user = User.create(create_params)
@@ -21,7 +24,29 @@ module V1
       end
     end
 
-    private
+    def verify
+      @user.verified = true
+      # a temperry solution for password issue
+      flag = @user.save(validate: false)
+      return render json: @user.verification_json(request) if flag
+      return render json: { error: @user.errors}, status: 422 unless flag
+    end
+
+
+  private
+    def validate_verification_user
+      return render json: { error: 'Cell is empty'}, status: 404 if params[:cell].blank?
+      return render json: { error: 'code is empty'}, status: 404 if params[:code].blank?
+      @user =  User.find_by_cell_and_verified_token(params[:cell], params[:code])
+      return render json: { error: 'User not found'}, status: 404 if @user.blank?
+      return render json: { error: 'User is already verified'}, status: 422 if @user.verified?
+    end
+
+    def non_admin_users
+      return unless @user.role == 'admin'
+      return render json: { error: 'User role is invalid for verification'}, status: 422
+    end
+
     def get_user
       if params[:cell].present?
         user = User.find_by_cell(params[:cell])
