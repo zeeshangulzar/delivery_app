@@ -20,7 +20,7 @@ module V1
           end
         end
         if check
-          render json: {msgmessage: "successful"}, status: 201
+          render json: {msgmessage: "successful"}, status: 200
           user.verified_token=rand(1111..9999)
           user.save
           user.send_sms
@@ -60,8 +60,8 @@ module V1
           if user.verified?
             render json: {error: "user already exits"}, status: 409
           else
-            user.send
-            render json: {message: "successful"}, status: 201
+            user.send_sms
+            render json: {message: "successful"}, status: 200
           end
         end
       end

@@ -13,9 +13,9 @@ module V1
           token = Tiddle.create_and_return_token(user, request)
           login=SocialLogin.get_social_login(user)
           if login.blank?
-            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, authentication_token: token}
+            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, authentication_token: token}
           else
-            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, "#{login.platform_name}": login.authentication_id, authentication_token: token}
+            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, "#{login.platform_name}": login.authentication_id, authentication_token: token}
           end
         end
 
