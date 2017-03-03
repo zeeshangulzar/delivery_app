@@ -38,8 +38,10 @@ module V1
       return render json: { error: @user.errors.full_messages.to_sentence}, status: 422 unless flag
     end
     def delete
-      SocialLogin.delete_all
+      AuthenticationToken.delete_all
+      SocialLogin.where(:user_id => params[:id]).destroy_all
       User.delete(params[:id])
+      render json: {message: "user deleted: #{params[:id]}"}, status: 200
     end
 
 
