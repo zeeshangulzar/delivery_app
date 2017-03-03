@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: { message: "Name is required" }, length: {in: 3..150}, numericality: false
   validates :email, presence: { message: "Email is required"}
-  #validates :password, presence: true,  confirmation: true
+  validates :password, confirmation: true
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
