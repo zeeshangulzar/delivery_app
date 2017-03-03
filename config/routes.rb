@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     delete 'v1/signout', to: 'users/sessions#destroy'
     post 'v1/pw_recover', to: 'users/passwords#recover'
     post 'v1/pw_update', to: 'users/passwords#update'
+    post 'v1/delete', to: 'users/registrations#delete'
   end
 
   # Devise routes for web clients (built-in sessions controller)

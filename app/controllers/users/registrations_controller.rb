@@ -20,7 +20,7 @@ module V1
           end
         end
         if check
-          render json: {msgmessage: "successful"}, status: 200
+          render json: {message: "successful"}, status: 200
           user.verified_token=rand(1111..9999)
           user.save
           user.send_sms
@@ -36,6 +36,10 @@ module V1
       flag = @user.save(validate: false)
       return render json: @user.verification_json(request) if flag
       return render json: { error: @user.errors.full_messages.to_sentence}, status: 422 unless flag
+    end
+    def delete
+      SocialLogin.delete_all
+      User.delete(params[:id])
     end
 
 
