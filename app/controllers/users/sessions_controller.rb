@@ -1,41 +1,36 @@
 module V1
   class Users::SessionsController < Devise::SessionsController
 
+    before_action :validate_login_details, only: [:create]
     def create
-      if !params[:password].present?
-        render json: {error: "password can't be nil"}, status: 404
-
-      elsif params[:cell].present?
+      if params[:cell].present? && params[:password].present?
         user = User.find_by_cell(params[:cell])
-        if user.blank? || !user.valid_password?(params[:password])
-          render json: {error: "invalid cell or password"}, status: 401
-        else
-          token = Tiddle.create_and_return_token(user, request)
-          login=SocialLogin.get_social_login(user)
-          if login.blank?
-            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, authentication_token: token}
-          else
-            render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, "#{login.platform_name}": login.authentication_id, authentication_token: token}
-          end
-        end
-
-      elsif (params[:facebook_id].present? || params[:google_id].present?)
-        user = SocialLogin.check_social_login(params)
-        if user.blank? || !user.valid_password?(params[:password])
-          render json: {error: "invalid social_id or password"}, status: 401
-        else
-          token = Tiddle.create_and_return_token(user, request)
-          render json: {user_id: user.id, name: user.name, email: user.email, cell: user.cell, authentication_token: token}
-        end
-
-      else
-        render json: {error: "cell or social_id can't be nil"}, status: 404
+        return render json: {error: "Invalid cell or password"}, status: 401 if user.blank? || !user.valid_password?(params[:password])
+        token = Tiddle.create_and_return_token(user, request)
+        login = SocialLogin.where(user_id: user.id).last
+        social_type = login.blank? ? 'local' : login.platform_name
+        return render json: { user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, type: social_type, authentication_token: token}
       end
+
+      social_id = params[:facebook_id].present? ? params[:facebook_id] : params[:google_id]
+      social_login = SocialLogin.where(authentication_id: social_id).last
+      return render json: {error: 'Invalid social_login_id'}, status: 401 if social_login.blank?
+      user = social_login.user
+      return render json: {error: 'User with social_login_id not found'}, status: 404 if user.blank?
+      token = Tiddle.create_and_return_token(user, request)
+      return render json: { user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, type: social_login.platform_name, authentication_token: token}
 
     end
 
     def destroy
       render json: { deletion: "destroyed" }
+    end
+
+    private
+
+    def validate_login_details
+      return if params[:google_id].present? || params[:facebook_id].present? || (params[:cell].present? && params[:password].present?)
+      render json: {error: "Please provide cell and password or social_login_id"}, status: 404
     end
 
   end
