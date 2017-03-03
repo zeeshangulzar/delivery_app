@@ -23,7 +23,7 @@ module V1
           if user.save
             render json: {msg: "password updated successfully"}, status: 201
           else
-            render json: user.errors, status: 406
+            render json: {error: user.errors.full_messages.to_sentence}, status: 406
           end
         else
           render json: {error: "invalid verification code"}, status: 404

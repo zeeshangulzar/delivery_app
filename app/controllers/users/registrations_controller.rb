@@ -26,7 +26,7 @@ module V1
           user.send_sms
         end
       else
-        render json: user.errors, status: 406
+        render json: {error: user.errors.full_messages.to_sentence}, status: 406
       end
     end
 
@@ -35,7 +35,7 @@ module V1
       # a temperry solution for password issue
       flag = @user.save(validate: false)
       return render json: @user.verification_json(request) if flag
-      return render json: { error: @user.errors}, status: 422 unless flag
+      return render json: { error: @user.errors.full_messages.to_sentence}, status: 422 unless flag
     end
 
 
