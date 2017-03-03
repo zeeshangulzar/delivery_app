@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     put    'v1/verify', to: 'users/registrations#verify'
     post 'v1/signin', to: 'users/sessions#create'
     delete 'v1/signout', to: 'users/sessions#destroy'
+    post 'v1/pw_recover', to: 'users/passwords#recover'
+    post 'v1/pw_update', to: 'users/passwords#update'
   end
 
   # Devise routes for web clients (built-in sessions controller)
