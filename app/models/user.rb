@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
   TWILLIO_AUTH   = 'f9ca79e8e38852c26e106876338bda2b'
   TWILLIO_NUMBER = '+14692086400'
 
-  validates :name, presence: { message: "Name is required" }, length: {in: 3..150}, numericality: false
-  validates :email, presence: { message: "Email is required"}
+  validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
+  validates :email, presence: { message: "is required"}
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
