@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   has_many :social_logins
 
+  has_many :locations, as: :locateable
+
   # For api authentication
   has_many :authentication_tokens
 

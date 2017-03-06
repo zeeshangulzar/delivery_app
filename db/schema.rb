@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301134139) do
+ActiveRecord::Schema.define(version: 20170306120619) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 20170301134139) do
   end
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "name",            limit: 255
+    t.decimal  "lat",                         precision: 15, scale: 10
+    t.decimal  "lon",                         precision: 15, scale: 10
+    t.integer  "place_id",        limit: 4
+    t.integer  "locateable_id",   limit: 4
+    t.string   "locateable_type", limit: 255
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+  end
 
   create_table "social_logins", force: :cascade do |t|
     t.string   "platform_name",     limit: 255
