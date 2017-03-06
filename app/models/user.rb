@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   has_many :social_logins
+  has_many :bookings
 
   has_many :locations, as: :locateable
 

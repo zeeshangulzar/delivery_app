@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306120619) do
+ActiveRecord::Schema.define(version: 20170306125410) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 20170306120619) do
   end
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
+
+  create_table "bookings", force: :cascade do |t|
+    t.string   "status",         limit: 255, default: "processing", null: false
+    t.integer  "user_id",        limit: 4
+    t.string   "user_name",      limit: 255
+    t.string   "user_cell",      limit: 255
+    t.string   "user_email",     limit: 255
+    t.string   "user_signature", limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",            limit: 255
