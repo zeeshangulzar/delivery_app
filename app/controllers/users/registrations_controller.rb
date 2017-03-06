@@ -37,8 +37,9 @@ module V1
       return render json: @user.verification_json(request) if flag
       return render json: { error: @user.errors.full_messages.to_sentence}, status: 422 unless flag
     end
+
     def delete
-      AuthenticationToken.delete_all
+      AuthenticationToken.where(:user_id => params[:id]).destroy_all
       SocialLogin.where(:user_id => params[:id]).destroy_all
       User.delete(params[:id])
       render json: {message: "user deleted: #{params[:id]}"}, status: 200
@@ -66,6 +67,10 @@ module V1
           if user.verified?
             render json: {error: "user already exits"}, status: 409
           else
+            login=SocialLogin.where(user: user)
+            if login.blank?
+              login = SocialLogin.create_social_login(params, user.id)
+            end
             user.send_sms
             render json: {message: "successful"}, status: 200
           end
