@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   before_action :get_user
-  before_action :check_location, only: [:delete_user_location]
+  before_action :check_location, except: [:save_user_location]
 
   def save_user_location
     location = Location.save_location(@user, params)
@@ -16,6 +16,20 @@ class LocationsController < ApplicationController
       render json: { message: 'Successful' }, status: 200
     else
       render json: { error: 'Invalid location_id' }, status: 401
+    end
+  end
+
+  def update_user_location
+    @location.lat = params[:latitude] if params[:latitude].present?
+    @location.lon = params[:longitude] if params[:longitude].present?
+    @location.address = params[:address] if params[:address].present?
+    @location.name = params[:name] if params[:name].present?
+    @location.place_id = params[:place_id] if params[:place_id].present?
+
+    if @location.save
+      render json: { message: 'Successful' }, status: 200 if @location.save
+    else
+      render json: { error: @location.error.full_messages.to_sentence }, status: 401
     end
   end
 
