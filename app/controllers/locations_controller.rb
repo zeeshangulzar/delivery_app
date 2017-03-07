@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
   before_action :get_user
-  before_action :check_location, except: [:save_user_location]
+  before_action :check_location, except: [:save_user_location, :get_user_location]
+  before_action :check_page, only: [:get_user_location]
 
   def save_user_location
     location = Location.save_location(@user, params)
@@ -33,6 +34,10 @@ class LocationsController < ApplicationController
     end
   end
 
+  def get_user_location
+    @locations = @user.locations.page(params[:page])
+  end
+
   private
 
     def get_user
@@ -45,5 +50,9 @@ class LocationsController < ApplicationController
       return render json: { error: "Location_id can't be nil" }, status: 406 unless params[:location_id].present?
       @location = @user.locations.where(id: params[:location_id]).last
       return render json: { error: 'Invalid user_id or location_id' }, status: 401 if @location.blank?
+    end
+
+    def check_page
+      return params[:page] = 1 if params[:page].blank?
     end
 end

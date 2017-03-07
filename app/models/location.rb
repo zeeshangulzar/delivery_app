@@ -3,6 +3,8 @@ class Location < ActiveRecord::Base
 
    validates :lat, :lon, :address, presence: true
 
+   paginates_per 10
+
    def self.save_location(user, params)
      location = self.new
      location.lat = params[:latitude]
