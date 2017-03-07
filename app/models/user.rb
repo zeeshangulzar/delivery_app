@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :social_logins
   has_many :bookings
+  has_many :orders
 
   has_many :locations, as: :locateable
 

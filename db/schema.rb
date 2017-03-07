@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306125410) do
+ActiveRecord::Schema.define(version: 20170306130332) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -45,6 +45,26 @@ ActiveRecord::Schema.define(version: 20170306125410) do
     t.string   "locateable_type", limit: 255
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "booking_id",          limit: 4
+    t.boolean  "pay_by_sender"
+    t.text     "instruction",         limit: 65535
+    t.integer  "amount",              limit: 4
+    t.string   "tracking_id",         limit: 255
+    t.string   "status",              limit: 255,   default: "processing", null: false
+    t.integer  "driver_id",           limit: 4
+    t.integer  "recipient_id",        limit: 4
+    t.string   "recipient_name",      limit: 255
+    t.string   "recipient_cell",      limit: 255
+    t.string   "recipient_email",     limit: 255
+    t.string   "recipient_signature", limit: 255
+    t.integer  "small",               limit: 4
+    t.integer  "medium",              limit: 4
+    t.integer  "large",               limit: 4
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
   end
 
   create_table "social_logins", force: :cascade do |t|
