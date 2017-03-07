@@ -5,6 +5,7 @@ class Order < ActiveRecord::Base
   belongs_to :recipient, foreign_key: 'recipient_id', class_name: 'User'
 
   has_one :location, as: :locateable
+  has_many :line_items
 
   validates_presence_of :booking
 
