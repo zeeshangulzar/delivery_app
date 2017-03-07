@@ -4,6 +4,4 @@ class Booking < ActiveRecord::Base
   has_one :location, as: :locateable
   has_many :orders
 
-
-  validates :user_signature, presence: true
 end
