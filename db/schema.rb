@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301134139) do
+ActiveRecord::Schema.define(version: 20170307104316) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -24,6 +24,58 @@ ActiveRecord::Schema.define(version: 20170301134139) do
   end
 
   add_index "authentication_tokens", ["user_id"], name: "index_authentication_tokens_on_user_id", using: :btree
+
+  create_table "bookings", force: :cascade do |t|
+    t.string   "status",         limit: 255, default: "processing", null: false
+    t.integer  "user_id",        limit: 4
+    t.string   "user_name",      limit: 255
+    t.string   "user_cell",      limit: 255
+    t.string   "user_email",     limit: 255
+    t.string   "user_signature", limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer  "order_id",   limit: 4
+    t.string   "name",       limit: 255
+    t.integer  "quantity",   limit: 4
+    t.string   "image",      limit: 255
+    t.integer  "price",      limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "name",            limit: 255
+    t.decimal  "lat",                         precision: 15, scale: 10
+    t.decimal  "lon",                         precision: 15, scale: 10
+    t.integer  "place_id",        limit: 4
+    t.integer  "locateable_id",   limit: 4
+    t.string   "locateable_type", limit: 255
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "booking_id",          limit: 4
+    t.boolean  "pay_by_sender"
+    t.text     "instruction",         limit: 65535
+    t.integer  "amount",              limit: 4
+    t.string   "tracking_id",         limit: 255
+    t.string   "status",              limit: 255,   default: "processing", null: false
+    t.integer  "driver_id",           limit: 4
+    t.integer  "recipient_id",        limit: 4
+    t.string   "recipient_name",      limit: 255
+    t.string   "recipient_cell",      limit: 255
+    t.string   "recipient_email",     limit: 255
+    t.string   "recipient_signature", limit: 255
+    t.integer  "small",               limit: 4
+    t.integer  "medium",              limit: 4
+    t.integer  "large",               limit: 4
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+  end
 
   create_table "social_logins", force: :cascade do |t|
     t.string   "platform_name",     limit: 255
