@@ -27,6 +27,7 @@ gem 'mysql2'
 gem 'twilio-ruby'
 gem 'devise', '~> 4.2.0'
 gem 'tiddle'
+gem 'kaminari'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

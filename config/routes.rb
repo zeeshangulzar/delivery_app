@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     post 'v1/pw_recover', to: 'users/passwords#recover'
     post 'v1/pw_update', to: 'users/passwords#update'
     post 'v1/delete', to: 'users/registrations#delete'
+    post 'v1/user_saved_location', to: 'locations#save_user_location'
+    delete 'v1/user_deleted_location', to: 'locations#delete_user_location'
+    post 'v1/user_updated_location', to: 'locations#update_user_location'
+    get 'v1/user_get_location', to: 'locations#get_user_location'
   end
 
   # Devise routes for web clients (built-in sessions controller)

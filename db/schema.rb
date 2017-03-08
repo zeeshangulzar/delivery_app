@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170307104316) do
     t.string   "locateable_type", limit: 255
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
+    t.string   "address",         limit: 255,                           null: false
   end
 
   create_table "orders", force: :cascade do |t|
