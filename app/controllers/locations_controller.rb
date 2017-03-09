@@ -58,8 +58,8 @@ class LocationsController < ApplicationController
     end
 
     def user_authentication
-      return render json: { error: "authentication_token can't be nil" }, status: 406 unless params[:authentication_token].present?
-      token = Tiddle::TokenIssuer.build.find_token(@user, params[:authentication_token])
+      return render json: { error: "authentication_token can't be nil" }, status: 406 unless request.headers['HTTP_AUTHENTICATION_TOKEN'].present?
+      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHENTICATION_TOKEN'])
       return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
     end
 end
