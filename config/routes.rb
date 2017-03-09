@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :time_slots
   # Devise routes for API clients (custom sessions controller)
   devise_scope :user do
     post 'v1/signup', to: 'users/registrations#create'
