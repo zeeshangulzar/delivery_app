@@ -1,5 +1,6 @@
 class TimeSlotsController < ApplicationController
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
+  before_action :validation_date, only: [:daily_time_slots]
 
   def index
     @time_slots = TimeSlot.all
@@ -49,6 +50,10 @@ class TimeSlotsController < ApplicationController
     end
   end
 
+  def daily_time_slots
+    @time_slots = TimeSlot.where(date: @date)
+  end
+
   private
     def set_time_slot
       @time_slot = TimeSlot.find(params[:id])
@@ -56,5 +61,14 @@ class TimeSlotsController < ApplicationController
 
     def time_slot_params
       params.require(:time_slot).permit(:date, :start_time, :end_time, :charges)
+    end
+
+    def validation_date
+      return render json: { error: 'date is empty'}, status: 404 if params[:date].blank?
+      begin
+        @date = Date.parse(params[:date])
+      rescue
+        return render json: { error: 'Invalid date format. Please use yyyy-mm-dd'}, status: 404
+      end
     end
 end
