@@ -13,19 +13,19 @@
 
   <div class="field">
     <%= f.label :date %><br>
-    <%= f.date_select :date %>
+    <%= f.date_select :date, required: true %>
   </div>
   <div class="field">
     <%= f.label :start_time %><br>
-    <%= f.text_field :start_time %>
+    <%= f.text_field :start_time, required: true %>
   </div>
   <div class="field">
     <%= f.label :end_time %><br>
-    <%= f.text_field :end_time %>
+    <%= f.text_field :end_time, required: true %>
   </div>
   <div class="field">
     <%= f.label :charges %><br>
-    <%= f.number_field :charges %>
+    <%= f.number_field :charges, required: true %>
   </div>
   <div class="actions">
     <%= f.submit %>
