@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307104316) do
+
+ActiveRecord::Schema.define(version: 20170309114916) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -87,6 +88,15 @@ ActiveRecord::Schema.define(version: 20170307104316) do
   end
 
   add_index "social_logins", ["user_id"], name: "index_social_logins_on_user_id", using: :btree
+
+  create_table "time_slots", force: :cascade do |t|
+    t.date     "date"
+    t.string   "start_time", limit: 255
+    t.string   "end_time",   limit: 255
+    t.integer  "charges",    limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "",    null: false
