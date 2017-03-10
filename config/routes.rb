@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'v1/user_updated_location', to: 'locations#update_user_location'
     get 'v1/user_get_location', to: 'locations#get_user_location'
     get 'v1/status_code', to: 'settings#status_code'
+    post 'v1/guest_verify', to: 'users/registrations#guest_verify'
   end
 
   # Devise routes for web clients (built-in sessions controller)
