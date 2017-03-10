@@ -2,6 +2,7 @@ class LocationsController < ApplicationController
   before_action :get_user
   before_action :check_location, except: [:save_user_location, :get_user_location]
   before_action :check_page, only: [:get_user_location]
+  before_action :user_authentication
 
   def save_user_location
     location = Location.save_location(@user, params)
@@ -54,5 +55,11 @@ class LocationsController < ApplicationController
 
     def check_page
       return params[:page] = 1 if params[:page].blank?
+    end
+
+    def user_authentication
+      return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
+      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
+      return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
     end
 end
