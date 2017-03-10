@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get 'v1/status_code', to: 'settings#status_code'
     post 'v1/guest_verify', to: 'users/registrations#guest_verify'
     get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
+    post 'v1/booking', to: 'bookings#booking'
   end
 
   # Devise routes for web clients (built-in sessions controller)
