@@ -2,8 +2,9 @@ module V1
   class Users::RegistrationsController < Devise::RegistrationsController
 
     before_action :validate_verification_user, only: [:verify]
-    before_action :get_user, except: [:verify]
+    before_action :get_user, except: [:verify, :guest_verify]
     before_action :non_admin_users, only: [:verify]
+    before_action :check_cell, only: [:guest_verify]
 
     def create
       user = User.create(create_params)
@@ -45,6 +46,11 @@ module V1
       render json: {message: "user deleted: #{params[:id]}"}, status: 200
     end
 
+    def guest_verify
+      token = sms_token
+      send_sms(token, params[:cell])
+      render json: {code: token}, status: 200
+    end
 
   private
     def validate_verification_user
@@ -81,6 +87,11 @@ module V1
     def create_params
       params.permit(:cell, :name, :password, :email, :role)
     end
+
+    def check_cell
+      return render json: { error: "Cell can't be nil"}, status: 404 if params[:cell].blank?
+    end
+
   end
 
 end
