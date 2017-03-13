@@ -18,5 +18,27 @@ class Order < ActiveRecord::Base
       self. tracking_id = [*('a'..'z'),*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
     end while self.class.exists?(:tracking_id => tracking_id)
   end
+  def self.save_order(params)
+    order = self.new
+    if params[:recipient].present?
+      if params[:recipient][:id].present?
+        order.recipient_id = params[:recipient][:id]
+      elsif params[:recipient][:name].present? && params[:recipient][:cell].present? && params[:recipient][:email].present?
+        order.recipient_name = params[:recipient][:name]
+        order.recipient_cell = params[:recipient][:cell]
+        order.recipient_email = params[:recipient][:email]
+      else
+        return order
+      end
+    end
+    order.amount = params[:amount]
+    order.small = params[:quantity][:small]
+    order.medium = params[:quantity][:medium]
+    order.large = params[:quantity][:large]
+    order.charges = params[:charges]
+    order.instruction = params[:instructions]
+    order.save
+    order
+  end
 
 end

@@ -16,4 +16,12 @@ class Location < ActiveRecord::Base
      location.save
      location
    end
+   def self.save_locateable(params)
+     location = self.new
+     location.lat = params[:lat]
+     location.lon = params[:lng]
+     location.address = params[:address]
+     location.save
+     location
+   end
 end

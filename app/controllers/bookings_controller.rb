@@ -2,55 +2,50 @@ class BookingsController < ApplicationController
 
   before_action :check_from
   before_action :check_sender
+  before_action :check_slot
+  before_action :check_orders
+  before_action :check_total_amount
 
   def booking
+    ActiveRecord::Base.transaction do
+      booking = Booking.create_booking(params)
+      return render json: {error: "booking"+booking.errors.full_messages.to_sentence}, status: 406 unless booking.persisted?
+
+      from = booking.location = Location.save_locateable(params[:from])
+      return render json: {error: "from location"+from.errors.full_messages.to_sentence}, status: 406 unless from.persisted?
+
+      params[:orders].each do |order|
+        new_order = booking.orders.save_order(order)
+        return render json: {error: "new_order"+new_order.errors.full_messages.to_sentence}, status: 406 unless new_order.persisted?
+        if order[:invoice].present?
+          order[:invoice].each do |item|
+            invoice = new_order.line_items.create_invoice(item)
+            return render json: {error: "invoice_item"+invoice.errors.full_messages.to_sentence}, status: 406 unless invoice.persisted?
+          end
+        end
+      end
+    end
     render json: { message: 'successful'}, status: 200
   end
 
   private
     def check_from
-      return render json: { error: 'from is empty'}, status: 404 if params[:from].blank?
-      return render json: { error: 'from_name is empty'}, status: 404 if params[:from][:name].blank?
-      return render json: { error: 'from_lat is empty'}, status: 404 if params[:from][:lat].blank?
-      return render json: { error: 'from_lng is empty'}, status: 404 if params[:from][:lng].blank?
+      return render json: { error: 'Please provide proper from detail'}, status: 404 if params[:from].blank? || params[:from][:address].blank? || params[:from][:lat].blank? || params[:from][:lng].blank?
     end
     def check_sender
-      return render json: { error: 'sender is empty'}, status: 404 if params[:sender].blank?
-      return render json: { error: 'sender_name is empty'}, status: 404 if params[:sender][:name].blank?
-      return render json: { error: 'sender_cell is empty'}, status: 404 if params[:sender][:cell].blank?
-      return render json: { error: 'sender_email is empty'}, status: 404 if params[:sender][:email].blank?
+      return render json: { error: "Please provide sender's id or details"}, status: 404 if params[:sender].blank?
+      return render json: { error: 'Please provide proper sender detail'}, status: 404 if !params[:sender][:id].present? && ( params[:sender][:name].blank? || params[:sender][:cell].blank? || params[:sender][:email].blank? )
+    end
+    def check_slot
+      return render json: { error: 'time_slot is empty'}, status: 404 if params[:time_slot_id].blank?
+      timeslot=TimeSlot.find_by_id(params[:time_slot_id])
+      return render json: { error: 'Invalid slot_id'}, status: 401 if timeslot.blank?
+    end
+    def check_orders
+      return render json: { error: "Orders can't be empty"}, status: 404 if params[:orders].blank?
+    end
+    def check_total_amount
+      return render json: { error: "total_amount can't be empty"}, status: 404 if params[:total_amount].blank?
     end
 
 end
-
-=begin
-{
-  "from":
-    { "name" : "Wapda Town", "lat": "123.0", "lng": "1338.808" }
-    ,
-    "sender":
-    { "name":"Noshiad Ali Buttar", "cell":"+921234564", "email":"noshaid.ali@novatoresols.com" },
-  "slot_id" :112,
-  "orders":
-  [
-    {
-      "to":
-      { "name": "Wapda Town", "lat": "123.0", "lng": "1338.808" },
-
-      "recepient":
-      { "name": "Muazzam Ali Abbas", "phone": "+923218858069", "email": "muazzam.abbas@novatoresols.com" },
-
-      "quantity":
-      { "small": "1", "medium": "2", "large": "0" },
-
-      "invoice":
-      [
-        { "quantity": 1, "name": "perfum", "price": 150, "image": "" }
-      ],
-      "amount": 123,
-      "total_amount": 123,
-      "instructions": "Handle Softly"
-    }
-  ]
-}
-=end
