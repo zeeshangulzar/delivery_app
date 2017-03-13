@@ -1,6 +1,7 @@
 module V1
   class Users::RegistrationsController < Devise::RegistrationsController
 
+    before_action :token_authentication
     before_action :validate_verification_user, only: [:verify]
     before_action :get_user, except: [:verify, :guest_verify]
     before_action :non_admin_users, only: [:verify]

@@ -1,7 +1,9 @@
 module V1
   class Users::SessionsController < Devise::SessionsController
 
+    before_action :token_authentication
     before_action :validate_login_details, only: [:create]
+
     def create
       if params[:cell].present? && params[:password].present?
         user = User.find_by_cell(params[:cell])
