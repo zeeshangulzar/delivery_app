@@ -5,6 +5,10 @@ development:
     name: "ana_authenticated_user"
     password: "@n@_user"
     token: "Basic YW5hX2F1dGhlbnRpY2F0ZWRfdXNlcjpAbkBfdXNlcg=="
+  twillio:
+    sid: "AC969f17cb864ec269d068d4e4ff32c397"
+    auth: "f9ca79e8e38852c26e106876338bda2b"
+    number: "+14692086400"
   <<: *defaults
 
 production:
@@ -12,4 +16,8 @@ production:
     name: "ana_authenticated_user"
     password: "@n@_user"
     token: "Basic YW5hX2F1dGhlbnRpY2F0ZWRfdXNlcjpAbkBfdXNlcg=="
+  twillio:
+    sid: "AC969f17cb864ec269d068d4e4ff32c397"
+    auth: "f9ca79e8e38852c26e106876338bda2b"
+    number: "+14692086400"
   <<: *defaults

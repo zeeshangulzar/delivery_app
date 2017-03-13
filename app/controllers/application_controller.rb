@@ -24,9 +24,9 @@ class ApplicationController < ActionController::Base
   end
 
   def send_sms(token, cell)
-    client = Twilio::REST::Client.new(User::TWILLIO_SID, User::TWILLIO_AUTH)
+    client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
     client.messages.create to: cell,
-    from: User::TWILLIO_NUMBER,
+    from: APP_CONFIG[:twillio][:number],
     body: "ANA PIN: #{token}"
   end
 
