@@ -1,4 +1,5 @@
 class TimeSlotsController < ApplicationController
+  before_action :token_authentication, only: [:daily_time_slots]
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
   before_action :validation_date, only: [:daily_time_slots]
 
