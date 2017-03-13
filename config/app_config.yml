@@ -1,0 +1,15 @@
+defaults: &defaults
+
+development:
+  token_authorization:
+    name: "ana_authenticated_user"
+    password: "@n@_user"
+    token: "Basic YW5hX2F1dGhlbnRpY2F0ZWRfdXNlcjpAbkBfdXNlcg=="
+  <<: *defaults
+
+production:
+  token_authorization:
+    name: "ana_authenticated_user"
+    password: "@n@_user"
+    token: "Basic YW5hX2F1dGhlbnRpY2F0ZWRfdXNlcjpAbkBfdXNlcg=="
+  <<: *defaults
