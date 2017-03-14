@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313084642) do
+ActiveRecord::Schema.define(version: 20170314124124) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 20170313084642) do
     t.string   "recipient_cell",      limit: 255
     t.string   "recipient_email",     limit: 255
     t.string   "recipient_signature", limit: 255
-    t.integer  "small",               limit: 4
-    t.integer  "medium",              limit: 4
-    t.integer  "large",               limit: 4
+    t.integer  "small",               limit: 4,     default: 0
+    t.integer  "medium",              limit: 4,     default: 0
+    t.integer  "large",               limit: 4,     default: 0
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
     t.integer  "charges",             limit: 4

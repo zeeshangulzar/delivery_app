@@ -4,48 +4,51 @@ class BookingsController < ApplicationController
   before_action :check_sender
   before_action :check_slot
   before_action :check_orders
-  before_action :check_total_amount
 
-  def booking
+  def save_booking
     ActiveRecord::Base.transaction do
       booking = Booking.create_booking(params)
-      return render json: {error: "booking"+booking.errors.full_messages.to_sentence}, status: 406 unless booking.persisted?
+      return render json: {error: booking.errors.full_messages.to_sentence}, status: 406 unless booking.persisted?
 
-      from = booking.location = Location.save_locateable(params[:from])
-      return render json: {error: "from location"+from.errors.full_messages.to_sentence}, status: 406 unless from.persisted?
+      from = booking.build_location.save_locateable(params[:from])
+      render json: {error: from.errors.full_messages.to_sentence}, status: 406 unless from.persisted?
+      return raise ActiveRecord::Rollback unless from.persisted?
 
-      params[:orders].each do |order|
+      params[:orders].each.with_index do |order, order_index|
         new_order = booking.orders.save_order(order)
-        return render json: {error: "new_order"+new_order.errors.full_messages.to_sentence}, status: 406 unless new_order.persisted?
+        render json: {order_id: order_index, error: new_order.errors.full_messages.to_sentence}, status: 406 unless new_order.persisted?
+        return raise ActiveRecord::Rollback unless new_order.persisted?
+
+        to = new_order.build_location.save_locateable(order[:to])
+        render json: {order_id: order_index, error: to.errors.full_messages.to_sentence}, status: 406 unless to.persisted?
+        return raise ActiveRecord::Rollback unless to.persisted?
+
         if order[:invoice].present?
-          order[:invoice].each do |item|
-            invoice = new_order.line_items.create_invoice(item)
-            return render json: {error: "invoice_item"+invoice.errors.full_messages.to_sentence}, status: 406 unless invoice.persisted?
+          order[:invoice].each.with_index do |item, item_index|
+            invoice = new_order.line_items.save_invoice(item)
+            render json: {order_id: order_index, item_id: item_index, error: invoice.errors.full_messages.to_sentence}, status: 406 unless invoice.persisted?
+            return raise ActiveRecord::Rollback unless invoice.persisted?
           end
         end
       end
+      return render json: { message: 'successful'}, status: 200 if booking.persisted?
     end
-    render json: { message: 'successful'}, status: 200
   end
 
   private
     def check_from
-      return render json: { error: 'Please provide proper from detail'}, status: 404 if params[:from].blank? || params[:from][:address].blank? || params[:from][:lat].blank? || params[:from][:lng].blank?
+      return render json: { error: 'Please provide proper from detail'}, status: 404 if params[:from].blank?
     end
     def check_sender
       return render json: { error: "Please provide sender's id or details"}, status: 404 if params[:sender].blank?
-      return render json: { error: 'Please provide proper sender detail'}, status: 404 if !params[:sender][:id].present? && ( params[:sender][:name].blank? || params[:sender][:cell].blank? || params[:sender][:email].blank? )
     end
     def check_slot
       return render json: { error: 'time_slot is empty'}, status: 404 if params[:time_slot_id].blank?
-      timeslot=TimeSlot.find_by_id(params[:time_slot_id])
-      return render json: { error: 'Invalid slot_id'}, status: 401 if timeslot.blank?
+      time_slot = TimeSlot.find_by_id(params[:time_slot_id])
+      return render json: { error: 'Invalid slot_id'}, status: 401 if time_slot.blank?
     end
     def check_orders
-      return render json: { error: "Orders can't be empty"}, status: 404 if params[:orders].blank?
-    end
-    def check_total_amount
-      return render json: { error: "total_amount can't be empty"}, status: 404 if params[:total_amount].blank?
+      return render json: { error: "orders can't be empty"}, status: 404 if params[:orders].blank?
     end
 
 end
