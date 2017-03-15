@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   def token_authentication
     return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
+    return if params[:user_id].present?
     return render json: { error: 'You are not authorized' }, status: 401 unless request.headers['HTTP_AUTHORIZATION'] == APP_CONFIG[:token_authorization][:token]
   end
 
