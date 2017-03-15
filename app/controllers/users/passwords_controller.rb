@@ -1,5 +1,7 @@
 module V1
   class Users::PasswordsController < Devise::PasswordsController
+
+  before_action :token_authentication
   before_action :check_cell
   before_action :check_password, only: [:update]
 
