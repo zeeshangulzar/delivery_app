@@ -1,11 +1,11 @@
 class BookingsController < ApplicationController
 
-  before_action :get_user
+  before_action :token_authentication
+  before_action :user_authentication
   before_action :check_from
   before_action :check_sender
   before_action :check_slot
   before_action :check_orders
-  before_action :user_authentication
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -57,15 +57,11 @@ class BookingsController < ApplicationController
       return render json: { error: "orders can't be empty"}, status: 404 if params[:orders].blank?
     end
 
-    def get_user
-      return render json: { error: "user_id can't be nil" }, status: 406 unless params[:user_id].present?
-      @user = User.find_by_id(params[:user_id])
-      return render json: { error: 'Invalid user_id' }, status: 401 if @user.blank?
-    end
-
     def user_authentication
+      user = User.find_by_id(params[:user_id])
+      return render json: { error: 'Invalid user_id' }, status: 401 if user.blank?
       return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
-      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
+      token = Tiddle::TokenIssuer.build.find_token(user, request.headers['HTTP_AUTHORIZATION'])
       return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
     end
 
