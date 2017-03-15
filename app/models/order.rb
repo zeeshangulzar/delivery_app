@@ -10,7 +10,6 @@ class Order < ActiveRecord::Base
   validates_presence_of :booking
   validates :recipient_name, :recipient_cell, :recipient_email, presence: true, if: 'recipient_id.blank?'
   validates :amount, :charges, presence: true
-  validate :validate_recipient_id, if: 'recipient_id.present?'
 
   before_create :create_tracking_id
 
@@ -26,7 +25,15 @@ class Order < ActiveRecord::Base
     order = self.new
     if params[:recipient].present?
       if params[:recipient][:id].present?
-        order.recipient_id = params[:recipient][:id]
+        user = User.find_by_id(params[:recipient][:id])
+        if user.blank?
+          errors.add(:user_id, "id is invalid")
+        else
+          order.recipient_id = params[:recipient][:id]
+          order.recipient_name = user.name
+          order.recipient_cell = user.cell
+          order.recipient_email = user.email
+        end
       else
         order.recipient_name = params[:recipient][:name]
         order.recipient_cell = params[:recipient][:cell]
@@ -44,10 +51,5 @@ class Order < ActiveRecord::Base
     order.save
     order
   end
-
-  def validate_recipient_id
-    errors.add(:recipient_id, "id is invalid") unless User.exists?(self.recipient_id)
-  end
-
 
 end
