@@ -17,4 +17,15 @@ class ApplicationController < ActionController::Base
     request.session_options[:skip] = true
   end
 
+  def send_sms(token, cell)
+    client = Twilio::REST::Client.new(User::TWILLIO_SID, User::TWILLIO_AUTH)
+    client.messages.create to: cell,
+    from: User::TWILLIO_NUMBER,
+    body: "ANA PIN: #{token}"
+  end
+
+  def sms_token
+    rand(1111..9999)
+  end
+
 end

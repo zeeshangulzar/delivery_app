@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :time_slots
   # Devise routes for API clients (custom sessions controller)
   devise_scope :user do
     post 'v1/signup', to: 'users/registrations#create'
@@ -13,6 +14,9 @@ Rails.application.routes.draw do
     delete 'v1/user_deleted_location', to: 'locations#delete_user_location'
     post 'v1/user_updated_location', to: 'locations#update_user_location'
     get 'v1/user_get_location', to: 'locations#get_user_location'
+    get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
+    post 'v1/guest_verify', to: 'users/registrations#guest_verify'
+    get 'v1/status_code', to: 'settings#status_code'
   end
 
   # Devise routes for web clients (built-in sessions controller)
