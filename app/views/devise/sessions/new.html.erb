@@ -19,7 +19,7 @@
               </div>
               <div>
                 <%= f.submit 'Log in', class: 'btn btn-default submit' %>
-                <%= link_to 'Lost your password?', " ", class: 'reset_pass' %>
+                <div class='reset_pass'>Lost your password?</div>
                 <% link_to 'Lost your password?', new_password_path(resource_name), class: 'reset_pass' %>
               </div>
             <% end %>
