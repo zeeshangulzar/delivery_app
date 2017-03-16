@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   # For API through browser
   resources :users
 
+  get 'map' => 'map#map'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
