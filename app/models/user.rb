@@ -12,11 +12,15 @@ class User < ActiveRecord::Base
   has_many :authentication_tokens
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
-  validates :email, presence: { message: "is required"}
+  #validates :email, presence: { message: "is required"}
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
   validates :role, presence: true, inclusion: { in: ["consumer", "driver", "admin"] }
+
+  def email_required?
+    false
+  end
 
   def send_sms
     client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309114916) do
+ActiveRecord::Schema.define(version: 20170316052821) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -34,7 +34,11 @@ ActiveRecord::Schema.define(version: 20170309114916) do
     t.string   "user_signature", limit: 255
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
+    t.integer  "time_slot_id",   limit: 4
+    t.integer  "total_amount",   limit: 4
   end
+
+  add_index "bookings", ["time_slot_id"], name: "index_bookings_on_time_slot_id", using: :btree
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id",   limit: 4
@@ -71,11 +75,12 @@ ActiveRecord::Schema.define(version: 20170309114916) do
     t.string   "recipient_cell",      limit: 255
     t.string   "recipient_email",     limit: 255
     t.string   "recipient_signature", limit: 255
-    t.integer  "small",               limit: 4
-    t.integer  "medium",              limit: 4
-    t.integer  "large",               limit: 4
+    t.integer  "small",               limit: 4,     default: 0
+    t.integer  "medium",              limit: 4,     default: 0
+    t.integer  "large",               limit: 4,     default: 0
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
+    t.integer  "charges",             limit: 4
   end
 
   create_table "social_logins", force: :cascade do |t|
@@ -98,7 +103,7 @@ ActiveRecord::Schema.define(version: 20170309114916) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "",    null: false
+    t.string   "email",                  limit: 255, default: ""
     t.string   "encrypted_password",     limit: 255, default: "",    null: false
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
@@ -122,5 +127,6 @@ ActiveRecord::Schema.define(version: 20170309114916) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "authentication_tokens", "users"
+  add_foreign_key "bookings", "time_slots"
   add_foreign_key "social_logins", "users"
 end
