@@ -20,11 +20,19 @@ Rails.application.routes.draw do
     post 'v1/save_booking', to: 'bookings#save_booking'
   end
 
+  get 'home', to: 'home#index'
+
   # Devise routes for web clients (built-in sessions controller)
   devise_for :users
 
   # For API through browser
-  resources :users
+  resources :users do
+    collection do
+      get ':role', to: 'users#users_by_role', as: 'user_by_role'
+    end
+  end
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -80,5 +88,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  root to: 'home#index'
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
 end

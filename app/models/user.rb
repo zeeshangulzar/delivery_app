@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   #validates :verified_token, uniqueness: true
   validates :role, presence: true, inclusion: { in: ["consumer", "driver", "admin"] }
 
+  paginates_per 10
+
+  ROLES = ["consumer", "driver", "admin"]
+
   def send_sms
     client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
     client.messages.create to: cell,

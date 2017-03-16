@@ -24,6 +24,15 @@ class ApplicationController < ActionController::Base
     request.session_options[:skip] = true
   end
 
+
+  def after_sign_in_path_for(resource_or_scope)
+   user_by_role_users_path('consumer')
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    root_path
+  end
+
   def send_sms(token, cell)
     client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
     client.messages.create to: cell,

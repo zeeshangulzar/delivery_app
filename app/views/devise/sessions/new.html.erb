@@ -1,0 +1,42 @@
+<body style="background:#F7F7F7;">
+
+  <div class="">
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+
+    <div id="wrapper">
+      <div id="login" class="animate form">
+        <section class="login_content">
+            <h1>Login Form</h1>
+
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <div>
+                <%= f.email_field :email, placeholder: 'Email', required: true, class: 'form-control' %>
+              </div>
+
+              <div>
+                <%= f.password_field :password, placeholder: 'Password', required: true, class: 'form-control' %>
+              </div>
+              <div>
+                <%= f.submit 'Log in', class: 'btn btn-default submit' %>
+                <div class='reset_pass'>Lost your password?</div>
+                <% link_to 'Lost your password?', new_password_path(resource_name), class: 'reset_pass' %>
+              </div>
+            <% end %>
+
+            <div class="clearfix"></div>
+            <div class="separator">
+              <div>
+                <h1><i class="fa fa-paw" style="font-size: 26px;"></i> ANA</h1>
+
+                <p>©2017 All Rights Reserved</p>
+              </div>
+            </div>
+          <!-- form -->
+        </section>
+        <!-- content -->
+      </div>
+    </div>
+  </div>
+
+</body>
