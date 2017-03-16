@@ -1,0 +1,42 @@
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="row">
+
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="title_left">
+          <h3>Customers</h3>
+        </div>
+
+        <div class="x_panel">
+          <div class="x_title">
+            <table class="table table-striped responsive-utilities jambo_table bulk_action">
+              <thead>
+                <tr class="headings">
+                  <th class="column-title">Name</th>
+                  <th class="column-title">Cell</th>
+                  <th class="column-title">Email </th>
+                  <th class="column-title">Verifed </th>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @users.each do |user| %>
+                    <td><%= user.name.try(:titleize)  %></td>
+                    <td class=" "><%= user.cell %></td>
+                    <td class=" "><%= user.email %></td>
+                    <td class=" "><%= is_verified(user) %></td>
+                    </td>
+                  </tr>
+                <% end %>
+
+              </tbody>
+            </table>
+            <%= paginate @users %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

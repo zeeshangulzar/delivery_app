@@ -23,7 +23,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   # For API through browser
-  resources :users
+  resources :users do
+    collection do
+      get ':role', to: 'users#users_by_role'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
