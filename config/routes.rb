@@ -19,15 +19,19 @@ Rails.application.routes.draw do
     get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
   end
 
+  get 'home', to: 'home#index'
+
   # Devise routes for web clients (built-in sessions controller)
   devise_for :users
 
   # For API through browser
   resources :users do
     collection do
-      get ':role', to: 'users#users_by_role'
+      get ':role', to: 'users#users_by_role', as: 'user_by_role'
     end
   end
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -83,5 +87,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  root to: 'home#index'
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
 end
