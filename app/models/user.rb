@@ -18,9 +18,9 @@ class User < ActiveRecord::Base
   #validates :verified_token, uniqueness: true
   validates :role, presence: true, inclusion: { in: ["consumer", "driver", "admin"] }
 
-  def email_required?
-    false
-  end
+  paginates_per 10
+
+  ROLES = ["consumer", "driver", "admin"]
 
   def send_sms
     client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
 
   def generate_authenticate_token(request)
     Tiddle.create_and_return_token(self, request)
+  end
+
+  def email_required?
+    false
   end
 
 end

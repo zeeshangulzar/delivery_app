@@ -1,0 +1,36 @@
+
+<div class="main_container">
+
+  <div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+
+      <div class="navbar nav_title nav-margin" style="border: 0;">
+        <%= link_to home_path do %>
+          <%= image_tag "logo.png", class: 'site-logo ana-logo'%>
+        <% end %>
+
+      </div>
+      <div class="clearfix"></div>
+
+
+
+      <!-- sidebar menu -->
+      <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+        <div class="menu_section">
+          <h3>General</h3>
+          <ul class="nav side-menu">
+            <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu" style="display: none">
+                <li><%= link_to "Customers", user_by_role_users_path('consumer') %></li>
+                <li><%= link_to "Drivers", home_path(name: 'Drivers') %></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <!-- /sidebar menu -->
+
+    </div>
+  </div>
