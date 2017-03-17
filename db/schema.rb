@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314124124) do
+
+ActiveRecord::Schema.define(version: 20170317121006) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -52,8 +53,8 @@ ActiveRecord::Schema.define(version: 20170314124124) do
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",            limit: 255
-    t.decimal  "lat",                         precision: 15, scale: 10
-    t.decimal  "lon",                         precision: 15, scale: 10
+    t.decimal  "lat",                         precision: 25, scale: 20
+    t.decimal  "lon",                         precision: 25, scale: 20
     t.integer  "place_id",        limit: 4
     t.integer  "locateable_id",   limit: 4
     t.string   "locateable_type", limit: 255
