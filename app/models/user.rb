@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :authentication_tokens
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
-  validates :email, presence: { message: "is required"}
+  #validates :email, presence: { message: "is required"}
   validates :cell, presence: true, length: {in: 7..14}, uniqueness: true
   validates :verified, inclusion: {in: [true, false]}
   #validates :verified_token, uniqueness: true
@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
 
   def generate_authenticate_token(request)
     Tiddle.create_and_return_token(self, request)
+  end
+
+  def email_required?
+    false
   end
 
 end
