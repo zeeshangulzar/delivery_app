@@ -1,53 +1,189 @@
+<script type="text/javascript">
+  function UpdateQueryString(key, value, url) {
+      if (!url) url = window.location.href;
+      var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi");
+
+      if (re.test(url)) {
+          if (typeof value !== 'undefined' && value !== null)
+              return url.replace(re, '$1' + key + "=" + value + '$2$3');
+          else {
+              var hash = url.split('#');
+              url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+              if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+                  url += '#' + hash[1];
+              return url;
+          }
+      }
+      else {
+          if (typeof value !== 'undefined' && value !== null) {
+              var separator = url.indexOf('?') !== -1 ? '&' : '?',
+                  hash = url.split('#');
+              url = hash[0] + separator + key + '=' + value;
+              if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+                  url += '#' + hash[1];
+              return url;
+          }
+          else
+              return url;
+      }
+  }
+  $(document).ready(function() {
+
+    var cb = function(start, end, label) {
+      console.log(start.toISOString(), end.toISOString(), label);
+      $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    var optionSet1 = {
+      startDate: moment(),
+      endDate: moment(),
+      minDate: '01/01/2017',
+      maxDate: '12/31/2020',
+      showDropdowns: true,
+      showWeekNumbers: true,
+      timePicker: false,
+      timePickerIncrement: 1,
+      timePicker12Hour: true,
+
+      opens: 'right',
+      buttonClasses: ['btn btn-default'],
+      applyClass: 'btn-small btn-primary',
+      cancelClass: 'btn-small',
+      format: 'DD-MM-YYYY',
+      separator: ' to ',
+      locale: {
+        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        firstDay: 1
+      }
+    };
+
+    $('#reportrange_right span').html(moment().format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+    $('#reportrange_right').daterangepicker(optionSet1, cb);
+
+    $('#reportrange_right').on('show.daterangepicker', function() {
+      console.log("show event fired");
+    });
+    $('#reportrange_right').on('hide.daterangepicker', function() {
+      console.log("hide event fired");
+    });
+    $('#reportrange_right').on('apply.daterangepicker', function(ev, picker) {
+      console.log("apply event fired, start/end dates are " + picker.startDate.format('YYYY-MM-DD') + " to " + picker.endDate.format('YYYY-MM-DD'));
+
+        url = UpdateQueryString('start_date', picker.startDate.format('YYYY-MM-DD'), decodeURI(location.href));
+        url = UpdateQueryString('end_date', picker.endDate.format('YYYY-MM-DD'), decodeURI(url));
+        window.history.pushState('', '', encodeURI(url));
+    });
+    $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
+      console.log("cancel event fired");
+    });
+
+    $('#options1').click(function() {
+      $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
+    });
+
+    $('#options2').click(function() {
+      $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
+    });
+
+    $('#destroy').click(function() {
+      $('#reportrange_right').data('daterangepicker').remove();
+    });
+
+  });
+</script>
 
 <div class="right_col" role="main">
-        <div class="">
-          <div class="page-title">
-            <div class="title_left">
-              <h3>Time Slots</h3>
-            </div>
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Time Slots</h3>
+      </div>
+    </div>
 
+    <div class="row">
+
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="well">
+            <form class="form-horizontal">
+              <fieldset>
+                <div class="control-group">
+                  <div class="controls">
+                    <div class="input-prepend input-group" style="width: 80%; float: left;">
+                      <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                      <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                      </div>
+                    </div>
+                    <div style="float: right;">
+                      <button type="button" class="btn btn-sm" style="background-color: #2A3F54; color: white; " data-toggle="modal" data-target="#add_slot">Add</button>
+                    <div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
           </div>
-          <div class="clearfix"></div>
 
-          <div class="row">
+          <div id="add_slot" class="modal fade" role="dialog">
+            <div class="modal-dialog">
 
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                <div class="x_content">
-                  <table id="datatable" class="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Charges</th>
-                        <th colspan="3">Settings</th>
-                      </tr>
-                    </thead>
-
-
-                    <tbody>
-                      <% @time_slots.each do |time_slot| %>
-                        <tr>
-                          <td><%= time_slot.date %></td>
-                          <td><%= time_slot.start_time %></td>
-                          <td><%= time_slot.end_time %></td>
-                          <td><%= time_slot.charges %></td>
-                          <td><%= link_to 'Edit', edit_time_slot_path(time_slot) %></td>
-                          <td><%= link_to 'Destroy', time_slot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                        </tr>
-                      <% end %>
-
-                    </tbody>
-                  </table>
-                  <%= paginate @time_slots %>
-                  <br>
-                  <%= link_to 'New Time slot', new_time_slot_path %>
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Add New Time Slot</h4>
+                </div>
+                <div class="modal-body">
+                  <%= render 'form' %>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
 
-        </div>
+          <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Charges</th>
+                  <th colspan="2">Action</th>
+                </tr>
+              </thead>
 
+              <tbody>
+                <% @time_slots.each do |time_slot| %>
+                  <tr>
+                    <td><%= time_slot.date %></td>
+                    <td><%= time_slot.start_time %></td>
+                    <td><%= time_slot.end_time %></td>
+                    <td><%= time_slot.charges %></td>
+                    <td><%= link_to 'Edit', edit_time_slot_path(time_slot) %></td>
+                    <td><%= link_to 'Delete', time_slot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+
+              </tbody>
+            </table>
+            <div class="dataTables_paginate paging_simple_numbers">
+                <%= paginate @time_slots, window: 4 %>
+            </div>
+            <br>
+            <%= page_entries_info @time_slots %>
+            <br>
+            <%= link_to 'New Time slot', new_time_slot_path %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,3 +1,12 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+      $('#single_cal1').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_1"
+      }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+      });
+</script>
 <%= form_for(@time_slot) do |f| %>
   <% if @time_slot.errors.any? %>
     <div id="error_explanation">
@@ -11,8 +20,25 @@
     </div>
   <% end %>
 
+<div class="row">
+  <div class="col-md-3">
+    <fieldset>
+      <div class="control-group">
+        <div class="controls">
+          <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+            <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
+            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+            <span id="inputSuccess2Status" class="sr-only">(success)</span>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
   <div class="field">
     <%= f.label :date %><br>
+    <input type="date" name="bday">
     <%= f.date_select :date, required: true %>
   </div>
   <div class="field">

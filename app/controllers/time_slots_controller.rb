@@ -5,8 +5,15 @@ class TimeSlotsController < ApplicationController
   before_action :validation_date, only: [:daily_time_slots]
 
   def index
-    curent_date = Time.now.strftime("%Y-%m-%d")
-    @time_slots = TimeSlot.where(date: curent_date).page(params[:page])
+    if params[:start_date].present? && params[:end_date].present?
+      #Comment.where(:created_at => @selected_date.beginning_of_day..@selected_date.end_of_day)
+      @time_slots = TimeSlot.where('date BETWEEN ? AND ?', params[:start_date], params[:end_date])
+    else
+      curent_date = Time.now.strftime("%Y-%m-%d")
+      @time_slots = TimeSlot.where(date: curent_date)
+    end
+    @time_slots = @time_slots.page(params[:page])
+    @time_slot = TimeSlot.new
   end
 
   def show
