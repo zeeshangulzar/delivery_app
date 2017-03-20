@@ -32,3 +32,6 @@
 //= require js/pace/pace.min.js
 //= require  js/nprogress.js
 //= require flash.js
+
+//= require underscore
+//= require gmaps/google

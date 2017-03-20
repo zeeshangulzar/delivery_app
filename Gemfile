@@ -28,6 +28,8 @@ gem 'twilio-ruby'
 gem 'devise', '~> 4.2.0'
 gem 'tiddle'
 gem 'kaminari'
+gem 'geocoder'
+gem 'gmaps4rails'
 
 gem "font-awesome-rails"
 gem 'bootstrap-sass', '~> 3.3.6'
