@@ -3,6 +3,7 @@ class LocationsController < ApplicationController
   before_action :check_location, except: [:save_user_location, :get_user_location]
   before_action :check_page, only: [:get_user_location]
   before_action :user_authentication
+  before_filter :set_format, only: [:get_user_location]
 
   def save_user_location
     location = Location.save_location(@user, params)
