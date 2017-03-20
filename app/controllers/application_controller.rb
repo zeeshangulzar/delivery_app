@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
 
   # Require authentication and do not set a session cookie for JSON requests (API clients)
-  before_action :authenticate_user!, :do_not_set_cookie, if: -> { request.format.json? }
+  #before_action :authenticate_user!, :do_not_set_cookie, if: -> { request.format.json? }
 
   def token_authentication
     return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
     client.messages.create to: cell,
     from: APP_CONFIG[:twillio][:number],
     body: "ANA PIN: #{token}"
+  end
+
+  def set_format
+    request.format = 'json'
   end
 
   def sms_token
