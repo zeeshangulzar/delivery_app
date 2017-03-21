@@ -1,0 +1,51 @@
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3><%= @user.name %>'s Profile</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_content">
+            <div>
+              <label>Name</label>
+              <%= @user.name.try(:titleize) %>
+            </div>
+
+            <div>
+              <label>Email</label>
+              <%= @user.email %>
+            </div>
+
+            <div>
+              <label>Cell</label>
+              <%= @user.cell %>
+            </div>
+
+            <div>
+              <label>Verified</label>
+              <%= is_verified(@user) %>
+            </div>
+
+            <div>
+              <label>Registation Date</label>
+              <%= time_format(@user.created_at) %>
+            </div>
+
+            <div>
+              <label>Last Updated</label>
+              <%= time_format(@user.updated_at) %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
