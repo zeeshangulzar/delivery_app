@@ -14,16 +14,25 @@ Rails.application.routes.draw do
     delete 'v1/user_deleted_location', to: 'locations#delete_user_location'
     post 'v1/user_updated_location', to: 'locations#update_user_location'
     get 'v1/user_get_location', to: 'locations#get_user_location'
-    get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
-    post 'v1/guest_verify', to: 'users/registrations#guest_verify'
     get 'v1/status_code', to: 'settings#status_code'
+    post 'v1/guest_verify', to: 'users/registrations#guest_verify'
+    get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
+    post 'v1/save_booking', to: 'bookings#save_booking'
   end
+
+  get 'home', to: 'home#index'
 
   # Devise routes for web clients (built-in sessions controller)
   devise_for :users
 
   # For API through browser
-  resources :users
+  resources :users do
+    collection do
+      get ':role', to: 'users#users_by_role', as: 'user_by_role'
+    end
+  end
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -79,5 +88,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  root to: 'home#index'
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
 end

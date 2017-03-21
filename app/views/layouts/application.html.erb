@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AnaAdmin</title>
+  <title><%= content_for?(:title) ? yield(:title) : "ANA" %> </title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+
+<body class="nav-md">
+<div class="container body">
+  <% flash.each do |key, value| %>
+      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+<% if user_signed_in? %>
+  <%= render "partials/sidenav" %>
+  <%= render "partials/topnav" %>
+<% else %>
+<% end %>
 
 <%= yield %>
-
+<% if user_signed_in? %>
+  <%= render "partials/footer" %>
+<% end %>
+  <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => true %>
 </body>
 </html>

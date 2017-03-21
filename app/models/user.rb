@@ -9,13 +9,7 @@ class User < ActiveRecord::Base
   has_many :orders
 
   has_many :locations, as: :locateable
-
-  # For api authentication
   has_many :authentication_tokens
-
-  TWILLIO_SID    = 'AC969f17cb864ec269d068d4e4ff32c397'
-  TWILLIO_AUTH   = 'f9ca79e8e38852c26e106876338bda2b'
-  TWILLIO_NUMBER = '+14692086400'
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
   validates :email, presence: { message: "is required"}
@@ -24,10 +18,14 @@ class User < ActiveRecord::Base
   #validates :verified_token, uniqueness: true
   validates :role, presence: true, inclusion: { in: ["consumer", "driver", "admin"] }
 
+  paginates_per 10
+
+  ROLES = ["consumer", "driver", "admin"]
+
   def send_sms
-    client = Twilio::REST::Client.new(TWILLIO_SID, TWILLIO_AUTH)
+    client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
     client.messages.create to: cell,
-    from: TWILLIO_NUMBER,
+    from: APP_CONFIG[:twillio][:number],
     body: "ANA PIN: #{verified_token}"
   end
 
