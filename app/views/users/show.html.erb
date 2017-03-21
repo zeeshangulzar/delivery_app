@@ -43,7 +43,7 @@
               <%= time_format(@user.updated_at) %>
             </div>
           </div>
-          <div><%= link_to 'Back', user_by_role_users_path(role: @user.role) %>
+          <div><%= link_to 'Back', user_by_role_users_path(role: @user.role, status: @user.status) %>
         </div>
       </div>
 
