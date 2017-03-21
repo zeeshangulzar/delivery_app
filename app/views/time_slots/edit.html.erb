@@ -1,6 +1,15 @@
-<h1>Editing Time Slot</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @time_slot %> |
-<%= link_to 'Back', time_slots_path %>
+<div id="edit_slot">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add New Time Slot</h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'form' %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</div>
