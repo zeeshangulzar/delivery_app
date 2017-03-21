@@ -6,7 +6,6 @@ class TimeSlotsController < ApplicationController
 
   def index
     if params[:start_date].present? && params[:end_date].present?
-      #Comment.where(:created_at => @selected_date.beginning_of_day..@selected_date.end_of_day)
       @time_slots = TimeSlot.where('date BETWEEN ? AND ?', params[:start_date], params[:end_date])
     else
       curent_date = Time.now.strftime("%Y-%m-%d")
@@ -31,7 +30,7 @@ class TimeSlotsController < ApplicationController
 
     respond_to do |format|
       if @time_slot.save
-        format.html { redirect_to @time_slot, notice: 'Time slot was successfully created.' }
+        format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully created.' }
         format.json { render :show, status: :created, location: @time_slot }
       else
         format.html { render :new }
@@ -43,7 +42,7 @@ class TimeSlotsController < ApplicationController
   def update
     respond_to do |format|
       if @time_slot.update(time_slot_params)
-        format.html { redirect_to @time_slot, notice: 'Time slot was successfully updated.' }
+        format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully updated.' }
         format.json { render :show, status: :ok, location: @time_slot }
       else
         format.html { render :edit }
