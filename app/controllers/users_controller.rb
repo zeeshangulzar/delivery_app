@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def users_by_role
-    @users = User.where(role: params[:role]).page(params[:page])
+    @users = User.get_list(params)
   end
 
   private
