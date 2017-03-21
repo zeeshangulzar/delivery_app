@@ -43,6 +43,15 @@ class User < ActiveRecord::Base
     }
   end
 
+  def self.get_list(params)
+    users = self.where(role: params[:role])
+    users = users.where("name LIKE (?)", "%#{params[:name].strip}%") if params[:name].present?
+    users = users.where("cell LIKE (?)", "%#{params[:cell].strip}%") if params[:cell].present?
+    users = users.where("email LIKE (?)", "%#{params[:email].strip}%") if params[:email].present?
+    users = users.where(verified: true) if params[:verified].present?
+    users.page(params[:page])
+  end
+
   def user_login_type
    login = self.social_logins.last
    login.blank? ? 'local' : login.platform_name

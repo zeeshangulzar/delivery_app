@@ -1,0 +1,12 @@
+<div>
+  <%= form_tag user_by_role_users_path, method: :get  do %>
+  <span>
+    <label>Verified</label>
+    <%= check_box_tag :verified, params[:verified], params[:verified].present? %>
+  </span>
+    <%= text_field_tag :cell, params[:cell], placeholder: 'cell' %>
+    <%= text_field_tag :name, params[:name], placeholder: 'name' %>
+    <%= text_field_tag :email, params[:email], placeholder: 'email' %>
+    <%= submit_tag "Go" %>
+  <% end %>
+</div>
