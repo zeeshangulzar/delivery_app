@@ -5,8 +5,8 @@ $(document).ready(function() {
     $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
   }
   var optionSet1 = {
-    startDate: moment(),
-    endDate: moment(),
+    startDate: moment(setStartDate()),
+    endDate: moment(setEndDate()),
     minDate: '01/01/2017',
     maxDate: '12/31/2020',
     showDropdowns: true,
@@ -28,12 +28,14 @@ $(document).ready(function() {
     }
   };
 
-  $('#reportrange_right span').html(moment().format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+  $('#reportrange_right span').html(setStartDate() + ' - ' + setEndDate());
 
   $('#reportrange_right').daterangepicker(optionSet1, cb);
 
   $('#reportrange_right').on('show.daterangepicker', function() {
     console.log("show event fired");
+    startDate = moment("2017-2-2");
+    console.log(startDate);
   });
   $('#reportrange_right').on('hide.daterangepicker', function() {
     console.log("hide event fired");
@@ -94,4 +96,24 @@ function UpdateQueryString(key, value, url) {
 }
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+function setStartDate(){
+  if (getURLParameter('start_date') != null)
+  {
+    return getURLParameter('start_date');
+  }
+  else
+  {
+    return moment().format('YYYY-MM-DD');
+  }
+}
+function setEndDate(){
+  if (getURLParameter('end_date') != null)
+  {
+    return getURLParameter('end_date');
+  }
+  else
+  {
+    return moment().format('YYYY-MM-DD');
+  }
 }
