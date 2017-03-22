@@ -37,3 +37,23 @@
  tr, th{
   text-align: center !important;
  }
+
+ .fields{
+    width: 94.5% !important;
+ }
+
+  @media screen and (max-width: 380px) {
+      .well {
+          padding: 10px;
+      }
+      .x_panel{
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      #search_form1{
+        display: none;
+      }
+      #search_form2{
+        display: inline !important;
+      }
+  }
