@@ -1,3 +1,13 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.modal').on('hidden.bs.modal', function(e)
+    {
+      $(this).find('form').trigger('reset');
+      $(this).removeData();
+    })
+  });
+
+</script>
 <%= form_for(@time_slot) do |f| %>
   <% if @time_slot.errors.any? %>
     <div id="error_explanation">
@@ -11,23 +21,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :date %><br>
-    <%= f.date_select :date, required: true %>
+  <%= f.label :date %>
+  <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+    <%= f.date_field :date, required: true, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :start_time %><br>
-    <%= f.text_field :start_time, required: true %>
+  <%= f.label :start_time %>
+  <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+    <%= f.time_field :start_time, required: true, value: @time_slot.start_time, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :end_time %><br>
-    <%= f.text_field :end_time, required: true %>
+  <%= f.label :end_time %>
+  <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+    <%= f.time_field :end_time, required: true, value: @time_slot.end_time, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :charges %><br>
-    <%= f.number_field :charges, required: true %>
+  <%= f.label :charges %>
+  <div class="input-group">
+    <span class="input-group-addon"><b>QAR</b></span>
+    <%= f.number_field :charges, required: true, class: "form-control" %>
   </div>
+  <br>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
   </div>
 <% end %>

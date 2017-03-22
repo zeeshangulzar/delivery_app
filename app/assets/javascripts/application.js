@@ -32,8 +32,7 @@
 //= require js/pace/pace.min.js
 //= require  js/nprogress.js
 //= require flash.js
-
+//= require timeslot.js
 //= require underscore
 //= require gmaps/google
 //= require_tree .
-

@@ -1,11 +1,19 @@
 class TimeSlotsController < ApplicationController
+  before_action :authenticate_user!,only:[:index]
   before_action :token_authentication, only: [:daily_time_slots]
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
   before_action :validation_date, only: [:daily_time_slots]
   before_filter :set_format, only: [:daily_time_slots]
 
   def index
-    @time_slots = TimeSlot.all
+    if params[:start_date].present? && params[:end_date].present?
+      @time_slots = TimeSlot.where('date BETWEEN ? AND ?', params[:start_date], params[:end_date])
+    else
+      curent_date = Time.now.strftime("%Y-%m-%d")
+      @time_slots = TimeSlot.where(date: curent_date)
+    end
+    @time_slots = @time_slots.page(params[:page])
+    @time_slot = TimeSlot.new
   end
 
   def show
@@ -23,7 +31,7 @@ class TimeSlotsController < ApplicationController
 
     respond_to do |format|
       if @time_slot.save
-        format.html { redirect_to @time_slot, notice: 'Time slot was successfully created.' }
+        format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully created.' }
         format.json { render :show, status: :created, location: @time_slot }
       else
         format.html { render :new }
@@ -35,7 +43,7 @@ class TimeSlotsController < ApplicationController
   def update
     respond_to do |format|
       if @time_slot.update(time_slot_params)
-        format.html { redirect_to @time_slot, notice: 'Time slot was successfully updated.' }
+        format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully updated.' }
         format.json { render :show, status: :ok, location: @time_slot }
       else
         format.html { render :edit }
