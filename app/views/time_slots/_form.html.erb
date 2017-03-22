@@ -1,11 +1,12 @@
 <script type="text/javascript">
   $(document).ready(function() {
-
-    $(this).on('hidden.bs.modal', function () {
+    $('.modal').on('hidden.bs.modal', function(e)
+    {
       $(this).find('form').trigger('reset');
-      console.log("modal reset called");
+      $(this).removeData();
     })
   });
+
 </script>
 <%= form_for(@time_slot) do |f| %>
   <% if @time_slot.errors.any? %>
@@ -42,6 +43,6 @@
   </div>
   <br>
   <div class="actions">
-    <%= f.submit "Save", class: "btn btn-dark" %>
+    <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
   </div>
 <% end %>

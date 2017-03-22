@@ -11,18 +11,18 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="well">
-            <form class="form-horizontal">
+            <form class="form-horizontal" style="height: 31px;">
               <fieldset>
                 <div class="control-group">
                   <div class="controls">
                     <div class="input-prepend input-group" style="width: 80%; float: left;">
-                      <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                      <span class="add-on input-group-addon colors"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
                       <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                         <span>YYYY-MM-DD - YYYY-MM-DD</span> <b class="caret"></b>
                       </div>
                     </div>
-                    <div style="float: right;">
-                      <button type="button" class="btn btn-sm" style="background-color: #2A3F54; color: white; " data-toggle="modal" data-target="#add_slot">Add</button>
+                    <div style="float: right; height: 31px;">
+                      <button type="button" class="btn btn btn-info btn-sm"  data-toggle="modal" data-target="#add_slot">Add</button>
                     <div>
                   </div>
                 </div>
@@ -32,29 +32,32 @@
 
           <div id="add_slot" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
               <!-- Modal content-->
               <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Add New Time Slot</h4>
+                <div class="modal-header colors">
+                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                  <h4 class="modal-title">New Time Slot</h4>
                 </div>
                 <div class="modal-body">
                   <%= render 'form' %>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" method="reset">Close</button>
-
-                </div>
               </div>
+            </div>
+          </div>
 
+          <div id="edit_slot" class="modal fade" role="dialog">
+            <div class="modal-dialog colors">
+              <!-- Modal content-->
+              <div class="modal-content" style="background: transparent;">
+                  <%= render 'form' %>
+              </div>
             </div>
           </div>
 
           <div class="x_content">
             <table id="datatable" class="table table-striped table-bordered">
               <thead>
-                <tr>
+                <tr class="colors">
                   <th>Date</th>
                   <th>Start Time</th>
                   <th>End Time</th>
@@ -66,13 +69,13 @@
               <tbody>
                 <% @time_slots.each do |time_slot| %>
                   <tr>
-                    <td><%= time_slot.date %></td>
+                    <td><%= Time.parse(time_slot.date.to_s).strftime("%d %b %Y") %></td>
                     <td><%= time_slot.start_time %></td>
                     <td><%= time_slot.end_time %></td>
-                    <td><%= time_slot.charges %></td>
+                    <td><b>QAR </b><%= time_slot.charges %></td>
 
-                    <td><a data-toggle="modal" data-target="#add_slot" data-remote="<%= edit_time_slot_path(id: time_slot.id) %> #edit_slot" class="btn btn-sm" style="margin-top: 1.7%;">Edit</a>
-                    <%= link_to 'Delete', time_slot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td><a data-toggle="modal" data-target="#edit_slot" data-remote="<%= edit_time_slot_path(id: time_slot.id) %> #edit_slot" class="btn btn-success btn-sm ">Edit</a>
+                    <%= link_to 'Delete', time_slot, class: "btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
 
