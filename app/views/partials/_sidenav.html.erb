@@ -17,9 +17,14 @@
         <div class="menu_section">
           <h3>General</h3>
           <ul class="nav side-menu">
-            <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-user"></i> Customers <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
-                <li><%= link_to "Customers", user_by_role_users_path('consumer') %></li>
+                <li><%= link_to "Active Customers", user_by_role_users_path('consumer', 'active') %></li>
+                <li><%= link_to " Blocked Customers", user_by_role_users_path('consumer', 'blocked') %></li>
+              </ul>
+            </li>
+            <li><a><i class="fa fa-user"></i> Drivers <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu" style="display: none">
                 <li><%= link_to "Drivers", home_path(name: 'Drivers') %></li>
               </ul>
             </li>
