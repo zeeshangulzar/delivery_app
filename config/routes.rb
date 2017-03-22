@@ -29,7 +29,11 @@ Rails.application.routes.draw do
   # For API through browser
   resources :users do
     collection do
-      get 'list/:role', to: 'users#users_by_role', as: 'user_by_role'
+      get 'list/:role/:status', to: 'users#users_by_role', as: 'user_by_role'
+    end
+
+    member do
+      post 'update_status'
     end
   end
 

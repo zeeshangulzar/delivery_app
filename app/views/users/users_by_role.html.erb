@@ -3,7 +3,7 @@
   <div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3>Customers</h3>
+        <h3><%= params[:status].try(:titleize) %> Customers</h3>
       </div>
     </div>
 
@@ -33,7 +33,10 @@
                     <td><%= user.name.try(:titleize) %></td>
                     <td><%= user.email %></td>
                     <td><%= is_verified(user) %></td>
-                    <td><%= link_to 'View', user_path(user) %></td>
+                    <td>
+                      <%= link_to 'View', user_path(user) %>
+                      <%= link_to status_link(user.status), update_status_user_path(user, status: 'blocked'), method: :post %>
+                    </td>
                   </tr>
                 <% end %>
 

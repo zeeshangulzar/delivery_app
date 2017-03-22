@@ -44,7 +44,8 @@ class User < ActiveRecord::Base
   end
 
   def self.get_list(params)
-    users = self.where(role: params[:role])
+    users = self.where(status: params[:status])
+    users = users.where(role: params[:role])
     users = users.where("name LIKE (?)", "%#{params[:name].strip}%") if params[:name].present?
     users = users.where("cell LIKE (?)", "%#{params[:cell].strip}%") if params[:cell].present?
     users = users.where("email LIKE (?)", "%#{params[:email].strip}%") if params[:email].present?
@@ -63,6 +64,12 @@ class User < ActiveRecord::Base
 
   def email_required?
     false
+  end
+
+  def update_status
+    status = self.status == 'active' ? 'blocked' : 'active'
+    self.update(status: status)
+    self
   end
 
 end
