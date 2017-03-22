@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :validate_user_role, only: [:users_by_role]
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :update_status]
 
   def index
     render json: User.all
@@ -17,6 +17,11 @@ class UsersController < ApplicationController
   end
 
   def show
+  end
+
+  def update_status
+    flag = @user.update_status
+    return redirect_to :back , notice: 'User status is updated successfully' if flag.errors.blank?
   end
 
   private

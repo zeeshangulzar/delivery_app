@@ -66,4 +66,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  def update_status
+    status = self.status == 'active' ? 'blocked' : 'active'
+    self.update(status: status)
+    self
+  end
+
 end
