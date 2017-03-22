@@ -28,14 +28,12 @@ $(document).ready(function() {
     }
   };
 
-  $('#reportrange_right span').html(setStartDate() + ' - ' + setEndDate());
+  $('#reportrange_right span').html(moment(setStartDate()).format('D MMM YYYY') + ' - ' + moment(setEndDate()).format('D MMM YYYY'));
 
   $('#reportrange_right').daterangepicker(optionSet1, cb);
 
   $('#reportrange_right').on('show.daterangepicker', function() {
     console.log("show event fired");
-    startDate = moment("2017-2-2");
-    console.log(startDate);
   });
   $('#reportrange_right').on('hide.daterangepicker', function() {
     console.log("hide event fired");
