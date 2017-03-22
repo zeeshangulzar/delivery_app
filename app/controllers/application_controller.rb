@@ -16,6 +16,11 @@ class ApplicationController < ActionController::Base
     return render json: { error: 'You are not authorized' }, status: 401 unless request.headers['HTTP_AUTHORIZATION'] == APP_CONFIG[:token_authorization][:token]
   end
 
+  def validate_user_activation
+    return if @user.blank?
+    return render json: { error: 'user is inactive' }, status: 422 unless @user.sttaus == 'active'
+  end
+
   private
 
   # Do not generate a session or session ID cookie
@@ -47,5 +52,7 @@ class ApplicationController < ActionController::Base
   def sms_token
     rand(1111..9999)
   end
+
+  helper_method :sms_token
 
 end

@@ -1,50 +1,41 @@
 module V1
   class Users::PasswordsController < Devise::PasswordsController
 
-  before_action :token_authentication
-  before_action :check_cell
-  before_action :check_password, only: [:update]
+    before_action :token_authentication
+    before_action :check_cell
+    before_action :validate_user
+    before_action :check_password, only: [:update]
+    before_action :validate_verification_token, only: [:update]
 
     def recover
-      user=User.find_by_cell(params[:cell])
-      if user.blank?
-        render json: {error: "invalid cell number"}, status: 404
-      else
-        user.verified_token=rand(1111..9999)
-        user.save
-        user.send_sms
-        render json: {message: "verification code has been sent"}, status: 200
-      end
+      @user.update(verified_token: sms_token)
+      @user.send_sms
+      return render json: {message: "verification code has been sent"}, status: 200
     end
 
     def update
-      user=User.find_by_cell(params[:cell])
-      unless user.blank?
-        if params[:code]==user.verified_token
-          user.password=params[:password]
-          if user.save
-            render json: {message: "password updated successfully"}, status: 200
-          else
-            render json: {error: user.errors.full_messages.to_sentence}, status: 406
-          end
-        else
-          render json: {error: "invalid verification code"}, status: 404
-        end
-      else
-        render json: {error: "invalid cell number"}, status: 404
-      end
+      @user.update(password: params[:password])
+      return render json: {message: "password updated successfully"}, status: 200 if @user.errors
+      return render json: {error: user.errors.full_messages.to_sentence}, status: 406
     end
 
     private
-      def check_cell
-        unless params[:cell].present?
-          render json: {error: "cell field is empty"}, status: 406
-        end
+
+      def validate_user
+        @user = User.find_by_cell(params[:cell])
+        return render json: {error: "invalid cell number"}, status: 404 if @user.blank?
       end
+
+      def validate_verification_token
+        return render json: {error: "invalid verification code"}, status: 404 unless params[:code] == @user.verified_token
+      end
+
+      def check_cell
+        return render json: {error: "cell field is empty"}, status: 406 if params[:cell].blank?
+      end
+
       def check_password
-        unless params[:password].present?
-          render json: {error: "password field is empty"}, status: 406
-        end
+        return render json: {error: "password field is empty"}, status: 406 if params[:password].blank?
       end
 
   end
