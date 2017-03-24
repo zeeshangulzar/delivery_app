@@ -24,7 +24,7 @@
   <%= f.label :date %>
   <div class="input-group">
     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-    <%= f.date_field :date, required: true, class: "form-control" %>
+    <%= f.date_field :date, required: true, value: (f.object.date || Time.now.strftime('%Y-%m-%d')), class: "form-control" %>
   </div>
   <%= f.label :start_time %>
   <div class="input-group">
