@@ -37,3 +37,48 @@
  tr, th{
   text-align: center !important;
  }
+
+ .fields{
+    width: 94.5% !important;
+ }
+
+  .view_head{
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    border-bottom: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    width: 152px !important;
+  }
+
+  .view_field{
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    width: 40% !important;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .view_field{
+      width: 100% !important;
+    }
+  }
+
+  @media screen and (max-width: 380px) {
+    .well {
+        padding: 10px;
+    }
+    .x_panel{
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    #search_form1{
+      display: none;
+    }
+    #search_form2{
+      display: inline !important;
+    }
+  }
