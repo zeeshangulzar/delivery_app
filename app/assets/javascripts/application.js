@@ -13,7 +13,6 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require turbolinks
 
 //= require js/flot/jquery.flot.js
 //= require js/flot/jquery.flot.pie.js
