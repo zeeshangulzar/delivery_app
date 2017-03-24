@@ -61,7 +61,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def daily_time_slots
-    @time_slots = TimeSlot.where(date: @date)
+    @time_slots = TimeSlot.where('date BETWEEN ? AND ?', @start_date, @end_date)
   end
 
   private
@@ -74,11 +74,14 @@ class TimeSlotsController < ApplicationController
     end
 
     def validation_date
-      return render json: { error: 'date is empty'}, status: 404 if params[:date].blank?
+      return render json: { error: 'start_date is empty'}, status: 404 if params[:start_date].blank?
+      return render json: { error: 'end_date is empty'}, status: 404 if params[:end_date].blank?
       begin
-        @date = Date.parse(params[:date])
+        @start_date = Date.parse(params[:start_date])
+        @end_date = Date.parse(params[:end_date])
       rescue
         return render json: { error: 'Invalid date format. Please use yyyy-mm-dd'}, status: 404
       end
+      return render json: { error: "start_date can't be greater than end_date"}, status: 404 if @start_date > @end_date
     end
 end
