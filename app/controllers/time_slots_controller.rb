@@ -61,7 +61,8 @@ class TimeSlotsController < ApplicationController
   end
 
   def daily_time_slots
-    @time_slots = TimeSlot.where('date BETWEEN ? AND ?', @start_date, @end_date)
+    @time_slots = TimeSlot.where('date BETWEEN ? AND ?', @start_date, @end_date).order(:date)
+    @dates = @time_slots.group(:date)
   end
 
   private
