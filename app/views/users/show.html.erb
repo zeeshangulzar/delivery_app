@@ -13,37 +13,38 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_content">
-            <div>
-              <label>Name</label>
+            <span class="input-group-addon view_head"><b>Name</b></span>
+            <div class="view_field">
               <%= @user.name.try(:titleize) %>
             </div>
-
-            <div>
-              <label>Email</label>
+            <br>
+            <span class="input-group-addon view_head"><b>Email</b></span>
+            <div class="view_field">
               <%= @user.email %>
             </div>
-
-            <div>
-              <label>Cell</label>
+            <br>
+            <span class="input-group-addon view_head"><b>Cell</b></span>
+            <div class="view_field">
               <%= @user.cell %>
             </div>
-
-            <div>
-              <label>Verified</label>
+            <br>
+            <span class="input-group-addon view_head"><b>Verified</b></span>
+            <div class="view_field">
               <%= is_verified(@user) %>
             </div>
-
-            <div>
-              <label>Registation Date</label>
+            <br>
+            <span class="input-group-addon view_head"><b>Registation Date</b></span>
+            <div class="view_field">
               <%= time_format(@user.created_at) %>
             </div>
-
-            <div>
-              <label>Last Updated</label>
+            <br>
+            <span class="input-group-addon view_head"><b>Last Updated</b></span>
+            <div class="view_field">
               <%= time_format(@user.updated_at) %>
             </div>
+            <br>
           </div>
-          <div><%= link_to 'Back', user_by_role_users_path(role: @user.role, status: @user.status) %>
+          <div><%= link_to 'Back', user_by_role_users_path(role: @user.role, status: @user.status), class: "btn btn-primary" %>
         </div>
       </div>
 
