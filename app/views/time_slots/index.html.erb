@@ -70,10 +70,9 @@
                 <% @time_slots.each do |time_slot| %>
                   <tr>
                     <td><%= Time.parse(time_slot.date.to_s).strftime("%d %b %Y") %></td>
-                    <td><%= time_slot.start_time %></td>
-                    <td><%= time_slot.end_time %></td>
+                    <td><%= Time.parse(time_slot.start_time).strftime("%l:%M %P") %></td>
+                    <td><%= Time.parse(time_slot.end_time).strftime("%l:%M %P") %></td>
                     <td><b>QAR </b><%= time_slot.charges %></td>
-
                     <td><a data-toggle="modal" data-target="#edit_slot" data-remote="<%= edit_time_slot_path(id: time_slot.id) %> #edit_slot" class="btn btn-success btn-sm ">Edit</a>
                     <%= link_to 'Delete', time_slot, class: "btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
