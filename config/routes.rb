@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   # For API through browser
   resources :users do
+    resources :bookings
     collection do
       get 'list/:role/:status', to: 'users#users_by_role', as: 'user_by_role'
     end

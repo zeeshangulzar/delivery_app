@@ -70,6 +70,10 @@
   @media screen and (max-width: 380px) {
     .well {
         padding: 10px;
+        display: block !important;
+    }
+    .well div{
+      width: 100% !important;
     }
     .x_panel{
       padding-left: 8px;
@@ -81,4 +85,6 @@
     #search_form2{
       display: inline !important;
     }
+
   }
+
