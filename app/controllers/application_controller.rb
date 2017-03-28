@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def validate_user_activation
     return if @user.blank?
-    return render json: { error: 'user is inactive' }, status: 422 unless @user.sttaus == 'active'
+    return render json: { error: 'user is inactive' }, status: 422 unless @user.status == 'active'
   end
 
   private
