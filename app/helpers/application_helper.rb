@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def append_qar(amount)
-    return 'QAR '+amount.to_s
+    return 'QAR '+amount.to_s if amount.present?
   end
 
 end
