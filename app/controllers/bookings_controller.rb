@@ -39,21 +39,7 @@ class BookingsController < ApplicationController
   end
 
   def show
-  end
-
-  def new
-    @booking = Boooking.new
-  end
-
-  def edit
-  end
-
-  def destroy
-    @booking.destroy
-    respond_to do |format|
-      format.html { redirect_to user_path(params[:user_id]), notice: 'Boooking was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @orders = @booking.orders.page(params[:page])
   end
 
   private

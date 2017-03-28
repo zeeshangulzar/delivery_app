@@ -70,9 +70,11 @@
   @media screen and (max-width: 380px) {
     .well {
         padding: 10px;
-        display: block !important;
     }
-    .well div{
+    #info_well{
+      display: block !important;
+    }
+    #user_info{
       width: 100% !important;
     }
     .x_panel{

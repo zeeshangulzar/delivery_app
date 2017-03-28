@@ -28,7 +28,6 @@ Rails.application.routes.draw do
 
   # For API through browser
   resources :users do
-    resources :bookings
     collection do
       get 'list/:role/:status', to: 'users#users_by_role', as: 'user_by_role'
     end
@@ -37,6 +36,8 @@ Rails.application.routes.draw do
       post 'update_status'
     end
   end
+  resources :bookings, only: [:show]
+  resources :orders, only: [:show]
 
 
 
