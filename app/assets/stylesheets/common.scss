@@ -67,6 +67,12 @@
     }
   }
 
+  @media screen and (max-width: 480px) {
+    .scroll{
+      overflow-x: scroll;
+    }
+  }
+
   @media screen and (max-width: 380px) {
     .well {
         padding: 10px;

@@ -6,7 +6,7 @@ class BookingsController < ApplicationController
   before_action :check_sender, only: [:save_booking]
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
-  before_action :set_booking, only: [:show, :edit, :update, :destroy]
+  before_action :set_booking, only: [:show]
 
   def save_booking
     ActiveRecord::Base.transaction do
