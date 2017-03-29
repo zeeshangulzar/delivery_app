@@ -5,6 +5,8 @@ class Booking < ActiveRecord::Base
   has_many :orders
   belongs_to :time_slot
 
+  paginates_per 10
+
   validates :time_slot, :total_amount, presence: true
   validates :user_name, :user_cell, :user_email, presence: true, if: 'user_id.blank?'
   validate :validate_sender_id, if: 'user_id.present?'
