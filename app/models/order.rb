@@ -14,6 +14,8 @@ class Order < ActiveRecord::Base
 
   before_create :create_tracking_id
 
+  paginates_per 5
+
   private
 
   def create_tracking_id

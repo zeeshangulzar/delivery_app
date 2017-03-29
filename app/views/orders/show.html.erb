@@ -17,8 +17,8 @@
 
                 <div id="user_info" style="width: 49%">
                   <div><i class="fa fa-map-marker"></i><b> To: </b><%= @order.location.address.try(:titleize) %></div>
+                  <div><i class="fa fa-location-arrow"></i><b> Tracking ID: </b><%= @order.tracking_id %></div>
                   <div><i class="fa fa-spinner"></i><b> Status: </b><%= @order.status.try(:titleize) %></div>
-                  <div><i class="fa fa-user"></i><b> Pay By Sender: </b><%= @order.pay_by_sender.try(:titleize) %></div>
                   <div><i class="fa fa-calendar" ></i><b> Order Time: </b><%= time_format(@order.created_at) %></div>
                   <br>
                   <div><i class="fa fa-money"></i><b> Amount: </b><%= append_qar(@order.amount) %></div>
@@ -41,6 +41,7 @@
               </div>
               <div><i class="fa fa-list-ul"></i><b> Instructions: </b><%= @order.instruction.try(:titleize) %></div>
             </div>
+
             <% if @line_items.present? %>
               <div class="x_content scroll">
               <h3 style="text-align: center; ">Invoice</h3>
@@ -73,6 +74,9 @@
               <%= page_entries_info @line_items %>
               <br>
             <% end %>
+
+            <%= render "partials/orders_map" %>
+
           </div>
         </div>
       </div>
