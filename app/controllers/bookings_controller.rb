@@ -1,11 +1,12 @@
 class BookingsController < ApplicationController
 
-  before_action :token_authentication
-  before_action :user_authentication
-  before_action :check_from
-  before_action :check_sender
-  before_action :check_slot
-  before_action :check_orders
+  before_action :token_authentication, only: [:save_booking]
+  before_action :user_authentication, only: [:save_booking]
+  before_action :check_from, only: [:save_booking]
+  before_action :check_sender, only: [:save_booking]
+  before_action :check_slot, only: [:save_booking]
+  before_action :check_orders, only: [:save_booking]
+  before_action :set_booking, only: [:show]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -37,6 +38,10 @@ class BookingsController < ApplicationController
     end
   end
 
+  def show
+    @orders = @booking.orders.page(params[:page])
+  end
+
   private
 
     def check_from
@@ -55,6 +60,10 @@ class BookingsController < ApplicationController
 
     def check_orders
       return render json: { error: "orders can't be empty"}, status: 404 if params[:orders].blank?
+    end
+
+    def set_booking
+      @booking = Booking.find(params[:id])
     end
 
     def user_authentication

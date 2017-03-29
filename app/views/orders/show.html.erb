@@ -1,0 +1,81 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Order Details</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_content">
+            <div class="well" style="font-size:14px;">
+              <div id="info_well" style="display: flex;">
+
+                <div id="user_info" style="width: 49%">
+                  <div><i class="fa fa-map-marker"></i><b> To: </b><%= @order.location.address.try(:titleize) %></div>
+                  <div><i class="fa fa-spinner"></i><b> Status: </b><%= @order.status.try(:titleize) %></div>
+                  <div><i class="fa fa-user"></i><b> Pay By Sender: </b><%= @order.pay_by_sender.try(:titleize) %></div>
+                  <div><i class="fa fa-calendar" ></i><b> Order Time: </b><%= time_format(@order.created_at) %></div>
+                  <br>
+                  <div><i class="fa fa-money"></i><b> Amount: </b><%= append_qar(@order.amount) %></div>
+                  <div><i class="fa fa-money"></i><b> Charges: </b><%= append_qar(@order.charges) %></div>
+                  <div><i class="fa fa-money"></i><b> Total Amount: </b><%= append_qar(@order.amount + @order.charges) %></div>
+                </div>
+
+                <div id="user_info" style="width: 49%">
+                  <b>Quantity</b>
+                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 12px"></i><b> Small: </b><%= @order.small.to_i %></div>
+                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 15px"></i><b> Medium: </b><%= @order.medium.to_i %></div>
+                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 17px"></i><b> Large: </b><%= @order.large.to_i %></div>
+                  <br>
+                  <b>Recipient Details</b>
+                  <div style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b><%= @order.recipient_name.try(:titleize) %></div>
+                  <div style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b><%= @order.recipient_email %></div>
+                  <div style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b><%= @order.recipient_cell %></div>
+                </div>
+
+              </div>
+              <div><i class="fa fa-list-ul"></i><b> Instructions: </b><%= @order.instruction.try(:titleize) %></div>
+            </div>
+            <% if @line_items.present? %>
+              <div class="x_content scroll">
+              <h3 style="text-align: center; ">Invoice</h3>
+                <table id="datatable" class="table table-striped table-bordered">
+                  <thead>
+                    <tr class="colors">
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Quatity</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @line_items.each do |line_item| %>
+                      <tr>
+                        <td><%= image_tag(line_item.image.present? ? line_item.image : "no_product.jpg", style: "max-height: 50px;")%></td>
+                        <td><%= line_item.name.try(:titleize) %></td>
+                        <td><%= line_item.quantity %></td>
+                        <td><%= append_qar(line_item.price) %></td>
+                      </tr>
+                    <% end %>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="dataTables_paginate paging_simple_numbers">
+                  <%= paginate @line_items, window: 4 %>
+              </div>
+              <br>
+              <%= page_entries_info @line_items %>
+              <br>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,3 @@
-
 <div class="right_col" role="main">
   <div class="">
     <div class="page-title">
@@ -13,41 +12,62 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_content">
-            <span class="input-group-addon view_head"><b>Name</b></span>
-            <div class="view_field">
-              <%= @user.name.try(:titleize) %>
+            <div class="well" style="font-size:14px;">
+              <div id="info_well" style="display: flex;">
+                <div id="user_info" style="width: 49%">
+                  <div><i class="fa fa-user"></i><b> Name: </b><%= @user.name.try(:titleize) %></div>
+                  <div><i class="fa fa-envelope"></i><b> Email: </b><%= @user.email %></div>
+                  <div><i class="fa fa-phone-square" ></i><b> Cell: </b><%= @user.cell %></div>
+                </div>
+                <div id="user_info" style="width: 49%">
+                  <div><i class="fa fa-check-square-o"></i><b> Verified: </b><%= is_verified(@user) %></div>
+                  <div><i class="fa fa-calendar"></i><b> Registration Date: </b><%= time_format(@user.created_at) %></div>
+                  <div><i class="fa fa-calendar"></i><b> Last Updated: </b><%= time_format(@user.updated_at) %></div>
+                </div>
+              </div>
             </div>
-            <br>
-            <span class="input-group-addon view_head"><b>Email</b></span>
-            <div class="view_field">
-              <%= @user.email %>
+
+            <% if @bookings.present? %>
+              <div class="x_content scroll">
+                <h3 style="text-align: center; ">Bookings</h3>
+                <table id="datatable" class="table table-striped table-bordered">
+                  <thead>
+                    <tr class="colors">
+                      <th>From</th>
+                      <th>Status</th>
+                      <th>Booking Time</th>
+                      <th>Total Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @bookings.each do |booking| %>
+                      <tr>
+                        <td><%= booking.location.address.try(:titleize) %></td>
+                        <td><%= booking.status.try(:titleize) %></td>
+                        <td><%= time_format(booking.created_at) %></td>
+                        <td><%= append_qar(booking.total_amount) %></td>
+                        <td>
+                          <%= link_to 'View', booking_path(id: booking.id), class: "btn btn-info btn-sm " %>
+                        </td>
+                      </tr>
+                    <% end %>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="dataTables_paginate paging_simple_numbers">
+                  <%= paginate @bookings, window: 4 %>
+              </div>
+              <br>
+              <%= page_entries_info @bookings %>
+              <br>
             </div>
-            <br>
-            <span class="input-group-addon view_head"><b>Cell</b></span>
-            <div class="view_field">
-              <%= @user.cell %>
-            </div>
-            <br>
-            <span class="input-group-addon view_head"><b>Verified</b></span>
-            <div class="view_field">
-              <%= is_verified(@user) %>
-            </div>
-            <br>
-            <span class="input-group-addon view_head"><b>Registation Date</b></span>
-            <div class="view_field">
-              <%= time_format(@user.created_at) %>
-            </div>
-            <br>
-            <span class="input-group-addon view_head"><b>Last Updated</b></span>
-            <div class="view_field">
-              <%= time_format(@user.updated_at) %>
-            </div>
-            <br>
-          </div>
+          <% end %>
           <div><%= link_to 'Back', user_by_role_users_path(role: @user.role, status: @user.status), class: "btn btn-primary" %>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
 </div>
