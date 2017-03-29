@@ -7,6 +7,8 @@ class Order < ActiveRecord::Base
   has_one :location, as: :locateable
   has_many :line_items
 
+  paginates_per 10
+
   validates_presence_of :booking
   validates :recipient_name, :recipient_cell, :recipient_email, presence: true, if: 'recipient_id.blank?'
   validates :amount, :charges, presence: true

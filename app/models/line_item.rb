@@ -1,6 +1,7 @@
 class LineItem < ActiveRecord::Base
 
   belongs_to :order
+  paginates_per 5
   validates :name, :order_id, :price, :quantity, presence: true
 
   def self.save_invoice(item)
