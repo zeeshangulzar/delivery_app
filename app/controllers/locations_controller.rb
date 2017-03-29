@@ -1,5 +1,6 @@
 class LocationsController < ApplicationController
   before_action :get_user
+  before_action :validate_user_activation
   before_action :check_location, except: [:save_user_location, :get_user_location]
   before_action :check_page, only: [:get_user_location]
   before_action :user_authentication

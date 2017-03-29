@@ -3,6 +3,7 @@ module V1
 
     before_action :token_authentication
     before_action :validate_verification_user, only: [:verify]
+    before_action :validate_user_activation, only: [:verify]
     before_action :get_user, except: [:verify, :guest_verify]
     before_action :non_admin_users, only: [:verify]
     before_action :check_cell, only: [:guest_verify]

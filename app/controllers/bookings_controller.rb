@@ -2,6 +2,7 @@ class BookingsController < ApplicationController
 
   before_action :token_authentication, only: [:save_booking]
   before_action :user_authentication, only: [:save_booking]
+  before_action :validate_user_activation, only: [:save_booking]
   before_action :check_from, only: [:save_booking]
   before_action :check_sender, only: [:save_booking]
   before_action :check_slot, only: [:save_booking]
@@ -67,10 +68,10 @@ class BookingsController < ApplicationController
     end
 
     def user_authentication
-      user = User.find_by_id(params[:user_id])
-      return render json: { error: 'Invalid user_id' }, status: 401 if user.blank?
+      @user = User.find_by_id(params[:user_id])
+      return render json: { error: 'Invalid user_id' }, status: 401 if @user.blank?
       return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
-      token = Tiddle::TokenIssuer.build.find_token(user, request.headers['HTTP_AUTHORIZATION'])
+      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
       return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
     end
 
