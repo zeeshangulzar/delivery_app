@@ -28,42 +28,10 @@
             </div>
 
             <% if @bookings.present? %>
-              <div class="x_content scroll">
-                <h3 style="text-align: center; ">Bookings</h3>
-                <table id="datatable" class="table table-striped table-bordered">
-                  <thead>
-                    <tr class="colors">
-                      <th>From</th>
-                      <th>Status</th>
-                      <th>Booking Time</th>
-                      <th>Total Amount</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @bookings.each do |booking| %>
-                      <tr>
-                        <td><%= booking.location.address.try(:titleize) %></td>
-                        <td><%= booking.status.try(:titleize) %></td>
-                        <td><%= time_format(booking.created_at) %></td>
-                        <td><%= append_qar(booking.total_amount) %></td>
-                        <td>
-                          <%= link_to 'View', booking_path(id: booking.id), class: "btn btn-info btn-sm " %>
-                        </td>
-                      </tr>
-                    <% end %>
+              <h3 style="text-align: center; ">Bookings</h3>
+              <%= render "partials/bookings" %>
+            <% end %>
 
-                  </tbody>
-                </table>
-              </div>
-              <div class="dataTables_paginate paging_simple_numbers">
-                  <%= paginate @bookings, window: 4 %>
-              </div>
-              <br>
-              <%= page_entries_info @bookings %>
-              <br>
-            </div>
-          <% end %>
           <div><%= link_to 'Back', user_by_role_users_path(role: @user.role, status: @user.status), class: "btn btn-primary" %>
         </div>
 

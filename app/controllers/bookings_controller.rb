@@ -39,6 +39,10 @@ class BookingsController < ApplicationController
     end
   end
 
+  def index
+    @bookings = Booking.all.page(params[:page])
+  end
+
   def show
     @orders = @booking.orders.page(params[:page])
   end

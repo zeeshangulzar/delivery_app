@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       post 'update_status'
     end
   end
-  resources :bookings, only: [:show]
+  resources :bookings, only: [:show, :index]
   resources :orders, only: [:show]
 
 
