@@ -22,7 +22,7 @@ class Order < ActiveRecord::Base
 
   def create_tracking_id
     begin
-      self. tracking_id = [*('a'..'z'),*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+      self. tracking_id = [*('0'..'9')].shuffle[0,7].join
     end while self.class.exists?(:tracking_id => tracking_id)
   end
 
