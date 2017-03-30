@@ -13,4 +13,8 @@ module ApplicationHelper
     return 'QAR '+amount.to_s if amount.present?
   end
 
+  def payby(order)
+    return order.pay_by_sender ? order.booking.user_name : order.recipient_name
+  end
+
 end
