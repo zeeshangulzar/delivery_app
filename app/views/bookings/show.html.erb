@@ -18,7 +18,10 @@
                   <div><i class="fa fa-map-marker"></i><b> From: </b><%= @booking.location.address.try(:titleize) %></div>
                   <div><i class="fa fa-spinner"></i><b> Status: </b><%= @booking.status.try(:titleize) %></div>
                   <div><i class="fa fa-money"></i><b> Total Amount: </b><%= append_qar(@booking.total_amount) %></div>
-                  <div><i class="fa fa-calendar" ></i><b> Booking Time: </b><%= time_format(@booking.created_at) %></div>
+                  <div><i class="fa fa-calendar"></i><b> Schedule: </b><%= @booking.time_slot.date.strftime('%d %b %Y') %>
+                    <%= Time.parse(@booking.time_slot.start_time.to_s).strftime("%l:%M %P") %> <b>to</b>
+                    <%= Time.parse(@booking.time_slot.end_time.to_s).strftime("%l:%M %P") %>
+                  </div>
                 </div>
                 <div id="user_info" style="width: 49%">
                   <b>Sender Details:</b>
@@ -28,15 +31,6 @@
                 </div>
               </div>
               <br>
-              <h4>Shedule:</h4>
-              <div id="info_well" style="display: flex;">
-                <div id="user_info" style="width: 49%">
-                  <div><i class="fa fa-calendar"></i><b> Date: </b><%= @booking.time_slot.date.strftime('%d %b %Y') %>
-                    <%= Time.parse(@booking.time_slot.start_time.to_s).strftime("%l:%M %P") %> <b>to</b>
-                    <%= Time.parse(@booking.time_slot.end_time.to_s).strftime("%l:%M %P") %>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <% if @orders.present? %>
