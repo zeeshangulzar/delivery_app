@@ -5,20 +5,10 @@ class TimeSlot < ActiveRecord::Base
   paginates_per 10
 
   def self.import_csv(file)
-    return if File.extname(file) != ".csv"
-    spreadsheet = CSV.new(file.path, nil, :ignore)
-
-    header = spreadsheet.row(1)
-    (2..spreadsheet.last_row).each do |i|
-      p spreadsheet
-=begin
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      product = find_by_id(row["id"]) || new
-      product.attributes = row.to_hash.slice(*accessible_attributes)
-      product.save!
-=end
+    return if File.extname(file.original_filename) != ".csv"
+    CSV.foreach(file.path, headers: true) do |row|
+      TimeSlot.create! row.to_hash
     end
-
   end
 
 end

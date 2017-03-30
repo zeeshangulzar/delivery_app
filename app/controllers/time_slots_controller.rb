@@ -18,7 +18,7 @@ class TimeSlotsController < ApplicationController
 
   def import
     TimeSlot.import_csv(params[:file])
-    redirect_to time_slots_path(), notice: "Time Slots imported."
+    redirect_to time_slots_path(), notice: "Time slots imported successfully."
   end
 
   def show

@@ -29,7 +29,7 @@
                 </div>
               </fieldset>
             </form>
-            <%= form_tag import_time_slots_path do %>
+            <%= form_tag import_time_slots_path, multipart: true  do %>
               <%= file_field_tag :file %>
               <%= submit_tag "Import" %>
             <% end %>
