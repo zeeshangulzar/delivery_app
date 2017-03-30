@@ -61,6 +61,11 @@
     font-size: 14px;
   }
 
+  .timeslot{
+     width: 60%;
+     float: left;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
@@ -71,12 +76,19 @@
     .scroll{
       overflow-x: scroll;
     }
+    .timeslot{
+      width: 100%;
+    }
+    #timeslot_btn{
+      float: left !important;
+    }
+    .well {
+        padding: 10px;
+        height: 90px;
+    }
   }
 
   @media screen and (max-width: 380px) {
-    .well {
-        padding: 10px;
-    }
     #info_well{
       display: block !important;
     }
