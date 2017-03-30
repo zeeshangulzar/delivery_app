@@ -11,6 +11,8 @@ class Booking < ActiveRecord::Base
   validates :user_name, :user_cell, :user_email, presence: true, if: 'user_id.blank?'
   validate :validate_sender_id, if: 'user_id.present?'
 
+  scope :ordered, -> { order('created_at DESC') }
+
   def self.create_booking(params)
     booking = self.new
     if params[:sender][:id].present?

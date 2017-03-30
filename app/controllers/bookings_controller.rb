@@ -41,7 +41,7 @@ class BookingsController < ApplicationController
   end
 
   def index
-    @bookings = Booking.all.page(params[:page])
+    @bookings = Booking.includes(:location).ordered.page(params[:page])
   end
 
   def show

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @bookings = @user.bookings.page(params[:page])
+    @bookings = @user.bookings.includes(:location).ordered.page(params[:page])
   end
 
   def update_status
