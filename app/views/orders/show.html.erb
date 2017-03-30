@@ -21,6 +21,7 @@
                   <div><i class="fa fa-spinner"></i><b> Status: </b><%= @order.status.try(:titleize) %></div>
                   <div><i class="fa fa-calendar" ></i><b> Order Time: </b><%= time_format(@order.created_at) %></div>
                   <br>
+                  <div><i class="fa fa-money"></i><b> Pay By: </b><%= payby(@order) %></div>
                   <div><i class="fa fa-money"></i><b> Amount: </b><%= append_qar(@order.amount) %></div>
                   <div><i class="fa fa-money"></i><b> Charges: </b><%= append_qar(@order.charges) %></div>
                   <div><i class="fa fa-money"></i><b> Total Amount: </b><%= append_qar(@order.amount + @order.charges) %></div>
@@ -39,6 +40,7 @@
                 </div>
 
               </div>
+              <br>
               <div><i class="fa fa-list-ul"></i><b> Instructions: </b><%= @order.instruction.try(:titleize) %></div>
             </div>
 
