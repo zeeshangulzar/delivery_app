@@ -1,4 +1,4 @@
-Date,Start Time,End Time,Charges
+date,start_time,end_time,charges
 2017-04-01,08:30,11:00,20
 2017-04-01,11:00,14:00,20
 2017-04-01,14:00,17:00,20

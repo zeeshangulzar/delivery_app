@@ -1,5 +1,5 @@
 class TimeSlotsController < ApplicationController
-  before_action :authenticate_user!,only:[:index]
+  before_action :authenticate_user!,only:[:index, :import]
   before_action :token_authentication, only: [:daily_time_slots]
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
   before_action :validation_date, only: [:daily_time_slots]
@@ -14,6 +14,11 @@ class TimeSlotsController < ApplicationController
     end
     @time_slots = @time_slots.page(params[:page])
     @time_slot = TimeSlot.new
+  end
+
+  def import
+    TimeSlot.import_csv(params[:file])
+    redirect_to time_slots_path(), notice: "Time Slots imported."
   end
 
   def show
