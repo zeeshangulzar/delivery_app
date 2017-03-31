@@ -34,6 +34,13 @@ class Booking < ActiveRecord::Base
     booking
   end
 
+  def self.get_list(params)
+    bookings = self.includes(:location)
+    #bookings = bookings.where(address: params[:from]).references(:location) if params[:from].present?
+    bookings = bookings.ordered.page(params[:page])
+    bookings
+  end
+
   private
     def validate_sender_id
       errors.add(:base, "sender id is invalid") if user_id.present? && user_name.blank?

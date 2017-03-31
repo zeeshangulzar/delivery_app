@@ -41,7 +41,9 @@ class BookingsController < ApplicationController
   end
 
   def index
-    @bookings = Booking.includes(:location).ordered.page(params[:page])
+    @status = Booking.pluck(:status).uniq
+    @bookings = Booking.get_list(params)
+
   end
 
   def show
