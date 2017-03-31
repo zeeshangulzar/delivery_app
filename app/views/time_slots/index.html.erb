@@ -23,16 +23,21 @@
                     </div>
                     <div id="timeslot_btn" style="float: right; height: 31px;">
                       <button type="button" class="btn btn btn-info btn-sm"  data-toggle="modal" data-target="#add_slot">Add</button>
-                      <a href="timeslots_template.csv" class="btn btn btn-info btn-sm" download><i class="fa  fa-download"></i></a>
                     <div>
                   </div>
                 </div>
               </fieldset>
             </form>
-            <%= form_tag import_time_slots_path, multipart: true  do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import" %>
-            <% end %>
+            <div style="width: 24%; margin-top: 1%;">
+              <%= form_tag import_time_slots_path, multipart: true  do %>
+                <a href="timeslots_template.csv" class="btn btn-info btn-sm" download><i class="fa fa-download"></i></a>
+                <label class="csv_upload btn btn btn-info btn-sm">
+                  <i class="fa fa-upload"></i>
+                  <input type="file" />
+                </label>
+                <%= submit_tag "Import", class: "btn btn btn-info btn-sm" %>
+              <% end %>
+            </div>
           </div>
 
           <div id="add_slot" class="modal fade" role="dialog">
