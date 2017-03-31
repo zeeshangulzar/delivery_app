@@ -15,14 +15,20 @@
             <div class="well" style="font-size:14px;">
               <div id="info_well" style="display: flex;">
                 <div id="user_info" style="width: 49%">
-                  <div><i class="fa fa-user"></i><b> Name: </b><%= @user.name.try(:titleize) %></div>
-                  <div><i class="fa fa-envelope"></i><b> Email: </b><%= @user.email %></div>
-                  <div><i class="fa fa-phone-square" ></i><b> Cell: </b><%= @user.cell %></div>
+                  <div class="fa_icon" ><i class="fa fa-user"></i><b> Name: </b></div>
+                  <div class="icon_field" ><%= @user.name.try(:titleize) %></div>
+                  <div class="fa_icon" ><i class="fa fa-envelope"></i><b> Email: </b></div>
+                  <div class="icon_field" ><%= @user.email %></div>
+                  <div class="fa_icon" ><i class="fa fa-phone-square" ></i><b> Cell: </b></div>
+                  <div class="icon_field" ><%= @user.cell %></div>
                 </div>
                 <div id="user_info" style="width: 49%">
-                  <div><i class="fa fa-check-square-o"></i><b> Verified: </b><%= is_verified(@user) %></div>
-                  <div><i class="fa fa-calendar"></i><b> Registration Date: </b><%= time_format(@user.created_at) %></div>
-                  <div><i class="fa fa-calendar"></i><b> Last Updated: </b><%= time_format(@user.updated_at) %></div>
+                  <div class="fa_icon" ><i class="fa fa-check-square-o"></i><b> Verified: </b></div>
+                  <div class="icon_field" ><%= is_verified(@user) %></div>
+                  <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Registration Date: </b></div>
+                  <div class="icon_field" ><%= time_format(@user.created_at) %></div>
+                  <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Last Updated: </b></div>
+                  <div class="icon_field" ><%= time_format(@user.updated_at) %></div>
                 </div>
               </div>
             </div>

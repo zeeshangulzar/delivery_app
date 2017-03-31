@@ -14,20 +14,29 @@
           <div class="x_content">
             <div class="well" style="font-size:14px;">
               <div id="info_well" style="display: flex;">
+
                 <div id="user_info" style="width: 49%">
-                  <div><i class="fa fa-map-marker"></i><b> From: </b><%= @booking.location.address.try(:titleize) %></div>
-                  <div><i class="fa fa-spinner"></i><b> Status: </b><%= @booking.status.try(:titleize) %></div>
-                  <div><i class="fa fa-money"></i><b> Total Amount: </b><%= append_qar(@booking.total_amount) %></div>
-                  <div><i class="fa fa-calendar"></i><b> Schedule: </b><%= @booking.time_slot.date.strftime('%d %b %Y') %>
+                  <div class="fa_icon" ><i class="fa fa-map-marker"></i><b> From: </b></div>
+                  <div class="icon_field" ><%= @booking.location.address.try(:titleize) %></div>
+                  <div class="fa_icon" ><i class="fa fa-spinner"></i><b> Status: </b></div>
+                  <div class="icon_field" ><%= @booking.status.try(:titleize) %></div>
+                  <div class="fa_icon" ><i class="fa fa-money"></i><b> Total Amount: </b></div>
+                  <div class="icon_field" ><%= append_qar(@booking.total_amount) %></div>
+                  <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Schedule: </b></div>
+                  <div class="icon_field" ><%= @booking.time_slot.date.strftime('%d %b %Y') %>
                     <%= Time.parse(@booking.time_slot.start_time.to_s).strftime("%l:%M %P") %> <b>to</b>
                     <%= Time.parse(@booking.time_slot.end_time.to_s).strftime("%l:%M %P") %>
                   </div>
                 </div>
+                <br>
                 <div id="user_info" style="width: 49%">
-                  <b>Sender Details:</b>
-                  <div style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b><%= @booking.user_name.try(:titleize) %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b><%= @booking.user_email %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b><%= @booking.user_cell %></div>
+                  <b>Sender Details:</b><br>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b></div>
+                  <div class="icon_field" ><%= @booking.user_name.try(:titleize) %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b></div>
+                  <div class="icon_field" ><%= @booking.user_email %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b></div>
+                  <div class="icon_field" ><%= @booking.user_cell %></div>
                 </div>
               </div>
               <br>
