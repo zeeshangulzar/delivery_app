@@ -35,9 +35,9 @@ class Booking < ActiveRecord::Base
   end
 
   def self.get_list(params)
-    bookings = self.includes(:location)
-    #bookings = bookings.where(address: params[:from]).references(:location) if params[:from].present?
-    bookings = bookings.ordered.page(params[:page])
+    bookings = self.ordered
+    bookings = bookings.joins("INNER JOIN locations on bookings.id = locateable_id AND locateable_type = 'Booking'").where("locations.address LIKE (?)", "%#{params[:from].strip}%") if params[:from].present?
+    bookings = bookings.page(params[:page])
     bookings
   end
 
