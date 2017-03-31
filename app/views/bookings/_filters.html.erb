@@ -12,7 +12,7 @@
       </div>
 
       <div style="float: left;width: 33%;display: inline-table;">
-        <%= select_tag :status, options_for_select(@status.map{|s| [s.try(:titleize), s.to_s]}), prompt: 'Please select', class: "form-control fields" %>
+        <%= select_tag :status, options_for_select(@status.map{|s| [s.try(:titleize), s.to_s]}), prompt: 'Booking Status', class: "form-control fields" %>
       </div>
     </div>
 
