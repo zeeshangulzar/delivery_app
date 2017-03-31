@@ -37,6 +37,8 @@ class Booking < ActiveRecord::Base
   def self.get_list(params)
     bookings = self.ordered
     bookings = bookings.joins("INNER JOIN locations on bookings.id = locateable_id AND locateable_type = 'Booking'").where("locations.address LIKE (?)", "%#{params[:from].strip}%") if params[:from].present?
+    bookings = bookings.where(status: params[:status]) if params[:status].present?
+    bookings = bookings.where("bookings.created_at BETWEEN ? AND ?", Time.parse(params[:date]).beginning_of_day, Time.parse(params[:date]).end_of_day) if params[:date].present?
     bookings = bookings.page(params[:page])
     bookings
   end

@@ -8,11 +8,11 @@
 
       <div style="float: left;width: 33%;display: inline-table;">
         <span class="input-group-addon colors"><i class="glyphicon glyphicon-calendar"></i></span>
-        <%= date_field_tag :date, params[:date], placeholder: 'Date...', value: Time.now.strftime('%Y-%m-%d'), class: "form-control fields" %>
+        <%= date_field_tag :date, params[:date], placeholder: 'Date...', class: "form-control fields" %>
       </div>
 
       <div style="float: left;width: 33%;display: inline-table;">
-        <%= select_tag :status, options_for_select(@status), class: "form-control fields" %>
+        <%= select_tag :status, options_for_select(@status.map{|s| [s.try(:titleize), s.to_s]}), prompt: 'Please select', class: "form-control fields" %>
       </div>
     </div>
 
