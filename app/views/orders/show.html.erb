@@ -16,32 +16,54 @@
               <div id="info_well" style="display: flex;">
 
                 <div id="user_info" style="width: 49%">
-                  <div><i class="fa fa-map-marker"></i><b> To: </b><%= @order.location.address.try(:titleize) %></div>
-                  <div><i class="fa fa-location-arrow"></i><b> Tracking ID: </b><%= @order.tracking_id %></div>
-                  <div><i class="fa fa-spinner"></i><b> Status: </b><%= @order.status.try(:titleize) %></div>
-                  <div><i class="fa fa-calendar" ></i><b> Order Time: </b><%= time_format(@order.created_at) %></div>
-                  <br>
-                  <div><i class="fa fa-money"></i><b> Pay By: </b><%= payby(@order) %></div>
-                  <div><i class="fa fa-money"></i><b> Amount: </b><%= append_qar(@order.amount) %></div>
-                  <div><i class="fa fa-money"></i><b> Charges: </b><%= append_qar(@order.charges) %></div>
-                  <div><i class="fa fa-money"></i><b> Total Amount: </b><%= append_qar(@order.amount + @order.charges) %></div>
-                </div>
+                  <div class="fa_icon" ><i class="fa fa-map-marker"></i><b> To: </b></div>
+                  <div class="icon_field" ><%= @order.location.address.try(:titleize) %></div>
 
-                <div id="user_info" style="width: 49%">
-                  <b>Quantity</b>
-                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 12px"></i><b> Small: </b><%= @order.small.to_i %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 15px"></i><b> Medium: </b><%= @order.medium.to_i %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 17px"></i><b> Large: </b><%= @order.large.to_i %></div>
+                  <div class="fa_icon" ><i class="fa fa-location-arrow"></i><b> Tracking ID: </b></div>
+                  <div class="icon_field" ><%= @order.tracking_id %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-spinner"></i><b> Status: </b></div>
+                  <div class="icon_field" ><%= @order.status.try(:titleize) %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-calendar" ></i><b> Order Time: </b></div>
+                  <div class="icon_field" ><%= time_format(@order.created_at) %></div>
                   <br>
-                  <b>Recipient Details</b>
-                  <div style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b><%= @order.recipient_name.try(:titleize) %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b><%= @order.recipient_email %></div>
-                  <div style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b><%= @order.recipient_cell %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-money"></i><b> Pay By: </b></div>
+                  <div class="icon_field" ><%= payby(@order) %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-money"></i><b> Amount: </b></div>
+                  <div class="icon_field" ><%= append_qar(@order.amount) %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-money"></i><b> Charges: </b></div>
+                  <div class="icon_field" ><%= append_qar(@order.charges) %></div>
+
+                  <div class="fa_icon" ><i class="fa fa-money"></i><b> Total Amount: </b></div>
+                  <div class="icon_field" ><%= append_qar(@order.amount + @order.charges) %></div>
+                </div>
+                <br>
+                <div id="user_info" style="width: 49%">
+                  <b>Quantity</b><br>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 12px"></i><b> Small: </b></div>
+                  <div class="icon_field" ><%= @order.small.to_i %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 15px"></i><b> Medium: </b></div>
+                  <div class="icon_field" ><%= @order.medium.to_i %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-cube" style="font-size: 17px"></i><b> Large: </b></div>
+                  <div class="icon_field" ><%= @order.large.to_i %></div>
+                  <br>
+                  <b>Recipient Details</b><br>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b></div>
+                  <div class="icon_field" ><%= @order.recipient_name.try(:titleize) %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b></div>
+                  <div class="icon_field" ><%= @order.recipient_email %></div>
+                  <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b></div>
+                  <div class="icon_field" ><%= @order.recipient_cell %></div>
                 </div>
 
               </div>
               <br>
-              <div><i class="fa fa-list-ul"></i><b> Instructions: </b><%= @order.instruction.try(:titleize) %></div>
+              <div class="fa_icon"><i class="fa fa-list-ul"></i><b> Instructions: </b></div>
+              <div><%= @order.instruction.try(:titleize) %></div>
             </div>
 
             <% if @line_items.present? %>
