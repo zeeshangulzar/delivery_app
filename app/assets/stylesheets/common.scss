@@ -61,6 +61,19 @@
     font-size: 14px;
   }
 
+  .fa_icon{
+    width: 125px;
+    float: left;
+  }
+
+  .icons_field{
+    width: 95% !important;
+  }
+
+  .icon_pic{
+    width: 15px;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
