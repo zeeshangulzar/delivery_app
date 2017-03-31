@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
 
+  before_action :authenticate_user!,only:[:index,:show]
   before_action :check_sender, only: [:save_booking]
   before_action :populate_user_id, only: [:save_booking]
   before_action :token_authentication, only: [:save_booking]
