@@ -12,6 +12,26 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_content">
+
+            <div class="row">
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon"><i class="fa fa-cube"></i>
+                  </div>
+                  <div class="count"><%= @sent_order %></div>
+                  <h3>Sent Orders</h3>
+                </div>
+              </div>
+              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                  <div class="icon"><i class="fa fa-cube"></i>
+                  </div>
+                  <div class="count"><%= @recieved_order %></div>
+                  <h3>Recieved Orders</h3>
+                </div>
+              </div>
+            </div>
+
             <div class="well" style="font-size:14px;">
               <div id="info_well" style="display: flex;">
                 <div id="user_info" style="width: 49%">

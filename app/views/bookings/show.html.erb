@@ -48,8 +48,8 @@
                 <table id="datatable" class="table table-striped table-bordered">
                   <thead>
                     <tr class="colors">
-                      <td rowspan="2">Reciever</td>
                       <td rowspan="2">To</td>
+                      <td rowspan="2">Reciever</td>
                       <td rowspan="2">Tracking ID</td>
                       <td rowspan="2">Status</td>
                       <th colspan="3" scope="colgroup">Quatity</th>
@@ -66,8 +66,8 @@
                   <tbody>
                     <% @orders.each do |order| %>
                       <tr>
-                        <td><%= order.recipient_name.try(:titleize) %></td>
                         <td><%= order.location.address.try(:titleize) %></td>
+                        <td><%= order.recipient_name.try(:titleize) %></td>
                         <td><%= order.tracking_id %></td>
                         <td><%= order.status.try(:titleize) %></td>
                         <td><%= order.small.to_i %></td>
