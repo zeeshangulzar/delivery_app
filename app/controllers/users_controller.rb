@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   def show
     @bookings = @user.bookings.includes(:location).ordered.page(params[:page])
     @recieved_order = Order.where(recipient_id: @user.id).count
-    @sent_order = @user.bookings.joins(:orders).count - @recieved_order
+    @sent_order = @user.bookings.joins(:orders).count
   end
 
   def update_status
