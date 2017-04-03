@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
   var cb = function(start, end, label) {
-    console.log(start.toISOString(), end.toISOString(), label);
     $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
   }
   var optionSet1 = {
@@ -54,58 +53,57 @@ $(document).ready(function() {
 
   $('#reportrange_right span').html(moment(setStartDate()).format('D MMM YYYY') + ' - ' + moment(setEndDate()).format('D MMM YYYY'));
   $('#filter_range_right span').html(setStartDateFilter() + ' - ' + setEndDateFilter());
+  $('#filter_range_right2 span').html(setStartDateFilter() + ' - ' + setEndDateFilter());
 
   $('#reportrange_right').daterangepicker(optionSet1, cb);
   $('#filter_range_right').daterangepicker(optionSet_filter, cb);
-
-  $('#reportrange_right').on('show.daterangepicker', function() {
-    console.log("show event fired");
-  });
-  $('#reportrange_right').on('hide.daterangepicker', function() {
-    console.log("hide event fired");
-  });
+  $('#filter_range_right2').daterangepicker(optionSet_filter, cb);
 
   $('#filter_range_right').on('hide.daterangepicker', function(ev, picker) {
-    console.log("filter hide event fired");
     $('#filter_range_right span').html(picker.startDate.format('MMMM D, YYYY') + ' - ' + picker.endDate.format('MMMM D, YYYY'));
     document.getElementById('start_date').value = picker.startDate.format('MMMM D, YYYY');
     document.getElementById('end_date').value = picker.endDate.format('MMMM D, YYYY');
   });
+  $('#filter_range_right2').on('hide.daterangepicker', function(ev, picker) {
+    $('#filter_range_right2 span').html(picker.startDate.format('MMMM D, YYYY') + ' - ' + picker.endDate.format('MMMM D, YYYY'));
+    document.getElementById('start_date2').value = picker.startDate.format('MMMM D, YYYY');
+    document.getElementById('end_date2').value = picker.endDate.format('MMMM D, YYYY');
+  });
 
   $('#reportrange_right').on('apply.daterangepicker', function(ev, picker) {
-    console.log("apply event fired, start/end dates are " + picker.startDate.format('YYYY-MM-DD') + " to " + picker.endDate.format('YYYY-MM-DD'));
-
       url = UpdateQueryString('start_date', picker.startDate.format('YYYY-MM-DD'), decodeURI(location.href));
       url = UpdateQueryString('end_date', picker.endDate.format('YYYY-MM-DD'), decodeURI(url));
       window.history.pushState('', '', encodeURI(url));
       location.reload();
   });
 
-  $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
-    console.log("cancel event fired");
-  });
-
   $('#filter_range_right').on('cancel.daterangepicker', function(ev, picker) {
-    console.log("filter cancel event fired");
-    console.log("cancel event fired, start/end dates are " + picker.startDate.format('YYYY-MM-DD') + " to " + picker.endDate.format('YYYY-MM-DD'));
     $('#filter_range_right span').html('MM DD, YYYY - MM DD, YYYY');
     document.getElementById('start_date').value = null;
     document.getElementById('end_date').value = null;
+  });
+  $('#filter_range_right2').on('cancel.daterangepicker', function(ev, picker) {
+    $('#filter_range_right2 span').html('MM DD, YYYY - MM DD, YYYY');
+    document.getElementById('start_date2').value = null;
+    document.getElementById('end_date2').value = null;
   });
 
   $('#options1').click(function() {
     $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
     $('#filter_range_right').data('daterangepicker').setOptions(optionSet_filter, cb);
+    $('#filter_range_right2').data('daterangepicker').setOptions(optionSet_filter, cb);
   });
 
   $('#options2').click(function() {
     $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
     $('#filter_range_right').data('daterangepicker').setOptions(optionSet2, cb);
+    $('#filter_range_right2').data('daterangepicker').setOptions(optionSet2, cb);
   });
 
   $('#destroy').click(function() {
     $('#reportrange_right').data('daterangepicker').remove();
     $('#filter_range_right').data('daterangepicker').remove();
+    $('#filter_range_right2').data('daterangepicker').remove();
   });
 });
 
