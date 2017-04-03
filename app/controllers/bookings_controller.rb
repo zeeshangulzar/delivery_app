@@ -42,8 +42,6 @@ class BookingsController < ApplicationController
   end
 
   def index
-    p "*"*100
-    p params
     @status = Booking.pluck(:status).uniq
     @bookings = Booking.get_list(params)
 

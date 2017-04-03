@@ -87,7 +87,10 @@ $(document).ready(function() {
 
   $('#filter_range_right').on('cancel.daterangepicker', function(ev, picker) {
     console.log("filter cancel event fired");
+    console.log("cancel event fired, start/end dates are " + picker.startDate.format('YYYY-MM-DD') + " to " + picker.endDate.format('YYYY-MM-DD'));
     $('#filter_range_right span').html('MM DD, YYYY - MM DD, YYYY');
+    document.getElementById('start_date').value = null;
+    document.getElementById('end_date').value = null;
   });
 
   $('#options1').click(function() {
