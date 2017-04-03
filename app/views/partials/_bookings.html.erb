@@ -2,6 +2,7 @@
     <table id="datatable" class="table table-striped table-bordered">
       <thead>
         <tr class="colors">
+          <th>Sender</th>
           <th>From</th>
           <th>Status</th>
           <th>Booking Time</th>
@@ -12,6 +13,7 @@
       <tbody>
         <% @bookings.each do |booking| %>
           <tr>
+            <td><%= booking.user_name.try(:titleize) %></td>
             <td><%= booking.location.address.try(:titleize) %></td>
             <td><%= booking.status.try(:titleize) %></td>
             <td><%= time_format(booking.created_at) %></td>
