@@ -1,17 +1,21 @@
-<div id="search_form1" style="height: 34px;">
+<div id="search_form1 filterForm" style="height: 34px;">
   <%= form_tag bookings_path, method: :get  do %>
     <div class="input-group" style="float: left; width: 90%;">
-      <div style="float: left;width: 33%;display: inline-table;">
+      <div style="float: left;width: 32%;display: inline-table;">
         <span class="input-group-addon colors"><i class="glyphicon glyphicon-map-marker"></i></span>
         <%= text_field_tag :from, params[:from], placeholder: 'From...', class: "form-control fields" %>
       </div>
 
-      <div style="float: left;width: 33%;display: inline-table;">
+      <div style="float: left;width: 36%;display: inline-table;">
         <span class="input-group-addon colors"><i class="glyphicon glyphicon-calendar"></i></span>
-        <%= date_field_tag :date, params[:date], placeholder: 'Date...', class: "form-control fields" %>
+        <div id="filter_range_right" class="pull-left form-control fields">
+          <span>MM DD, YYYY - MM DD, YYYY</span> <b class="caret"></b>
+          <%= text_field_tag :start_date, params[:start_date], id: "start_date", style: "display: none" %>
+          <%= text_field_tag :end_date, params[:end_date], id: "end_date", style: "display: none" %>
+        </div>
       </div>
 
-      <div style="float: left;width: 33%;display: inline-table;">
+      <div style="float: left;width: 32%;display: inline-table;">
         <%= select_tag :status, options_for_select(@status.map{|s| [s.try(:titleize), s.to_s]}, :selected => params[:status]), prompt: 'Booking Status', class: "form-control fields" %>
       </div>
     </div>
@@ -27,8 +31,16 @@
         <%= text_field_tag :from, params[:from], placeholder: 'From...', class: "form-control" %>
     </div>
     <div class="input-group" >
+
+    <div class="input-group" >
       <span class="input-group-addon colors"><i class="glyphicon glyphicon-calendar"></i></span>
-        <%= date_field_tag :date, params[:date], placeholder: 'Date...', value: Time.now.strftime('%Y-%m-%d'), class: "form-control" %>
+      <div id="filter_range_right" class="pull-left form-control fields">
+        <span>MM DD, YYYY - MM DD, YYYY</span> <b class="caret"></b>
+        <%= text_field_tag :start_date, params[:start_date], id: "start_date", style: "display: none" %>
+        <%= text_field_tag :end_date, params[:end_date], id: "end_date", style: "display: none" %>
+      </div>
+    </div>
+
     </div>
     <div class="input-group" style="width: 100%;">
       <%= select_tag :status, options_for_select(@status), class: "form-control" %>

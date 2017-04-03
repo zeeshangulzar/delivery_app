@@ -28,9 +28,35 @@ $(document).ready(function() {
     }
   };
 
+  var optionSet_filter = {
+    startDate: moment(setStartDate()),
+    endDate: moment(setEndDate()),
+    minDate: '01/01/2017',
+    maxDate: '12/31/2020',
+    showDropdowns: true,
+    showWeekNumbers: true,
+    timePicker: false,
+    timePickerIncrement: 1,
+    timePicker12Hour: true,
+
+    opens: 'right',
+    buttonClasses: ['btn btn-default'],
+    applyClass: 'hidden',
+    cancelClass: 'btn-small',
+    format: 'DD-MM-YYYY',
+    separator: ' to ',
+    locale: {
+      daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+      monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      firstDay: 1
+    }
+  };
+
   $('#reportrange_right span').html(moment(setStartDate()).format('D MMM YYYY') + ' - ' + moment(setEndDate()).format('D MMM YYYY'));
+  $('#filter_range_right span').html(setStartDateFilter() + ' - ' + setEndDateFilter());
 
   $('#reportrange_right').daterangepicker(optionSet1, cb);
+  $('#filter_range_right').daterangepicker(optionSet_filter, cb);
 
   $('#reportrange_right').on('show.daterangepicker', function() {
     console.log("show event fired");
@@ -38,6 +64,14 @@ $(document).ready(function() {
   $('#reportrange_right').on('hide.daterangepicker', function() {
     console.log("hide event fired");
   });
+
+  $('#filter_range_right').on('hide.daterangepicker', function(ev, picker) {
+    console.log("filter hide event fired");
+    $('#filter_range_right span').html(picker.startDate.format('MMMM D, YYYY') + ' - ' + picker.endDate.format('MMMM D, YYYY'));
+    document.getElementById('start_date').value = picker.startDate.format('MMMM D, YYYY');
+    document.getElementById('end_date').value = picker.endDate.format('MMMM D, YYYY');
+  });
+
   $('#reportrange_right').on('apply.daterangepicker', function(ev, picker) {
     console.log("apply event fired, start/end dates are " + picker.startDate.format('YYYY-MM-DD') + " to " + picker.endDate.format('YYYY-MM-DD'));
 
@@ -46,22 +80,30 @@ $(document).ready(function() {
       window.history.pushState('', '', encodeURI(url));
       location.reload();
   });
+
   $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
     console.log("cancel event fired");
   });
 
+  $('#filter_range_right').on('cancel.daterangepicker', function(ev, picker) {
+    console.log("filter cancel event fired");
+    $('#filter_range_right span').html('MM DD, YYYY - MM DD, YYYY');
+  });
+
   $('#options1').click(function() {
     $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
+    $('#filter_range_right').data('daterangepicker').setOptions(optionSet_filter, cb);
   });
 
   $('#options2').click(function() {
     $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
+    $('#filter_range_right').data('daterangepicker').setOptions(optionSet2, cb);
   });
 
   $('#destroy').click(function() {
     $('#reportrange_right').data('daterangepicker').remove();
+    $('#filter_range_right').data('daterangepicker').remove();
   });
-
 });
 
 function UpdateQueryString(key, value, url) {
@@ -115,3 +157,24 @@ function setEndDate(){
     return moment().format('YYYY-MM-DD');
   }
 }
+function setStartDateFilter(){
+  if (getURLParameter('start_date') != null)
+  {
+    return moment(getURLParameter('start_date')).format('D MMM YYYY');
+  }
+  else
+  {
+    return "MM DD, YYYY";
+  }
+}
+function setEndDateFilter(){
+  if (getURLParameter('end_date') != null)
+  {
+    return moment(getURLParameter('end_date')).format('D MMM YYYY');
+  }
+  else
+  {
+    return "MM DD, YYYY";
+  }
+}
+
