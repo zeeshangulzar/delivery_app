@@ -4,7 +4,7 @@
 <script>
 $(function() {
   var handler = Gmaps.build('Google');
-  handler.buildMap({ provider: { scrollwheel: false, zoomControl: false, disableDoubleClickZoom: true, draggable: false }, internal: {id: "orders_map"}}, function(){
+  handler.buildMap({ provider: {}, internal: {id: "orders_map"}}, function(){
           var markers = handler.addMarkers(<%=raw @hash.to_json %>);
           handler.bounds.extendWith(markers);
           handler.fitMapToBounds();
