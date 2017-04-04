@@ -11,12 +11,12 @@ class OrdersController < ApplicationController
       marker.lng location.lon
       marker.infowindow location.name
       marker.picture({
-         :url => "/assets/green_marker.png",
+         :url => ActionController::Base.helpers.asset_path('green_marker.png'),
          :width   => 32,
          :height  => 32
       })
     end
-    @hash.first[:picture][:url] = "/assets/blue_marker.png"
+    @hash.first[:picture][:url] = ActionController::Base.helpers.asset_path('blue_marker.png')
   end
 
   private
