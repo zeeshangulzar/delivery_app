@@ -16,6 +16,13 @@ class UsersController < ApplicationController
     @users = User.get_list(params)
   end
 
+  def new
+    @user = User.new(role: 'driver')
+  end
+
+  def create
+  end
+
   def show
     @bookings = @user.bookings.includes(:location).ordered.page(params[:page])
     @recieved_order = Order.where(recipient_id: @user.id).count
