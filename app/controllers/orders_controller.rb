@@ -10,7 +10,13 @@ class OrdersController < ApplicationController
       marker.lat location.lat
       marker.lng location.lon
       marker.infowindow location.name
+      marker.picture({
+         :url => "/assets/green_marker.png",
+         :width   => 32,
+         :height  => 32
+      })
     end
+    @hash.first[:picture][:url] = "/assets/blue_marker.png"
   end
 
   private
