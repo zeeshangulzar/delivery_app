@@ -72,4 +72,8 @@ class User < ActiveRecord::Base
     self
   end
 
+  def is_consumer?
+    role == 'consumer'
+  end
+
 end

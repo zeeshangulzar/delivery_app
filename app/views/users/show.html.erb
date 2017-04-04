@@ -13,24 +13,9 @@
         <div class="x_panel">
           <div class="x_content">
 
-            <div class="row">
-              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                  <div class="icon"><i class="fa fa-cube"></i>
-                  </div>
-                  <div class="count"><%= @sent_order %></div>
-                  <h3>Sent</h3>
-                </div>
-              </div>
-              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                  <div class="icon"><i class="fa fa-cube"></i>
-                  </div>
-                  <div class="count"><%= @recieved_order %></div>
-                  <h3>Recieved</h3>
-                </div>
-              </div>
-            </div>
+            <% if @user.is_consumer? %>
+              <%= render 'order_widgets' %>
+            <% end %>
 
             <div class="well" style="font-size:14px;">
               <div id="info_well" style="display: flex;">
@@ -53,7 +38,7 @@
               </div>
             </div>
 
-            <% if @bookings.present? %>
+            <% if @user.is_consumer? && @bookings.present? %>
               <h3 style="text-align: center; ">Bookings</h3>
               <%= render "partials/bookings" %>
             <% end %>
