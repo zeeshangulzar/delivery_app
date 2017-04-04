@@ -4,6 +4,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
   before_action :validation_date, only: [:daily_time_slots]
   before_filter :set_format, only: [:daily_time_slots]
+  before_filter :check_file, only: [:import]
 
   def index
     if params[:start_date].present? && params[:end_date].present?
@@ -17,8 +18,8 @@ class TimeSlotsController < ApplicationController
   end
 
   def import
-    TimeSlot.import_csv(params[:file])
-    redirect_to time_slots_path(), notice: "Time slots imported successfully."
+    message = TimeSlot.import_csv(params[:file])
+    redirect_to time_slots_path(), notice: message
   end
 
   def show
@@ -89,5 +90,10 @@ class TimeSlotsController < ApplicationController
         return render json: { error: 'Invalid date format. Please use yyyy-mm-dd'}, status: 404
       end
       return render json: { error: "start_date can't be greater than end_date"}, status: 404 if @start_date > @end_date
+    end
+
+    def check_file
+      return redirect_to time_slots_path(), notice: 'File not attached' if params[:file].blank?
+      return redirect_to time_slots_path(), notice: 'Please provide .csv file' unless File.extname(params[:file].original_filename) == ".csv"
     end
 end
