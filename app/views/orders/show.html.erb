@@ -93,8 +93,7 @@
                       <tr>
                         <td>
                           <button type="button" data-toggle="modal" data-target="#invoice_modal" style="background: transparent; border: 0;">
-                            <img src=<%= line_item.image.present? ? line_item.image : "/assets/no_product.jpg" %> alt="no image found" style="max-height: 50px;", onclick=displayImage(this) >
-                          </button>
+                            <%= image_tag( line_item.image.present? ? line_item.image : "no_product.jpg", style: "max-height: 50px;", onclick:'displayImage(this)' ) %></button>
                         </td>
 
                           <div id="invoice_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
