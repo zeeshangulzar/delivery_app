@@ -1,3 +1,9 @@
+<script>
+  function displayImage(el)
+  {
+      document.getElementById("item_img").src=el.src;
+  }
+</script>
 <div class="right_col" role="main">
   <div class="">
     <div class="page-title">
@@ -86,14 +92,16 @@
                     <% @line_items.each do |line_item| %>
                       <tr>
                         <td>
-                          <button type="button" data-toggle="modal" data-target="#invoice_modal" style="background: transparent; border: 0;"><%= image_tag(line_item.image.present? ? line_item.image : "no_product.jpg", style: "max-height: 50px;")%></button>
+                          <button type="button" data-toggle="modal" data-target="#invoice_modal" style="background: transparent; border: 0;">
+                            <img src=<%= line_item.image.present? ? line_item.image : "/assets/no_product.jpg" %> alt="no image found" style="max-height: 50px;", onclick=displayImage(this) >
+                          </button>
                         </td>
 
                           <div id="invoice_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                               <div class="modal-body" style="padding-top: 0;">
                                 <button type="button" class="close" data-dismiss="modal" method="reset" style="opacity: 1;text-shadow: 0 1px 0 #ccc;">X</button>
-                                <%= image_tag(line_item.image.present? ? line_item.image : "no_product.jpg", style: "border-radius: 12px; width: 100%;")%>
+                                <%= image_tag(line_item.image.present? ? line_item.image : "no_product.jpg", style: "border-radius: 12px; width: 100%;", id: 'item_img') %>
                               </div>
                             </div>
                           </div>
