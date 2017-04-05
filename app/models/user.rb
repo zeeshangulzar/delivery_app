@@ -99,4 +99,8 @@ class User < ActiveRecord::Base
     profile.plate_number   = params[:plate_number]
   end
 
+  def is_consumer?
+    role == 'consumer'
+  end
+
 end
