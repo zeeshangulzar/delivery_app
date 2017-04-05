@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :locations, as: :locateable
   has_many :authentication_tokens
+  has_one :profile
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
   #validates :email, presence: { message: "is required"}
@@ -70,6 +71,32 @@ class User < ActiveRecord::Base
     status = self.status == 'active' ? 'blocked' : 'active'
     self.update(status: status)
     self
+  end
+
+  def self.save_driver(params)
+    user = self.new
+    user.save_user(params)
+    return user if user.errors.present?
+    user.save_profile(params)
+  end
+
+  def save_user(params)
+    self.name     = params[:name]
+    self.email    = params[:email]
+    self.cell     = params[:cell]
+    self.password = params[:password]
+    self.save
+  end
+
+  def save_profile(params)
+    profle                 = self.profile.new
+    profile.nationality    = params[:nationality]
+    profile.address        = params[:address]
+    profile.make           = params[:make]
+    profile.model          = params[:model]
+    profile.type           = params[:type]
+    profile.license_number = params[:license_number]
+    profile.plate_number   = params[:plate_number]
   end
 
 end

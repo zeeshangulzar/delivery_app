@@ -18,9 +18,18 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new(role: 'driver')
+    @profile = @user.build_profile
   end
 
-  def create
+  def save_driver
+    user, profile = User.save_driver(params)
+    if user.errors.present?
+      return redirect_to :root, error: user.errors
+    elsif profile.errors.present?
+      return redirect_to :root, error: profile.erros
+    else
+      return redirect_to :root, success: 'Driver is added successfully'
+    end
   end
 
   def show
