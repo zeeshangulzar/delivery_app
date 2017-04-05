@@ -4,56 +4,83 @@
 
 <script type="text/javascript">
 var draw = false;
-var first_lat, first_lon
-var last_lat, last_lon;
+var polygons = [];
+var index = 0;
+
 handler = Gmaps.build('Google');
+
 $(function() {
    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
       var Qatar = [
          {"lat":25.426063,"lng":51.181199}
       ];
-      last_lat, last_lon;
+      handler.bounds.extendWith(handler.addPolygons(<%=raw @hash.to_json %>,{ strokeColor: '#F90505'}));
       google.maps.event.addListener(handler.map.getServiceObject(),'click',function(event){
          if (draw == true)
          {
-            if (last_lat == null)
+            if (index == 0)
             {
-               first_lat = last_lat = event.latLng.lat();
-               first_lon = last_lon = event.latLng.lng();
+               handler.bounds.extendWith(handler.addPolygons(
+                  [[
+                     { lat: event.latLng.lat(), lng: event.latLng.lng() }
+                  ]],{ strokeColor: '#F90505'}
+               ));
             }
-            console.log("Lat: "+event.latLng.lat()+" "+", Lon: "+event.latLng.lng());
-            handler.bounds.extendWith(handler.addPolygons(
-               [
+            else
+            {
+               handler.bounds.extendWith(
+                  handler.addPolygons(
                   [
-                     {lat:  last_lat, lng: last_lon},
-                     {lat:  event.latLng.lat(), lng: event.latLng.lng()}
-                  ]
-               ],{ strokeColor: '#F90505'}
-            ));
-           last_lat = event.latLng.lat();
-           last_lon = event.latLng.lng();
-        }
+                     [
+                        {lat: polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
+                        {lat: event.latLng.lat(), lng: event.latLng.lng()}
+                     ]
+                  ],{ strokeColor: '#F90505'}
+               ));
+            }
+           polygons.push({lat:event.latLng.lat(), lng:event.latLng.lng()});
+           index += 1;
+         }
       });
       handler.map.centerOn(Qatar);
       handler.fitMapToBounds();
       handler.getMap().setZoom(9);
    });
 });
+
 function save_polygons(){
    draw = !draw;
-   document.getElementById("draw_btn").className = "btn btn-primary btn-sm"
    if (draw == false)
    {
-      document.getElementById("draw_btn").className = "btn btn-info btn-sm"
-      handler.bounds.extendWith(handler.addPolygons(
-         [
+      handler.bounds.extendWith(handler.addPolygons([polygons],{ strokeColor: '#F90505'}));
+      document.getElementById("draw_btn").className = "btn btn-info"
+      name_field = document.getElementById("name_field");
+      var name = name_field.value;
+      name_field.style.display = "none";
+      if (index != 0)
+      {
+         handler.bounds.extendWith(handler.addPolygons(
             [
-               {lat:  last_lat, lng: last_lon},
-               {lat:  first_lat, lng: first_lon}
-            ]
-         ],{ strokeColor: '#F90505'}
-      ));
-      first_lat = first_lon = last_lat = last_lon = null;
+               [
+                  {lat:  polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
+                  {lat:  polygons[0]['lat'], lng: polygons[0]['lng']}
+               ]
+            ],{ strokeColor: '#F90505'}
+         ));
+         jQuery.ajax({
+            data: { name, polygons },
+            type: 'get',
+            url: "/save_polygon"
+         });
+      }
+      name_field.value = "";
+      polygons = [];
+      index = 0;
+   }
+   else
+   {
+      document.getElementById("draw_btn").className = "btn btn-primary"
+      document.getElementById("name_field").style.display = "block"
    }
 }
 </script>
@@ -61,14 +88,15 @@ function save_polygons(){
 <div class="right_col" role="main">
   <div class="">
     <div class="page-title">
-      <div class="title_left">
+      <div class="title_left" style="width: 20%;">
         <h3>Map</h3>
       </div>
-        <button id="draw_btn" class="btn btn-info btn-sm" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil-square-o"></i></button>
+         <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
+         <%= text_field_tag 'name', nil, placeholder: "Name...", id: "name_field", style: "display: none; float: right; width: 200px;", class: "form-control"%>
       <div>
       </div>
-      <div style='width: 1050px;'>
-        <div id="map" style='width: 1050px; height: 500px;'></div>
+      <div style='width: 100%;'>
+        <div id="map" style='width: 100%; height: 500px;'></div>
       </div>
     </div>
   </div>
