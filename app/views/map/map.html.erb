@@ -14,7 +14,7 @@ $(function() {
       var Qatar = [
          {"lat":25.426063,"lng":51.181199}
       ];
-      handler.bounds.extendWith(handler.addPolygons(<%=raw @hash.to_json %>,{ strokeColor: '#F90505'}));
+      handler.bounds.extendWith(handler.addPolygons(<%=raw @hash.to_json %>,{ strokeColor: '#5A738E'}));
       google.maps.event.addListener(handler.map.getServiceObject(),'click',function(event){
          if (draw == true)
          {
@@ -23,7 +23,7 @@ $(function() {
                handler.bounds.extendWith(handler.addPolygons(
                   [[
                      { lat: event.latLng.lat(), lng: event.latLng.lng() }
-                  ]],{ strokeColor: '#F90505'}
+                  ]],{ strokeColor: '#5A738E'}
                ));
             }
             else
@@ -35,7 +35,7 @@ $(function() {
                         {lat: polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
                         {lat: event.latLng.lat(), lng: event.latLng.lng()}
                      ]
-                  ],{ strokeColor: '#F90505'}
+                  ],{ strokeColor: '#5A738E'}
                ));
             }
            polygons.push({lat:event.latLng.lat(), lng:event.latLng.lng()});
@@ -52,11 +52,11 @@ function save_polygons(){
    draw = !draw;
    if (draw == false)
    {
-      handler.bounds.extendWith(handler.addPolygons([polygons],{ strokeColor: '#F90505'}));
+      $("#polygon_name").modal();
       document.getElementById("draw_btn").className = "btn btn-info"
-      name_field = document.getElementById("name_field");
+      /*name_field = document.getElementById("name_field");
       var name = name_field.value;
-      name_field.style.display = "none";
+      name_field.style.display = "none";*/
       if (index != 0)
       {
          handler.bounds.extendWith(handler.addPolygons(
@@ -65,23 +65,26 @@ function save_polygons(){
                   {lat:  polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
                   {lat:  polygons[0]['lat'], lng: polygons[0]['lng']}
                ]
-            ],{ strokeColor: '#F90505'}
+            ],{ strokeColor: '#5A738E'}
          ));
+         handler.bounds.extendWith(handler.addPolygons([polygons],{ strokeColor: '#5A738E'}));
          jQuery.ajax({
             data: { name, polygons },
             type: 'get',
             url: "/save_polygon"
          });
       }
-      name_field.value = "";
-      polygons = [];
-      index = 0;
    }
    else
    {
       document.getElementById("draw_btn").className = "btn btn-primary"
-      document.getElementById("name_field").style.display = "block"
    }
+}
+function send_polygons(){
+   name_filed = document.getElementById("draw_btn");
+    name_field.value = "";
+      polygons = [];
+      index = 0;
 }
 </script>
 
@@ -90,10 +93,25 @@ function save_polygons(){
     <div class="page-title">
       <div class="title_left" style="width: 20%;">
         <h3>Map</h3>
-      </div>
-         <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
-         <%= text_field_tag 'name', nil, placeholder: "Name...", id: "name_field", style: "display: none; float: right; width: 200px;", class: "form-control"%>
-      <div>
+         </div>
+            <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
+         <div>
+         <div id="polygon_name" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header colors">
+                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                  <h4 class="modal-title">New Time Slot</h4>
+                </div>
+                <div class="modal-body">
+                  <%= text_field_tag 'name', nil, placeholder: "Name...", id: "name_field", class: "form-control"%>
+                  <br>
+                  <button type="button" class="btn btn-info" style="float; right;" data-dismiss="modal" onclick='send_polygons()'>Done</button>
+                </div>
+              </div>
+            </div>
+         </div>
       </div>
       <div style='width: 100%;'>
         <div id="map" style='width: 100%; height: 500px;'></div>
