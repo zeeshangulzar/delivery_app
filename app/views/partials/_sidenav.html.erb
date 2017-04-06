@@ -25,11 +25,11 @@
             </li>
             <li><a><i class="fa fa-user"></i> Drivers <span class="fa fa-chevron-down"></span></a>
               <ul class="nav child_menu" style="display: none">
+                <li><%= link_to "Add Driver", new_user_path() %></li>
                 <li><%= link_to "Active Drivers", user_by_role_users_path('driver', 'active') %></li>
                 <li><%= link_to " Blocked Drivers", user_by_role_users_path('driver', 'blocked') %></li>
               </ul>
             </li>
-            <li><a href=<%= home_path(name: 'Drivers') %>><i class="fa fa-user"></i> Drivers</a></li>
             <li><a href=<%= map_path() %>><i class="fa fa-map-marker"></i> Map</a></li>
             <li><a href=<%= time_slots_path() %>><i class="fa fa-calendar"></i> Time Slots</a></li>
             <li><a href=<%= bookings_path() %>><i class="fa fa-cubes"></i> Bookings</a></li>

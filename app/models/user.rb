@@ -74,29 +74,35 @@ class User < ActiveRecord::Base
   end
 
   def self.save_driver(params)
-    user = self.new
+    user = self.new(role: 'driver')
     user.save_user(params)
-    return user if user.errors.present?
-    user.save_profile(params)
+    # return [user, nil] if user.errors.present?
+    profile = user.save_profile(params)
+    return [user, profile]
   end
 
   def save_user(params)
-    self.name     = params[:name]
-    self.email    = params[:email]
-    self.cell     = params[:cell]
-    self.password = params[:password]
+    self.name     = params[:user][:name]
+    self.email    = params[:user][:email]
+    self.cell     = params[:user][:cell]
+    self.password = params[:user][:password]
     self.save
+    self
   end
 
   def save_profile(params)
-    profle                 = self.profile.new
+    p "*"*100
+    p self
+    profle                 = self.build_profile
     profile.nationality    = params[:nationality]
     profile.address        = params[:address]
-    profile.make           = params[:make]
-    profile.model          = params[:model]
-    profile.type           = params[:type]
+    profile.vehicle_make   = params[:make]
+    profile.vehicle_model  = params[:model]
+    profile.vehicle_type   = params[:type]
     profile.license_number = params[:license_number]
-    profile.plate_number   = params[:plate_number]
+    profile.plate_name     = params[:plate_name]
+    profile.save
+    profile
   end
 
   def is_consumer?

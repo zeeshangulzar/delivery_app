@@ -22,14 +22,30 @@ class UsersController < ApplicationController
   end
 
   def save_driver
-    user, profile = User.save_driver(params)
-    if user.errors.present?
-      return redirect_to :root, error: user.errors
-    elsif profile.errors.present?
-      return redirect_to :root, error: profile.erros
-    else
-      return redirect_to :root, success: 'Driver is added successfully'
+    # p "1"*100
+    # p @user
+    @user, @profile = User.save_driver(params)
+    p "*"*100
+    # p @user
+    # p @user.errors
+    p @profile
+    p @profile.errors
+    if @user.errors.present? && @profile.errors.present?
+      # p "5"*100
+      # p @profile.errors.messages
+      @profile.errors.messages.map do |key, error|
+        # p "2"*100
+        # p key
+        # p error
+        @user.errors.add(key, error.first)
+      end
+      return render 'new', error: @user.errors.full_messages
     end
+
+    return render 'new', error: @user.errors.full_messages if @user.errors.present?
+    return render 'new', error: @profile.errors.full_messages if @profile.errors.present?
+    return redirect_to user_by_role_users_path('driver', 'active'), success: 'Driver is added successfully'
+
   end
 
   def show
