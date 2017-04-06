@@ -71,6 +71,13 @@ class TimeSlotsController < ApplicationController
     @dates = @time_slots.group(:date)
   end
 
+  def download_template
+    send_file(
+    "#{Rails.root}/public/timeslots_template.csv",
+    filename: "Time Slots Template.csv",
+  )
+  end
+
   private
     def set_time_slot
       @time_slot = TimeSlot.find(params[:id])
