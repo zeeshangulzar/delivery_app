@@ -22,6 +22,7 @@ $(function() {
             {
                handler.bounds.extendWith(handler.addPolygons(
                   [[
+                     { lat: event.latLng.lat(), lng: event.latLng.lng() },
                      { lat: event.latLng.lat(), lng: event.latLng.lng() }
                   ]],{ strokeColor: '#5A738E'}
                ));
@@ -52,27 +53,19 @@ function save_polygons(){
    draw = !draw;
    if (draw == false)
    {
-      $("#polygon_name").modal();
       document.getElementById("draw_btn").className = "btn btn-info"
-      /*name_field = document.getElementById("name_field");
-      var name = name_field.value;
-      name_field.style.display = "none";*/
       if (index != 0)
       {
-         handler.bounds.extendWith(handler.addPolygons(
+        $("#polygon_name").modal();
+        handler.bounds.extendWith(handler.addPolygons(
+          [
             [
-               [
-                  {lat:  polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
-                  {lat:  polygons[0]['lat'], lng: polygons[0]['lng']}
-               ]
-            ],{ strokeColor: '#5A738E'}
-         ));
-         handler.bounds.extendWith(handler.addPolygons([polygons],{ strokeColor: '#5A738E'}));
-         jQuery.ajax({
-            data: { name, polygons },
-            type: 'get',
-            url: "/save_polygon"
-         });
+              {lat:  polygons[index-1]['lat'], lng: polygons[index-1]['lng']},
+              {lat:  polygons[0]['lat'], lng: polygons[0]['lng']}
+            ]
+          ],{ strokeColor: '#5A738E'}
+        ));
+        handler.bounds.extendWith(handler.addPolygons([polygons],{ strokeColor: '#5A738E'}));
       }
    }
    else
@@ -81,10 +74,16 @@ function save_polygons(){
    }
 }
 function send_polygons(){
-   name_filed = document.getElementById("draw_btn");
-    name_field.value = "";
-      polygons = [];
-      index = 0;
+  name_filed = document.getElementById("name_field");
+  name = name_field.value;
+  jQuery.ajax({
+    data: { name, polygons },
+    type: 'get',
+    url: "/save_polygon"
+  });
+  name_field.value = "";
+  polygons = [];
+  index = 0;
 }
 </script>
 
@@ -97,7 +96,7 @@ function send_polygons(){
             <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
          <div>
          <div id="polygon_name" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="padding-top: 120px;">
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header colors">
