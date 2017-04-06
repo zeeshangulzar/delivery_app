@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :time_slots
+  resources :time_slots do
+    collection do
+      post 'import', to: 'time_slots#import'
+      get 'download_template'
+    end
+  end
   # Devise routes for API clients (custom sessions controller)
   devise_scope :user do
     post 'v1/signup', to: 'users/registrations#create'

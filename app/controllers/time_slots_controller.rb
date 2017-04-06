@@ -1,9 +1,10 @@
 class TimeSlotsController < ApplicationController
-  before_action :authenticate_user!,only:[:index]
+  before_action :authenticate_user!,only:[:index, :import]
   before_action :token_authentication, only: [:daily_time_slots]
   before_action :set_time_slot, only: [:show, :edit, :update, :destroy]
   before_action :validation_date, only: [:daily_time_slots]
   before_filter :set_format, only: [:daily_time_slots]
+  before_filter :check_file, only: [:import]
 
   def index
     if params[:start_date].present? && params[:end_date].present?
@@ -14,6 +15,11 @@ class TimeSlotsController < ApplicationController
     end
     @time_slots = @time_slots.page(params[:page])
     @time_slot = TimeSlot.new
+  end
+
+  def import
+    message = TimeSlot.import_csv(params[:file])
+    redirect_to time_slots_path(), notice: message
   end
 
   def show
@@ -65,6 +71,13 @@ class TimeSlotsController < ApplicationController
     @dates = @time_slots.group(:date)
   end
 
+  def download_template
+    send_file(
+    "#{Rails.root}/public/timeslots_template.csv",
+    filename: "Time Slots Template.csv",
+  )
+  end
+
   private
     def set_time_slot
       @time_slot = TimeSlot.find(params[:id])
@@ -84,5 +97,10 @@ class TimeSlotsController < ApplicationController
         return render json: { error: 'Invalid date format. Please use yyyy-mm-dd'}, status: 404
       end
       return render json: { error: "start_date can't be greater than end_date"}, status: 404 if @start_date > @end_date
+    end
+
+    def check_file
+      return redirect_to time_slots_path(), notice: 'File not attached' if params[:file].blank?
+      return redirect_to time_slots_path(), notice: 'Please provide .csv file' unless File.extname(params[:file].original_filename) == ".csv"
     end
 end

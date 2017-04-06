@@ -15,15 +15,20 @@
               <fieldset>
                 <div class="control-group">
                   <div class="controls">
-                    <div class="input-prepend input-group" style="width: 80%; float: left;">
+                    <div class="input-prepend input-group timeslot">
                       <span class="add-on input-group-addon colors"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
                       <div id="reportrange_right" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                         <span>YYYY-MM-DD - YYYY-MM-DD</span> <b class="caret"></b>
                       </div>
                     </div>
-                    <div style="float: right; height: 31px;">
+
+                    <div id="timeslot_btn" style="float: right; height: 31px;">
                       <button type="button" class="btn btn btn-info btn-sm"  data-toggle="modal" data-target="#add_slot">Add</button>
-                    <div>
+                      <%= link_to download_template_time_slots_path, class: "btn btn-success btn-sm" do %>
+                          <i class="fa fa-download"></i>
+                      <% end %>
+                    <button type="button" class="btn btn btn-warning btn-sm"  data-toggle="modal" data-target="#add_slot_csv"><i class="fa fa-upload"></i></button>
+
                   </div>
                 </div>
               </fieldset>
@@ -50,6 +55,28 @@
               <!-- Modal content-->
               <div class="modal-content" style="background: transparent;">
                   <%= render 'form' %>
+              </div>
+            </div>
+          </div>
+
+          <div id="add_slot_csv" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="padding-top: 12%;">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header colors">
+                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                  <h4 class="modal-title">Import Time Slots</h4>
+                </div>
+                <div class="modal-body">
+                  <%= form_tag import_time_slots_path, method: :post, multipart: true  do %>
+                    <label class="csv_upload btn btn-primary btn-sm">
+                      <i class="fa fa-file-excel-o"> Choose file</i>
+                      <input name="file" type="file" accept= '.csv'/>
+                    </label><br>
+
+                    <%= submit_tag "Import", class: "btn btn-success btn-sm", style: "float: right;" %>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>

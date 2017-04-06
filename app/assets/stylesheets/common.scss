@@ -74,6 +74,16 @@
     width: 15px;
   }
 
+  .timeslot{
+     width: 60%;
+     float: left;
+  }
+
+  .csv_form{
+    width: 24%;
+    margin-top: 1%;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
@@ -87,12 +97,24 @@
     .scroll{
       overflow-x: scroll;
     }
+    .timeslot{
+      width: 100%;
+    }
+    #timeslot_btn{
+      float: left !important;
+    }
+    .well {
+        padding: 10px;
+        height: 90px;
+    }
+    .csv_form{
+      width: 45%;
+      margin-top: 2.5%;
+      margin-left: 52px;
+    }
   }
 
   @media screen and (max-width: 380px) {
-    .well {
-        padding: 10px;
-    }
     #info_well{
       display: block !important;
     }
@@ -110,5 +132,12 @@
       display: inline !important;
     }
 
+  }
+
+  .csv_upload input[type="file"] {
+    display: block;
+    width: 11px;
+    height: 0px;
+    opacity: 0;
   }
 
