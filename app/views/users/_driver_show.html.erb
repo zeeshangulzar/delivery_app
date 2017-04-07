@@ -1,7 +1,7 @@
 <div class="well" style="font-size:14px;">
   <div id="info_well" style="display: flex;">
     <div id="user_info profile_pic" style="width: 120px">
-      <%= image_tag "no_profile_pic.jpg", style: "height: 100px;"%>
+      <%= image_tag @user.profile.image.present? ? @user.profile.image.attachment.url : "no_profile_pic.jpg", style: "height: 100px; width: 100px;"%>
     </div>
     <br>
     <div id="user_info" style="width: 49%">
