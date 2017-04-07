@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :validate_user_role, only: [:users_by_role]
-  before_action :set_user, only: [:show, :update_status]
+  before_action :set_user, only: [:show, :update_status, :destroy]
 
   def index
     render json: User.all
@@ -22,21 +22,9 @@ class UsersController < ApplicationController
   end
 
   def save_driver
-    # p "1"*100
-    # p @user
     @user, @profile = User.save_driver(params)
-    #p "*"*100
-    # p @user
-    # p @user.errors
-    #p @profile
-    #p @profile.errors
     if @user.errors.present? && @profile.errors.present?
-      # p "5"*100
-      # p @profile.errors.messages
       @profile.errors.messages.map do |key, error|
-        # p "2"*100
-        # p key
-        # p error
         @user.errors.add(key, error.first)
       end
       return render 'new', error: @user.errors.full_messages
@@ -57,6 +45,14 @@ class UsersController < ApplicationController
   def update_status
     flag = @user.update_status
     return redirect_to :back , notice: 'User status is updated successfully' if flag.errors.blank?
+  end
+
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to user_by_role_users_path(role: @user.role, status: @user.status), notice: 'User is destroyed successfully.' }
+      format.json { head :no_content }
+    end
   end
 
   private

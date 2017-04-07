@@ -4,13 +4,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
-  has_many :social_logins
-  has_many :bookings
+  has_many :social_logins, dependent: :delete_all
+  has_many :bookings, dependent: :delete_all
   has_many :orders
 
-  has_many :locations, as: :locateable
-  has_many :authentication_tokens
-  has_one :profile
+  has_many :locations, as: :locateable, dependent: :delete_all
+  has_many :authentication_tokens, dependent: :delete_all
+  has_one :profile, dependent: :delete
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
   #validates :email, presence: { message: "is required"}

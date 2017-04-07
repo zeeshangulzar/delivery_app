@@ -4,8 +4,8 @@ class Order < ActiveRecord::Base
   belongs_to :driver, foreign_key: 'driver_id', class_name: 'User'
   belongs_to :recipient, foreign_key: 'recipient_id', class_name: 'User'
 
-  has_one :location, as: :locateable
-  has_many :line_items
+  has_one :location, as: :locateable, dependent: :delete
+  has_many :line_items, dependent: :delete_all
 
   paginates_per 10
 

@@ -1,8 +1,8 @@
 class Booking < ActiveRecord::Base
 
   belongs_to :user
-  has_one :location, as: :locateable
-  has_many :orders
+  has_one :location, as: :locateable, dependent: :delete
+  has_many :orders, dependent: :delete_all
   belongs_to :time_slot
 
   paginates_per 10
