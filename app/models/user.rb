@@ -50,6 +50,9 @@ class User < ActiveRecord::Base
     users = users.where("name LIKE (?)", "%#{params[:name].strip}%") if params[:name].present?
     users = users.where("cell LIKE (?)", "%#{params[:cell].strip}%") if params[:cell].present?
     users = users.where("email LIKE (?)", "%#{params[:email].strip}%") if params[:email].present?
+    users = users.joins("INNER JOIN profiles on users.id = profiles.user_id").where("profiles.plate_name LIKE (?)", "%#{params[:plate_number]}%") if params[:plate_number].present?
+    p '*'*100
+    p users
     users = users.where(verified: true) if params[:verified].present?
     users.page(params[:page])
   end
