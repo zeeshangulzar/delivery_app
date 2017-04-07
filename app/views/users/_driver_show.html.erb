@@ -1,0 +1,29 @@
+<div class="well" style="font-size:14px;">
+  <div id="info_well" style="display: flex;">
+    <div id="user_info profile_pic" style="width: 120px">
+      <%= image_tag "no_profile_pic.jpg", style: "height: 100px;"%>
+    </div>
+    <br>
+    <div id="user_info" style="width: 49%">
+      <div class="fa_icon" ><i class="fa fa-user"></i><b> Name: </b></div>
+      <div class="icon_field" ><%= @user.name.try(:titleize) %></div>
+      <div class="fa_icon" ><i class="fa fa-envelope"></i><b> Email: </b></div>
+      <div class="icon_field" ><%= @user.email %></div>
+      <div class="fa_icon" ><i class="fa fa-phone-square" ></i><b> Cell: </b></div>
+      <div class="icon_field" ><%= @user.cell %></div>
+      <div class="fa_icon" ><i class="fa fa-male" ></i><b> Nationality: </b></div>
+      <div class="icon_field" ><%= @user.profile.nationality %></div>
+    </div>
+    <br>
+    <div id="user_info" style="width: 49%">
+      <div class="fa_icon" ><i class="fa fa-gears (alias)"></i><b> Car Make: </b></div>
+      <div class="icon_field" ><%= @user.profile.vehicle_make %></div>
+      <div class="fa_icon" ><i class="fa fa-automobile (alias)"></i><b> Plate #: </b></div>
+      <div class="icon_field" ><%= @user.profile.plate_name %></div>
+      <div class="fa_icon" ><i class="fa fa-automobile (alias)"></i><b> License #: </b></div>
+      <div class="icon_field" ><%= @user.profile.license_number %></div>
+      <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Registered At: </b></div>
+      <div class="icon_field" ><%= time_format(@user.created_at) %></div>
+    </div>
+  </div>
+</div>
