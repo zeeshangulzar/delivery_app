@@ -84,7 +84,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <%= button_tag "Cancel", class: "btn btn-primary" %>
+                        <%= link_to 'Cancel', :back || root_path, class: "btn btn-primary" %>
                         <%= submit_tag 'Save', class: 'btn btn-success' %>
                       </div>
                     </div>
