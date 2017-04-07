@@ -7,8 +7,8 @@ module V1
     def create
       if params[:cell].present? && params[:password].present?
         user = User.find_by_cell(params[:cell])
-        return render json: { error: 'user is inactive' }, status: 422 unless user.status == 'active'
         return render json: {error: "Invalid cell or password"}, status: 401 if user.blank? || !user.valid_password?(params[:password])
+        return render json: { error: 'user is inactive' }, status: 422 unless user.status == 'active'
         token = Tiddle.create_and_return_token(user, request)
         login = SocialLogin.where(user_id: user.id).last
         social_type = login.blank? ? 'local' : login.platform_name
