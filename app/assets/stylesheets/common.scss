@@ -112,3 +112,15 @@
 
   }
 
+  #profile_pic::-webkit-file-upload-button {
+    background: #31B0D5;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+   #profile_pic:hover::-webkit-file-upload-button {
+    background-color: #269ABC;
+  }
+

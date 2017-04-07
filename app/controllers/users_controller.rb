@@ -25,11 +25,11 @@ class UsersController < ApplicationController
     # p "1"*100
     # p @user
     @user, @profile = User.save_driver(params)
-    p "*"*100
+    #p "*"*100
     # p @user
     # p @user.errors
-    p @profile
-    p @profile.errors
+    #p @profile
+    #p @profile.errors
     if @user.errors.present? && @profile.errors.present?
       # p "5"*100
       # p @profile.errors.messages

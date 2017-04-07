@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
     user.save_user(params)
     # return [user, nil] if user.errors.present?
     profile = user.save_profile(params)
-    Image::save_image(params[:user][:attachment], profile)
+    image = Image::save_image(params[:user][:attachment], profile)
     return [user, profile]
   end
 
