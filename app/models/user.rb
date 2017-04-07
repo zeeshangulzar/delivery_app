@@ -78,6 +78,7 @@ class User < ActiveRecord::Base
     user.save_user(params)
     # return [user, nil] if user.errors.present?
     profile = user.save_profile(params)
+    Image::save_image(params[:user][:attachment], profile)
     return [user, profile]
   end
 
@@ -91,7 +92,6 @@ class User < ActiveRecord::Base
   end
 
   def save_profile(params)
-    p "*"*100
     p self
     profle                 = self.build_profile
     profile.nationality    = params[:nationality]

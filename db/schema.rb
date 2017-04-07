@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405081922) do
+ActiveRecord::Schema.define(version: 20170407051735) do
+
+  create_table "attachments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -40,6 +45,15 @@ ActiveRecord::Schema.define(version: 20170405081922) do
 
   add_index "bookings", ["time_slot_id"], name: "index_bookings_on_time_slot_id", using: :btree
 
+  create_table "images", force: :cascade do |t|
+    t.integer  "profile_id", limit: 4
+    t.string   "attachment", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "images", ["profile_id"], name: "index_images_on_profile_id", using: :btree
+
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id",   limit: 4
     t.string   "name",       limit: 255
@@ -60,6 +74,14 @@ ActiveRecord::Schema.define(version: 20170405081922) do
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.string   "address",         limit: 255,                           null: false
+  end
+
+  create_table "maps", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.boolean  "active",                   default: true
+    t.text     "polygons",   limit: 65535
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -145,6 +167,7 @@ ActiveRecord::Schema.define(version: 20170405081922) do
 
   add_foreign_key "authentication_tokens", "users"
   add_foreign_key "bookings", "time_slots"
+  add_foreign_key "images", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "social_logins", "users"
 end
