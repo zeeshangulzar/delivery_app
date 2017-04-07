@@ -20,6 +20,11 @@
             <td><%= append_qar(booking.total_amount) %></td>
             <td>
               <%= link_to 'View', booking_path(id: booking.id), class: "btn btn-info btn-sm " %>
+              <% if @user.present? %>
+                <%= link_to 'Delete', booking_path(id: booking.id, user_id: @user.id), method: :delete, data: { confirm: "Are you sure?" }, class: "action_btn btn btn-danger btn-sm " %>
+              <% else %>
+                <%= link_to 'Delete', booking, method: :delete, data: { confirm: "Are you sure?" }, class: "action_btn btn btn-danger btn-sm " %>
+              <% end %>
             </td>
           </tr>
         <% end %>
