@@ -1,6 +1,5 @@
 <tr>
   <td><%= map.name.try(:titleize) %></td>
-  <td><%= map.polygons.count %></td>
   <td><%= time_format(map.created_at) %></td>
   <td>
     <%= link_to 'Delete', delete_map_path(id: map.id), method: :delete, data: { confirm: "Are you sure?" }, class: "action_btn btn btn-danger btn-sm " %>
