@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     collection do
       get 'list/:role/:status', to: 'users#users_by_role', as: 'user_by_role'
       post 'save_driver'
+      post 'update_driver'
     end
 
     member do

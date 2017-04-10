@@ -51,8 +51,6 @@ class User < ActiveRecord::Base
     users = users.where("cell LIKE (?)", "%#{params[:cell].strip}%") if params[:cell].present?
     users = users.where("email LIKE (?)", "%#{params[:email].strip}%") if params[:email].present?
     users = users.joins("INNER JOIN profiles on users.id = profiles.user_id").where("profiles.plate_name LIKE (?)", "%#{params[:plate_number]}%") if params[:plate_number].present?
-    p '*'*100
-    p users
     users = users.where(verified: true) if params[:verified].present?
     users.page(params[:page])
   end
@@ -80,8 +78,15 @@ class User < ActiveRecord::Base
     user = self.new(role: 'driver')
     user.save_user(params)
     # return [user, nil] if user.errors.present?
-    profile = user.save_profile(params)
+    profile = user.build_profile
+    profile = profile.save_profile(params)
     image = Image::save_image(params[:user][:attachment], profile)
+    return [user, profile]
+  end
+
+  def update_driver(params)
+    user = self.save_user(params)
+    profile = user.profile.save_profile(params)
     return [user, profile]
   end
 
@@ -92,20 +97,6 @@ class User < ActiveRecord::Base
     self.password = params[:user][:password]
     self.save
     self
-  end
-
-  def save_profile(params)
-    p self
-    profle                 = self.build_profile
-    profile.nationality    = params[:nationality]
-    profile.address        = params[:address]
-    profile.vehicle_make   = params[:make]
-    profile.vehicle_model  = params[:model]
-    profile.vehicle_type   = params[:type]
-    profile.license_number = params[:license_number]
-    profile.plate_name     = params[:plate_name]
-    profile.save
-    profile
   end
 
   def is_consumer?

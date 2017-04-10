@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :validate_user_role, only: [:users_by_role]
-  before_action :set_user, only: [:show, :update_status, :destroy]
+  before_action :set_user, only: [:show, :update_status, :destroy, :edit, :update_driver]
 
   def index
     render json: User.all
@@ -53,6 +53,24 @@ class UsersController < ApplicationController
       format.html { redirect_to user_by_role_users_path(role: @user.role, status: @user.status), notice: 'User is destroyed successfully.' }
       format.json { head :no_content }
     end
+  end
+
+  def edit
+    @profile = @user.profile
+  end
+
+  def update_driver
+    @user, @profile = @user.update_driver(params)
+    if @user.errors.present? && @profile.errors.present?
+      @profile.errors.messages.map do |key, error|
+        @user.errors.add(key, error.first)
+      end
+      return render 'new', error: @user.errors.full_messages
+    end
+
+    return render 'new', error: @user.errors.full_messages if @user.errors.present?
+    return render 'new', error: @profile.errors.full_messages if @profile.errors.present?
+    return redirect_to user_path(@user.id), success: 'Driver is updated successfully'
   end
 
   private

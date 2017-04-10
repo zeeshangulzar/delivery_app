@@ -1,4 +1,8 @@
 <div class="well" style="font-size:14px;">
+<%= link_to edit_user_path(id: @user.id), class: "btn btn-info btn-sm", style: "float:right;" do%>
+  <i class="glyphicon glyphicon-edit"></i>
+<% end %>
+
   <div id="info_well" style="display: flex;">
     <div id="user_info profile_pic" style="width: 120px">
       <%= image_tag @user.profile.image.present? ? @user.profile.image.attachment.url : "no_profile_pic.jpg", style: "height: 100px; width: 100px;"%>
