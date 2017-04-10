@@ -28,8 +28,7 @@ class MapController < ApplicationController
   end
 
   def save_polygon
-    Map.create(name: params[:name], polygons: params[:polygons])
-    redirect_to map_path()
+    @map = Map.create(name: params[:name], polygons: params[:polygons])
   end
 
   private
