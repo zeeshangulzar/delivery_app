@@ -47,6 +47,18 @@ $(function() {
       handler.fitMapToBounds();
       handler.getMap().setZoom(9);
    });
+
+   $("#map_li").on("click", function (){
+      document.getElementById("draw_btn").style.display = "none";
+   });
+   $("#list_li").on("click", function (){
+      document.getElementById("draw_btn").style.display = "block";
+   });
+   if (getURLParameter('list') == 'true')
+   {
+    $('#map_tab a[href="#list_view"]').tab('show');
+   }
+
 });
 
 function save_polygons(){
@@ -94,22 +106,18 @@ function send_polygons(){
         <h3>Map</h3>
       </div>
     </div>
-      <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
-      <div>
-
-        <div id="polygon_name" class="modal fade" role="dialog">
-          <div class="modal-dialog" style="padding-top: 120px;">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header colors">
-                <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
-                <h4 class="modal-title">Polygon</h4>
-              </div>
-              <div class="modal-body">
-                <%= text_field_tag 'name', nil, required: true, placeholder: "Name...", id: "name_field", class: "form-control"%>
-                <br>
-                <button type="button" class="btn btn-info" style="float; right;" data-dismiss="modal" onclick='send_polygons()'>Done</button>
-              </div>
+      <div id="polygon_name" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="padding-top: 120px;">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header colors">
+              <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+              <h4 class="modal-title">Polygon</h4>
+            </div>
+            <div class="modal-body">
+              <%= text_field_tag 'name', nil, required: true, placeholder: "Name...", id: "name_field", class: "form-control"%>
+              <br>
+              <button type="button" class="btn btn-info" style="float; right;" data-dismiss="modal" onclick='send_polygons()'>Done</button>
             </div>
           </div>
         </div>
@@ -118,9 +126,24 @@ function send_polygons(){
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_content">
-              <div style='width: 100%;'>
-                <div id="map" style='width: 100%; height: 500px;'></div>
+
+              <ul class="nav nav-tabs" id="map_tab">
+                <li class="active" id="list_li"><a data-toggle="tab" href="#map_view">Map</a></li>
+                <li id="map_li"><a data-toggle="tab" href="#list_view">List</a></li>
+                <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
+              </ul>
+
+              <div class="tab-content">
+                <div id="map_view" class="tab-pane fade in active">
+                  <div style='width: 100%;'>
+                    <div id="map" style='width: 100%; height: 500px;'></div>
+                  </div>
+                </div>
+                <div id="list_view" class="tab-pane fade">
+                  <%= render "index" %>
+                </div>
               </div>
+
             </div>
           </div>
         </div>

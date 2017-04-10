@@ -2,6 +2,7 @@ class MapController < ApplicationController
 
   before_action :authenticate_user!,only:[:map]
   before_action :check_polygon, only:[:map]
+  before_action :set_map, only: [:destroy]
 
   def map
     @map = Map.all
@@ -15,6 +16,15 @@ class MapController < ApplicationController
         @hash.push(poly)
       end
     end
+    @map = @map.page(params[:page])
+  end
+
+  def destroy
+    @map.destroy
+    respond_to do |format|
+      format.html { redirect_to map_path(list: true), notice: 'Polygon is destroyed successfully.' }
+      format.json { head :no_content }
+    end
   end
 
   def save_polygon
@@ -25,5 +35,9 @@ class MapController < ApplicationController
   private
     def check_polygon
       return if params[:name].present? && params[:polygons].present?
+    end
+
+    def set_map
+      @map = Map.find(params[:id])
     end
 end
