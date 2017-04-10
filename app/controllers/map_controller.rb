@@ -3,6 +3,7 @@ class MapController < ApplicationController
   before_action :authenticate_user!,only:[:map]
   before_action :check_polygon, only:[:map]
   before_action :set_map, only: [:destroy]
+  before_action :token_authentication, only: [:service_areas]
 
   def map
     @map = Map.all
@@ -29,6 +30,10 @@ class MapController < ApplicationController
 
   def save_polygon
     @map = Map.create(name: params[:name], polygons: params[:polygons])
+  end
+
+  def service_areas
+    @service_areas = Map.all
   end
 
   private
