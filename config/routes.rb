@@ -47,6 +47,9 @@ Rails.application.routes.draw do
 
 
   get 'map' => 'map#map'
+  delete 'delete_map' => 'map#destroy'
+  get 'save_polygon' => 'map#save_polygon'
+  get 'v1/service_areas', to: 'map#service_areas'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

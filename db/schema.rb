@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321111930) do
+ActiveRecord::Schema.define(version: 20170405103621) do
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 20170321111930) do
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.string   "address",         limit: 255,                           null: false
+  end
+
+  create_table "maps", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.boolean  "active",                   default: true
+    t.text     "polygons",   limit: 65535
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "orders", force: :cascade do |t|
