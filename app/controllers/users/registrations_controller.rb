@@ -22,6 +22,12 @@ module V1
             render json: {error: "social_id already exists"}, status: 409
           end
         end
+        if params[:verified].present?
+          user.verified = true;
+          user.save
+          token = Tiddle.create_and_return_token(user, request)
+          return render json: { user_id: user.id, name: user.name, email: user.email, cell: user.cell, role: user.role, type: 'local', authentication_token: token}
+        end
         if check
           render json: {message: "successful"}, status: 200
           user.verified_token=rand(1111..9999)
