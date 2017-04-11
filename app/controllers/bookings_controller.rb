@@ -10,6 +10,7 @@ class BookingsController < ApplicationController
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
+  after_action :send_email, only: [:save_booking]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -37,6 +38,7 @@ class BookingsController < ApplicationController
           end
         end
       end
+      @booking = booking
       return render json: { message: 'successful'}, status: 200 if booking.persisted?
     end
   end
@@ -85,6 +87,13 @@ class BookingsController < ApplicationController
 
     def populate_user_id
       params[:user_id] = params[:sender][:id] if params[:sender][:id].present?
+    end
+
+    def send_email
+      UserNotifier::booking_email(@booking).deliver_now
+      # @booking.orders.each do |order|
+      #   UserNotifier::order_email(order).deliver_now
+      # end
     end
 
 end
