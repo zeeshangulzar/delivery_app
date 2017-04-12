@@ -90,10 +90,12 @@ class BookingsController < ApplicationController
     end
 
     def send_email
-      UserNotifier::booking_email(@booking).deliver_now
-      # @booking.orders.each do |order|
-      #   UserNotifier::order_email(order).deliver_now
-      # end
+      if @booking.present?
+        UserNotifier::booking_email(@booking).deliver_now
+        @booking.orders.each do |order|
+          UserNotifier::order_email(order).deliver_now
+        end
+      end
     end
 
 end
