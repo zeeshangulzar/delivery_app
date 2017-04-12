@@ -283,8 +283,10 @@ a[x-apple-data-detectors=true] {
           </div>
         </div>
       </div>
-      <% @order = order %>
-      <%= render "orders" %>
+      <% if order.line_items.present? %>
+        <% @order = order %>
+        <%= render "orders" %>
+      <% end %>
     <% end %>
 
     <div style="background-color:#2A3F54; height: 42px;">

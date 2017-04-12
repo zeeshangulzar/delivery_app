@@ -228,7 +228,9 @@ a[x-apple-data-detectors=true] {
         </div>
       </div>
     </div>
-    <%= render "orders" %>
+    <% if @order.line_items.present? %>
+      <%= render "orders" %>
+    <% end %>
     <div style="background-color:#2A3F54; height: 42px;">
       <div style="padding-bottom: 12px;padding-right: 12px;padding-top: 12px;color: lightgrey;float: right;" >
         &copy; 2017 ANA Corporation

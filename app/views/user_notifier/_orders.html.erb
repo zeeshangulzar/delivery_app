@@ -6,7 +6,8 @@
           <div style="background-color: transparent; width: 100% !important;">
             <div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding: 14px;">
               <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
-                  <img class="center" border="0" src= <%= line_item.image %> alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none; width: auto; max-height: 80px; min-width: 80px;">
+
+                  <%= image_tag(line_item.image.present? ? line_item.image : attachments['no_product.jpg'].url, class:"center", style:"outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none; width: auto; max-height: 80px; min-width: 80px;" )%>
               </div>
             </div>
           </div>
