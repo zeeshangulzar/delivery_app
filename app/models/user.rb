@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :locations, as: :locateable, dependent: :delete_all
   has_many :authentication_tokens, dependent: :delete_all
-  has_one :profile, dependent: :delete
+  has_one :profile, dependent: :destroy
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
   #validates :email, presence: { message: "is required"}

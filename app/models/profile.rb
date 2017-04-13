@@ -1,7 +1,8 @@
 class Profile < ActiveRecord::Base
 
   belongs_to :user
-  has_one :image, dependent: :delete
+  has_one :image#, dependent: :delete
+  before_destroy :delete_image
   validates :address, :plate_name, :license_number, :vehicle_make, presence: true
 
   def save_profile(params)
@@ -14,6 +15,10 @@ class Profile < ActiveRecord::Base
     self.plate_name     = params[:plate_name]
     self.save
     self
+  end
+
+  def delete_image
+    self.image.delete
   end
 end
 
