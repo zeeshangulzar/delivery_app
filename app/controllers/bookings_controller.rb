@@ -37,7 +37,7 @@ class BookingsController < ApplicationController
           end
         end
       end
-      return render json: { message: 'successful'}, status: 200 if booking.persisted?
+      return render json: { message: 'successful', booking_id: booking.id }, status: 200 if booking.persisted?
     end
   end
 
