@@ -51,6 +51,8 @@ Rails.application.routes.draw do
   get 'save_polygon' => 'map#save_polygon'
   get 'v1/service_areas', to: 'map#service_areas'
 
+  post 'v1/booking_payment', to: 'payments#booking_payment'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

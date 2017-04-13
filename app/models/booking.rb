@@ -4,6 +4,7 @@ class Booking < ActiveRecord::Base
   has_one :location, as: :locateable
   has_many :orders
   belongs_to :time_slot
+  has_many :payments, class_name: "Transaction", as: :transactionable
 
   paginates_per 10
 
