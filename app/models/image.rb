@@ -9,4 +9,11 @@ class Image < ActiveRecord::Base
     img.save
     img
   end
+
+  def update_image(image)
+    self.attachment = image
+    self.save
+    self
+  end
+
 end

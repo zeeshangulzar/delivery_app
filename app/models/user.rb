@@ -87,6 +87,7 @@ class User < ActiveRecord::Base
   def update_driver(params)
     user = self.save_user(params)
     profile = user.profile.save_profile(params)
+    profile.image.present? ? profile.image.update_image(params[:user][:attachment]) : Image::save_image(params[:user][:attachment], profile)
     return [user, profile]
   end
 
