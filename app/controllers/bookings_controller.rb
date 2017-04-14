@@ -10,7 +10,7 @@ class BookingsController < ApplicationController
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
-  #after_action :send_email, only: [:save_booking]
+  after_action :send_email, only: [:save_booking]
 
   def save_booking
     ActiveRecord::Base.transaction do
