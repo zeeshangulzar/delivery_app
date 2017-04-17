@@ -10,6 +10,11 @@ var index = 0;
 handler = Gmaps.build('Google');
 
 $(function() {
+
+   jQuery(function(){
+      jQuery('#menu_toggle').click();
+   });
+
    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
       var Qatar = [
          {"lat":25.426063,"lng":51.181199}
@@ -58,7 +63,6 @@ $(function() {
    {
     $('#map_tab a[href="#list_view"]').tab('show');
    }
-
 });
 
 function save_polygons(){
@@ -125,26 +129,12 @@ function send_polygons(){
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
-            <div class="x_content">
-
-              <ul class="nav nav-tabs" id="map_tab">
-                <li class="active" id="list_li"><a data-toggle="tab" href="#map_view">Map</a></li>
-                <li id="map_li"><a data-toggle="tab" href="#list_view">List</a></li>
-                <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
-              </ul>
-
-              <div class="tab-content">
-                <div id="map_view" class="tab-pane fade in active">
-                  <div style='width: 100%;'>
-                    <div id="map" style='width: 100%; height: 500px;'></div>
-                  </div>
-                </div>
-                <div id="list_view" class="tab-pane fade">
-                  <%= render "index" %>
-                </div>
+              <div class="col-md-8 col-sm-12 col-xs-12 form-group" style="padding: 0px 4px 0px 0px; height: 100%;">
+                <div id="map" style='width: 100%; height: 540px;'></div>
               </div>
-
-            </div>
+              <div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding: 0px;">
+                <%= render "index" %>
+              </div>
           </div>
         </div>
       </div>
