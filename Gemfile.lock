@@ -150,6 +150,7 @@ GEM
     sendgrid-rails (2.0.5)
       actionmailer (>= 3.0.0)
       activesupport (>= 2.1.0)
+    spawnling (2.1.6)
     spring (2.0.1)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -201,6 +202,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sendgrid-rails (~> 2.0)
+  spawnling
   spring
   sqlite3
   tiddle
