@@ -1,7 +1,8 @@
 <tr>
-  <td><%= map.name.try(:titleize) %></td>
-  <td><%= time_format(map.created_at) %></td>
-  <td>
-    <%= link_to 'Delete', delete_map_path(id: map.id), method: :delete, data: { confirm: "Are you sure?" }, class: "action_btn btn btn-danger btn-sm " %>
+  <td style="text-align: left; height: 44px;">
+    <%= link_to(delete_map_path(id: map.id), method: :delete, data: { confirm: "Are you sure?" })do %>
+      <i class="btn btn-sm btn-danger fa fa-trash-o text-danger" style="font-size: 16px;padding: 3px;"></i>
+    <% end %>
+    <%= map.name.try(:titleize) %>
   </td>
 </tr>

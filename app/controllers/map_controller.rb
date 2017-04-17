@@ -23,7 +23,7 @@ class MapController < ApplicationController
   def destroy
     @map.destroy
     respond_to do |format|
-      format.html { redirect_to map_path(list: true), notice: 'Polygon is destroyed successfully.' }
+      format.html { redirect_to map_path(), notice: 'Polygon is destroyed successfully.' }
       format.json { head :no_content }
     end
   end
