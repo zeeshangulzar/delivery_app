@@ -10,6 +10,7 @@ class BookingsController < ApplicationController
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
+  after_action :send_email, only: [:save_booking]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -38,10 +39,6 @@ class BookingsController < ApplicationController
         end
       end
       @booking = booking
-      render json: { message: 'successful', booking_id: booking.id }, status: 200 if booking.persisted?
-      Spawnling.new do
-        send_email
-      end
     end
   end
 
@@ -92,10 +89,12 @@ class BookingsController < ApplicationController
     end
 
     def send_email
-      if @booking.present?
-        UserNotifier::booking_email(@booking).deliver_now
-        @booking.orders.each do |order|
-          UserNotifier::order_email(order).deliver_now
+      Spawnling.new do
+        if @booking.present?
+          UserNotifier::booking_email(@booking).deliver_now
+          @booking.orders.each do |order|
+            UserNotifier::order_email(order).deliver_now
+          end
         end
       end
     end
