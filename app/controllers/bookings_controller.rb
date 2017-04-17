@@ -10,6 +10,8 @@ class BookingsController < ApplicationController
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
+  before_action :booking_user_authentication, only: [:list]
+  before_action :validate_user_bookings, only: [:list]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -39,6 +41,10 @@ class BookingsController < ApplicationController
       end
       return render json: { message: 'successful', booking_id: booking.id }, status: 200 if booking.persisted?
     end
+  end
+
+  def list
+    @bookings = @user.bookings.includes(:orders)
   end
 
   def index
@@ -85,6 +91,20 @@ class BookingsController < ApplicationController
 
     def populate_user_id
       params[:user_id] = params[:sender][:id] if params[:sender][:id].present?
+    end
+
+    def booking_user_authentication
+      return render json: { error: 'user_id is blank' }, status: 401 if params[:user_id].blank?
+      @user = User.find_by_id(params[:user_id])
+      return render json: { error: 'Invalid user_id' }, status: 401 if @user.blank?
+      return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
+      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
+      return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
+    end
+
+    def validate_user_bookings
+      return render json: { error: 'booking_type is blank' }, status: 401 if params[:booking_type].blank?
+      return render json: { error: 'Invalid booking_type' }, status: 401 unless params[:booking_type].in?(['sent', 'recieved'])
     end
 
 end
