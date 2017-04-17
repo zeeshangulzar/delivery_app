@@ -11,6 +11,8 @@ class BookingsController < ApplicationController
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
   after_action :send_email, only: [:save_booking]
+  before_filter :set_format, only: [:save_booking]
+
 
   def save_booking
     ActiveRecord::Base.transaction do
