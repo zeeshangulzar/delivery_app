@@ -4,7 +4,7 @@
   </td>
   <td style="width: 10px; border-left: none;">
     <%= link_to(delete_map_path(id: map.id), method: :delete, data: { confirm: "Are you sure?" })do %>
-      <i class="btn btn-sm btn-danger fa fa-trash-o text-danger" style="font-size: 16px;padding: 3px; float: right; margin: 0px;"></i>
+      <i class="btn btn-sm btn-danger fa fa-trash-o text-danger" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete Polygon" style="font-size: 16px;padding: 3px; float: right; margin: 0px;"></i>
     <% end %>
   </td>
 </tr>
