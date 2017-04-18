@@ -30,6 +30,7 @@ gem 'tiddle'
 gem 'kaminari'
 gem 'geocoder'
 gem 'gmaps4rails'
+gem 'carrierwave'
 
 gem "font-awesome-rails"
 gem 'bootstrap-sass', '~> 3.3.6'

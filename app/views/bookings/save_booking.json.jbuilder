@@ -30,6 +30,9 @@ json.orders{
     }
 
     json.tracking_id order.tracking_id
+    json.amount order.amount
+    json.delivery_charges order.charges
+    json.date order.created_at.strftime("%Y-%m-%d")
 
   end
 }

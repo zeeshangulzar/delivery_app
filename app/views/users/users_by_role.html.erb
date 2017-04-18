@@ -1,4 +1,3 @@
-
 <div class="right_col" role="main">
   <div class="">
     <div class="page-title">
@@ -14,40 +13,12 @@
         <div class="x_panel">
           <div class="x_content">
 
-            <div class="well">
-              <%= render "filters" %>
-            </div>
+            <% if params[:role] == "consumer" %>
+              <%= render "consumers" %>
+            <% elsif params[:role] == "driver" %>
+              <%= render "drivers" %>
+            <% end %>
 
-            <div class="x_content scroll">
-              <table id="datatable" class="table table-striped table-bordered">
-                <thead>
-                  <tr class="colors">
-                    <th>Cell</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Verified</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-
-                <tbody>
-                  <% @users.each do |user| %>
-                    <tr>
-                      <td><%= user.cell %></td>
-                      <td><%= user.name.try(:titleize) %></td>
-                      <td><%= user.email %></td>
-                      <td><%= is_verified(user) %></td>
-                      <td>
-                        <%= link_to 'View', user_path(user), class: "btn btn-info btn-sm " %>
-                        <%= link_to status_link(user.status), update_status_user_path(user, status: 'blocked'), method: :post, class: (user.status == 'active' ? "btn btn-sm btn-danger" : "btn btn-sm btn-success") %>
-                      </td>
-                    </tr>
-                  <% end %>
-
-                </tbody>
-              </table>
-            </div>
             <div class="dataTables_paginate paging_simple_numbers">
                 <%= paginate @users, window: 4 %>
             </div>

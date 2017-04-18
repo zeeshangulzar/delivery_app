@@ -9,7 +9,7 @@ class BookingsController < ApplicationController
   before_action :check_from, only: [:save_booking]
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
-  before_action :set_booking, only: [:show]
+  before_action :set_booking, only: [:show, :destroy]
   after_action :send_email, only: [:save_booking]
   before_filter :set_format, only: [:save_booking]
 
@@ -48,6 +48,18 @@ class BookingsController < ApplicationController
     @status = Booking.pluck(:status).uniq
     @bookings = Booking.get_list(params)
 
+  end
+
+  def destroy
+    @booking.destroy
+    respond_to do |format|
+      if params[:user_id].present?
+        format.html { redirect_to user_path(params[:user_id]), notice: 'Booking is destroyed successfully.' }
+      else
+        format.html { redirect_to bookings_path, notice: 'Booking is destroyed successfully.' }
+      end
+      format.json { head :no_content }
+    end
   end
 
   def show

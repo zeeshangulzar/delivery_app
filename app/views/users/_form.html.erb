@@ -1,0 +1,89 @@
+<% if @user.errors.any? %>
+  <% @user.try(:errors).try(:full_messages).each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+<% end %>
+
+<% if !@user.errors.any? && @profile.errors.any? %>
+  <% @profile.try(:errors).try(:full_messages).each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+<% end %>
+
+<div class="">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Personal Details</h2>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+          <br />
+          <%= form_for @user, url: params[:action] == 'edit' ? update_driver_users_path(id: @user.id) : save_driver_users_path, method: :post, class: 'form-horizontal form-label-left', html:{ style: 'display: grid;' }, id:  'demo-form2' do |f| %>
+            <div class="form-group">
+              <%= f.label :name, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= f.text_field :name, class: 'form-control col-md-7 col-xs-12', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :picture, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= f.file_field :attachment, id:"profile_pic" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :email, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= f.email_field :email, class: 'form-control col-md-7 col-xs-12' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :cell, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= f.text_field :cell, class: 'form-control col-md-7 col-xs-12', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= f.password_field :password, class: 'form-control col-md-7 col-xs-12', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= label_tag :address, nil, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= text_field_tag :address, @profile.address, class: 'form-control col-md-7 col-xs-12', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= label_tag :nationality, nil, class: "control-label col-md-3 col-sm-3 col-xs-12" %>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <%= text_field_tag :nationality,  @profile.nationality, class: 'form-control col-md-7 col-xs-12', required: true %>
+              </div>
+            </div>
+            <%= render "partials/driver_profile" %>
+
+
+            <div class="ln_solid"></div>
+            <div class="form-group">
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <%= link_to 'Cancel', :back || root_path, class: "btn btn-primary" %>
+                <%= submit_tag 'Save', class: 'btn btn-success' %>
+              </div>
+            </div>
+            <% end %>
+         <!--  </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

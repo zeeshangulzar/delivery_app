@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405103621) do
+ActiveRecord::Schema.define(version: 20170407051735) do
+
+  create_table "attachments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "authentication_tokens", force: :cascade do |t|
     t.string   "body",         limit: 255
@@ -39,6 +44,15 @@ ActiveRecord::Schema.define(version: 20170405103621) do
   end
 
   add_index "bookings", ["time_slot_id"], name: "index_bookings_on_time_slot_id", using: :btree
+
+  create_table "images", force: :cascade do |t|
+    t.integer  "profile_id", limit: 4
+    t.string   "attachment", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "images", ["profile_id"], name: "index_images_on_profile_id", using: :btree
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id",   limit: 4
@@ -91,6 +105,21 @@ ActiveRecord::Schema.define(version: 20170405103621) do
     t.integer  "charges",             limit: 4
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.integer  "user_id",        limit: 4
+    t.string   "address",        limit: 255
+    t.string   "plate_name",     limit: 255
+    t.string   "nationality",    limit: 255
+    t.string   "license_number", limit: 255
+    t.string   "vehicle_model",  limit: 255
+    t.string   "vehicle_type",   limit: 255
+    t.string   "vehicle_make",   limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
+
   create_table "social_logins", force: :cascade do |t|
     t.string   "platform_name",     limit: 255
     t.string   "authentication_id", limit: 255
@@ -138,5 +167,7 @@ ActiveRecord::Schema.define(version: 20170405103621) do
 
   add_foreign_key "authentication_tokens", "users"
   add_foreign_key "bookings", "time_slots"
+  add_foreign_key "images", "profiles"
+  add_foreign_key "profiles", "users"
   add_foreign_key "social_logins", "users"
 end
