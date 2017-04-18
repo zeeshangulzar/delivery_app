@@ -31,6 +31,9 @@ json.bookings @bookings do |booking|
       }
 
       json.tracking_id order.tracking_id
+      json.amount order.amount
+      json.delivery_charges order.charges
+      json.date order.created_at
 
     end
   }
