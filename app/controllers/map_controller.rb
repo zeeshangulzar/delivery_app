@@ -6,7 +6,7 @@ class MapController < ApplicationController
   before_action :token_authentication, only: [:service_areas]
 
   def map
-    @map = Map.all
+    @map = Map.all.order(:name)
     if @map.present?
       @hash = []
       @map.each do |map|
