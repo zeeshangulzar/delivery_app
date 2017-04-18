@@ -10,7 +10,7 @@ class BookingsController < ApplicationController
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
   before_action :set_booking, only: [:show]
-  before_action :booking_user_authentication, only: [:list]
+  before_action :booking_user_authentication, only: [:list, :orders_list]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -44,6 +44,10 @@ class BookingsController < ApplicationController
 
   def list
     @bookings = Booking.includes(:location, orders: :location).where(user_cell: @user.cell).page(params[:page]).per(5)
+  end
+
+  def orders_list
+      @orders = Order.includes(:location, booking: :location).where(recipient_cell: @user.cell).page(params[:page]).per(10)
   end
 
   def index
