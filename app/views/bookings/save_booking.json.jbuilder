@@ -1,3 +1,4 @@
+json.message 'successful'
 json.booking_id @booking.id
 
 json.sender_details {
