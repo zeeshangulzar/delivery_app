@@ -43,6 +43,13 @@ class Booking < ActiveRecord::Base
     bookings
   end
 
+  def self.list(user, params)
+    bookings = self.includes(:location, orders: :location)
+    bookings  = bookings.where(user_cell: user.cell) if params[:booking_type] == 'sent'
+    bookings = bookings.joins("INNER JOIN orders on bookings.id = orders.booking_id").where("orders.recipient_cell = ?", user.cell) if params[:booking_type] == 'recieved'
+    bookings.page(params[:page] || 1).per(1)
+  end
+
   private
     def validate_sender_id
       errors.add(:base, "sender id is invalid") if user_id.present? && user_name.blank?

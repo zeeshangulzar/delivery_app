@@ -44,7 +44,7 @@ class BookingsController < ApplicationController
   end
 
   def list
-    @bookings = @user.bookings.includes(:location, orders: :location)
+    @bookings = Booking.list(@user, params)
   end
 
   def index
