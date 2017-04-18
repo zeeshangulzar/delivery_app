@@ -33,6 +33,7 @@ class MapController < ApplicationController
   end
 
   def service_areas
+    @rate = Config.find_by_title('Cross Region Rate')
     @service_areas = Map.all
   end
 
