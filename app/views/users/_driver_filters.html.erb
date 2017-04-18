@@ -5,9 +5,9 @@
       <%= text_field_tag :cell, params[:cell], placeholder: 'Cell', class: "form-control fields" %>
       <span class="input-group-addon colors"><i class="glyphicon glyphicon-user"></i></span>
       <%= text_field_tag :name, params[:name], placeholder: 'Name', class: "form-control fields" %>
-      <span class="input-group-addon colors"><i class="glyphicon glyphicon-envelope"></i></span>
-      <%= text_field_tag :email, params[:email], placeholder: 'Email', class: "form-control fields" %>
-      <span class="input-group-addon colors"><b>Verified <%= check_box_tag :verified, params[:verified], params[:verified].present?, class: "icheckbox_flat-green"%></b></span>
+      <span class="input-group-addon colors"><i class="fa fa-automobile (alias)"></i></span>
+      <%= text_field_tag :plate_number, params[:plate_number], placeholder: 'Plate #', class: "form-control fields" %>
+      <span class="input-group-addon colors" style="background-color: transparent !important; border: 0;"></span>
       <%= submit_tag "Go", class: "btn btn-sm btn-primary", style: "float: right; height: 34px; margin-bottom: 0;" %>
     </div>
   <% end %>
@@ -25,10 +25,8 @@
     </div>
     <div class="input-group" style="float: left;">
       <span class="input-group-addon colors"><i class="glyphicon glyphicon-envelope"></i></span>
-      <%= text_field_tag :email, params[:email], placeholder: 'Email`', class: "form-control" %>
-    </div>
-    <div class="input-group" style="float: left;">
-      <span class="input-group-addon colors" style="width: 90%;"><b>Verified <%= check_box_tag :verified, params[:verified], params[:verified].present?, class: "icheckbox_flat-green"%></b></span>
+      <%= text_field_tag :plate_number, params[:plate_number], placeholder: 'Plate #', class: "form-control" %>
+
     </div>
       <%= submit_tag "Go", class: "btn btn-sm btn-primary", style: "float: right; height: 34px; margin-bottom: 0;" %>
   <% end %>

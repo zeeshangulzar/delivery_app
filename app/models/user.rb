@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
-  has_many :social_logins
-  has_many :bookings
+  has_many :social_logins, dependent: :delete_all
+  has_many :bookings, dependent: :delete_all
   has_many :orders
 
-  has_many :locations, as: :locateable
-  has_many :authentication_tokens
+  has_many :locations, as: :locateable, dependent: :delete_all
+  has_many :authentication_tokens, dependent: :delete_all
+  has_one :profile, dependent: :destroy
 
   validates :name, presence: { message: "is required" }, length: {in: 3..150}, numericality: false
   #validates :email, presence: { message: "is required"}
@@ -49,6 +50,7 @@ class User < ActiveRecord::Base
     users = users.where("name LIKE (?)", "%#{params[:name].strip}%") if params[:name].present?
     users = users.where("cell LIKE (?)", "%#{params[:cell].strip}%") if params[:cell].present?
     users = users.where("email LIKE (?)", "%#{params[:email].strip}%") if params[:email].present?
+    users = users.joins("INNER JOIN profiles on users.id = profiles.user_id").where("profiles.plate_name LIKE (?)", "%#{params[:plate_number]}%") if params[:plate_number].present?
     users = users.where(verified: true) if params[:verified].present?
     users.page(params[:page])
   end
@@ -69,6 +71,32 @@ class User < ActiveRecord::Base
   def update_status
     status = self.status == 'active' ? 'blocked' : 'active'
     self.update(status: status)
+    self
+  end
+
+  def self.save_driver(params)
+    user = self.new(role: 'driver')
+    user.save_user(params)
+    # return [user, nil] if user.errors.present?
+    profile = user.build_profile
+    profile = profile.save_profile(params)
+    image = Image::save_image(params[:user][:attachment], profile) if params[:user][:attachment].present?
+    return [user, profile]
+  end
+
+  def update_driver(params)
+    user = self.save_user(params)
+    profile = user.profile.save_profile(params)
+    profile.image.present? ? profile.image.update_image(params[:user][:attachment]) : Image::save_image(params[:user][:attachment], profile)
+    return [user, profile]
+  end
+
+  def save_user(params)
+    self.name     = params[:user][:name]
+    self.email    = params[:user][:email]
+    self.cell     = params[:user][:cell]
+    self.password = params[:user][:password]
+    self.save
     self
   end
 

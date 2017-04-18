@@ -35,13 +35,15 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       get 'list/:role/:status', to: 'users#users_by_role', as: 'user_by_role'
+      post 'save_driver'
+      post 'update_driver'
     end
 
     member do
       post 'update_status'
     end
   end
-  resources :bookings, only: [:show, :index]
+  resources :bookings, only: [:show, :index, :destroy]
   resources :orders, only: [:show]
 
 

@@ -47,6 +47,10 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.3)
     byebug (9.0.6)
+    carrierwave (1.0.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -189,6 +193,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   byebug
+  carrierwave
   coffee-rails (~> 4.1.0)
   devise (~> 4.2.0)
   font-awesome-rails
@@ -214,4 +219,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.5
+   1.14.6
