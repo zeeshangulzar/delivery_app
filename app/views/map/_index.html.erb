@@ -8,8 +8,8 @@
 <div class="scroll" style="height: 503px;overflow-y: scroll;">
   <table id="datatable" class="table table-striped table-bordered">
     <tbody class='map_list'>
-      <% @map.each do |map| %>
-        <%= render 'map_entry', map: map %>
+      <% @map.each_with_index do |map, index| %>
+        <%= render 'map_entry', map: map, index: index %>
       <% end %>
     </tbody>
   </table>
