@@ -1,3 +1,4 @@
+json.privacy_policy @policy.try(:description)
 json.time_slots @dates do |date|
   json.date date.date
   json.slots @time_slots.where(date: date.date) do |time_slot|
