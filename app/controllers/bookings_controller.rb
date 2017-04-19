@@ -12,7 +12,7 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :destroy]
   after_action :send_email, only: [:save_booking]
   before_filter :set_format, only: [:save_booking]
-
+  before_action :booking_user_authentication, only: [:list, :orders_list]
 
   def save_booking
     ActiveRecord::Base.transaction do
@@ -42,6 +42,14 @@ class BookingsController < ApplicationController
       end
       @booking = booking
     end
+  end
+
+  def list
+    @bookings = Booking.includes(:location, orders: :location).where(user_cell: @user.cell).page(params[:page]).per(5)
+  end
+
+  def orders_list
+      @orders = Order.includes(:location, booking: :location).where(recipient_cell: @user.cell).page(params[:page]).per(10)
   end
 
   def index
@@ -111,6 +119,15 @@ class BookingsController < ApplicationController
           end
         end
       end
+    end
+
+    def booking_user_authentication
+      return render json: { error: 'user_id is blank' }, status: 401 if params[:user_id].blank?
+      @user = User.find_by_id(params[:user_id])
+      return render json: { error: 'Invalid user_id' }, status: 401 if @user.blank?
+      return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
+      token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
+      return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
     end
 
 end
