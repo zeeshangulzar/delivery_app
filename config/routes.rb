@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # Devise routes for API clients (custom sessions controller)
   devise_scope :user do
     post 'v1/signup', to: 'users/registrations#create'
+    put 'v1/update_profile', to: 'users/registrations#update_profile'
     put    'v1/verify', to: 'users/registrations#verify'
     post 'v1/signin', to: 'users/sessions#create'
     delete 'v1/signout', to: 'users/sessions#destroy'
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
     get 'v1/status_code', to: 'settings#status_code'
     post 'v1/guest_verify', to: 'users/registrations#guest_verify'
     post 'v1/save_booking', to: 'bookings#save_booking'
+
   end
 
   get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'

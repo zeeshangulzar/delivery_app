@@ -38,6 +38,12 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
+  def user_authentication
+    return render json: { error: "authorization can't be nil" }, status: 406 unless request.headers['HTTP_AUTHORIZATION'].present?
+    token = Tiddle::TokenIssuer.build.find_token(@user, request.headers['HTTP_AUTHORIZATION'])
+    return render json: { error: 'You are not authorized' }, status: 401 if token.blank?
+    end
+
   def send_sms(token, cell)
     client = Twilio::REST::Client.new(APP_CONFIG[:twillio][:sid], APP_CONFIG[:twillio][:auth])
     client.messages.create to: cell,

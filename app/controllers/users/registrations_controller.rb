@@ -4,9 +4,12 @@ module V1
     before_action :token_authentication
     before_action :validate_verification_user, only: [:verify]
     before_action :validate_user_activation, only: [:verify]
-    before_action :get_user, except: [:verify, :guest_verify]
+    before_action :get_user, except: [:verify, :guest_verify, :update_profile]
     before_action :non_admin_users, only: [:verify]
     before_action :check_cell, only: [:guest_verify]
+    before_action :check_params_presense, only: [:update_profile]
+    before_action :find_user_by_id, only: [:update_profile]
+    before_action :user_authentication
 
     def create
       user = User.create(create_params)
@@ -36,6 +39,18 @@ module V1
         end
       else
         render json: {error: user.errors.full_messages.to_sentence}, status: 406
+      end
+    end
+
+    def update_profile
+      params[:verified] = false unless @user.cell == params[:cell]
+      @user.update_attributes(update_params)
+      @user.send_sms unless @user.cell == params[:cell]
+      if @user.errors.present?
+        return render json: { error: @user.errors.full_messages.to_sentence}, status: 422
+      else
+      token = Tiddle.create_and_return_token(@user, request)
+      return render json: { user_id: @user.id, name: @user.name, email: @user.email, cell: @user.cell, role: @user.role, authentication_token: token}
       end
     end
 
@@ -92,9 +107,26 @@ module V1
       end
     end
 
+    def find_user_by_id
+    @user = User.find_by_id(params[:user_id])
+    return render json: { error: 'User not found'}, status: 404 if @user.nil?
+    end
+
+    def check_params_presense
+      return render json: { error: "Id can't be nil"}, status: 404 if params[:user_id].blank?
+      return render json: { error: "Cell can't be nil"}, status: 404 if params[:cell].blank?
+      return render json: { error: "Name can't be nil"}, status: 404 if params[:name].blank?
+      return render json: { error: "Email can't be nil"}, status: 404 if params[:email].blank?
+    end
+
     def create_params
       params.permit(:cell, :name, :password, :email, :role)
     end
+
+    def update_params
+       params.permit(:cell, :name, :password, :email, :id, :verified)
+    end
+
 
     def check_cell
       return render json: { error: "Cell can't be nil"}, status: 404 if params[:cell].blank?
