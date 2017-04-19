@@ -6,8 +6,8 @@
     </div>
 
     <div class="input-group" style="width: 10%;">
-      <span class="input-group-addon colors"><b>API <%= check_box_tag :api, params[:api], params[:api].present?, class: "icheckbox_flat-green"%></b></span>
-      <%= submit_tag "Go", class: "btn btn-sm btn-primary", style: "float: left; height: 34px; margin: 0;" %>
+      <span class="input-group-addon colors" style="border-radius: 4px !important; padding: 6px;"><b>API <%= check_box_tag :api, params[:api], params[:api].present?, class: "icheckbox_flat-green"%></b></span>
+      <%= submit_tag "Search", class: "btn btn-sm btn-primary config_search_btn" %>
     </div>
   </div>
 <% end %>
