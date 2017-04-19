@@ -1,0 +1,79 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Configurations</h3>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+        <div class="well">
+          <%= render "filter" %>
+          <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_config">Add</button>
+
+          <div id="add_config" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header colors">
+                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                  <h4 class="modal-title">New Configurations</h4>
+                </div>
+                <div class="modal-body">
+                  <%= render 'form' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div id="edit_config" class="modal fade" role="dialog">
+            <div class="modal-dialog colors">
+              <!-- Modal content-->
+              <div class="modal-content" style="background: transparent;">
+                  <%= render 'form' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="x_content">
+            <div class="x_content" style="overflow-x: scroll">
+              <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                  <tr class="colors">
+                    <th>Title</th>
+                    <th>Descriptions</th>
+                    <th>API</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+              <tbody>
+                <% @configs.each do |config| %>
+                  <tr>
+                    <td style="white-space: nowrap;" ><%= config.title.try(:titleize) %></td>
+                    <td style="text-align: left;"><div style="overflow:hidden; max-height: 70px;"><%= config.description.try(:titleize) %></div></td>
+                    <td><%= check_api(config) %></td>
+                    <td><a data-toggle="modal" data-target="#edit_config" data-remote="<%= edit_config_path(id: config.id) %> #edit_config" class="action_btn btn btn-success btn-sm ">Edit</a>
+                    <%= link_to 'Delete', config, class: "action_btn btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+            <div class="dataTables_paginate paging_simple_numbers">
+                <%= paginate @configs, window: 4 %>
+            </div>
+            <br>
+            <%= page_entries_info @configs, :entry_name => 'Configurations' %>
+            <br>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
