@@ -9,7 +9,7 @@ module V1
     before_action :check_cell, only: [:guest_verify]
     before_action :check_params_presense, only: [:update_profile]
     before_action :find_user_by_id, only: [:update_profile]
-    before_action :user_authentication
+    before_action :user_authentication, only: [:update_profile]
 
     def create
       user = User.create(create_params)
