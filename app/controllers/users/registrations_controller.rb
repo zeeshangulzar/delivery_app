@@ -109,7 +109,7 @@ module V1
 
     def find_user_by_id
     @user = User.find_by_id(params[:user_id])
-    return render json: { error: 'User not found'}, status: 404 if @user.nil?
+    return render json: { error: 'User not found'}, status: 404 if @user.blank?
     end
 
     def check_params_presense
