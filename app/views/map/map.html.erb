@@ -110,11 +110,11 @@ function send_polygons(){
   index = 0;
 }
 
-function edit_polygons(id){
+function edit_polygons(id,lat,lng){
   console.log(id);
   polygonIndex = id;
   document.getElementById("save_btn").style.display = "block";
-  Qatar = [{"lat": <%= @hash[2][0][:lat] %> ,"lng": <%= @hash[2][0][:lng] %> }];
+  Qatar = [{"lat": lat ,"lng": lng }];
   zoom = 10;
   console.log(Qatar);
   console.log(<%= 'id' %>);
@@ -122,6 +122,7 @@ function edit_polygons(id){
 }
 
 function update_polygons(){
+
 }
 </script>
 
@@ -133,7 +134,7 @@ function update_polygons(){
       </div>
       <button id="draw_btn" class="btn btn-info" style="float: right;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
 
-      <button id="save_btn" class="btn btn-info" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Save Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
+      <button id="save_btn" class="btn btn-info" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
     </div>
       <div id="polygon_name" class="modal fade" role="dialog">
         <div class="modal-dialog" style="padding-top: 120px;">

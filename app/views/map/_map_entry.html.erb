@@ -3,7 +3,7 @@
     <%= map.name.try(:titleize) %>
   </td>
   <td style="width: 70px; border-left: none;">
-    <button id="draw_btn" class="btn btn-primary" style="font-size: 14px;padding: 1px 4px; float: right; margin: 0px; margin-left: 3px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='edit_polygons(<%= index %>)'><i class="fa fa-pencil"></i></button>
+    <button id="draw_btn" class="btn btn-primary" style="font-size: 14px;padding: 1px 4px; float: right; margin: 0px; margin-left: 3px;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='edit_polygons(<%= index %>,<%= map.polygons.first.last[:lat] %>,<%= map.polygons.first.last[:lng] %>)'><i class="fa fa-pencil"></i></button>
     <%= link_to(delete_map_path(id: map.id), method: :delete, data: { confirm: "Are you sure?" })do %>
       <i class="btn btn-sm btn-danger fa fa-trash-o text-danger" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Delete Polygon" style="font-size: 16px;padding: 3px; float: right; margin: 0px;"></i>
     <% end %>
