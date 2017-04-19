@@ -17,4 +17,11 @@ module ApplicationHelper
     return order.pay_by_sender ? order.booking.user_name : order.recipient_name
   end
 
+  def format_description(text)
+    return if text.blank?
+    value = text.gsub("\r", "").split("\n").reject { |t| t.empty? }
+    value = value.first if value.count == 1
+    value
+  end
+
 end
