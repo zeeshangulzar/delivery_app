@@ -117,6 +117,7 @@ module V1
       return render json: { error: "Cell can't be nil"}, status: 404 if params[:cell].blank?
       return render json: { error: "Name can't be nil"}, status: 404 if params[:name].blank?
       return render json: { error: "Email can't be nil"}, status: 404 if params[:email].blank?
+      return render json: { error: "password can't be nil"}, status: 404 if params[:password].blank?
     end
 
     def create_params
