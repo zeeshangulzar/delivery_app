@@ -1,3 +1,4 @@
+json.total_pages @orders.total_pages
 json.bookings @orders do |order|
 
   json.booking_id order.booking.try(:id)

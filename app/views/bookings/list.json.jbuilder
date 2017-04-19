@@ -1,3 +1,4 @@
+json.total_pages @bookings.total_pages
 json.bookings @bookings do |booking|
 
   json.booking_id booking.id
