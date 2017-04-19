@@ -1,11 +1,13 @@
-<div style="height: 34px;">
-  <%= form_tag configs_path, method: :get  do %>
-    <div class="input-group" style="float: left;">
+<%= form_tag configs_path, method: :get  do %>
+  <div style="display: flex;">
+    <div class="input-group config_search">
       <span class="input-group-addon colors"><i class="glyphicon glyphicon-text-color"></i></span>
-      <%= text_field_tag :title, params[:title], placeholder: 'Title',class: "form-control" %>
-      <span class="input-group-addon colors"><b>API <%= check_box_tag :api, params[:api], params[:api].present?, class: "icheckbox_flat-green"%></b></span>
-      <%= submit_tag "Go", class: "btn btn-sm btn-primary", style: "float: left; height: 34px; margin-bottom: 0;" %>
+      <%= text_field_tag :title, params[:title], placeholder: 'Title',class: "form-control fields" %>
     </div>
-  <% end %>
-</div>
 
+    <div class="input-group" style="width: 10%;">
+      <span class="input-group-addon colors"><b>API <%= check_box_tag :api, params[:api], params[:api].present?, class: "icheckbox_flat-green"%></b></span>
+      <%= submit_tag "Go", class: "btn btn-sm btn-primary", style: "float: left; height: 34px; margin: 0;" %>
+    </div>
+  </div>
+<% end %>

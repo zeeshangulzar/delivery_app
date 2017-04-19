@@ -2,7 +2,7 @@
   <div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3>Configurations</h3>
+        <h3>Settings</h3>
       </div>
     </div>
 
@@ -11,11 +11,18 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
         <div class="well">
-          <%= render "filter" %>
-          <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_config">Add</button>
+          <div style="height: 34px;">
+            <div class="col-md-11 col-sm-12 col-xs-12" style="padding: 0; height: 40px;">
+              <%= render "filter" %>
+            </div>
+            <div class="col-md-1 col-sm-12 col-xs-12" style="float: right; padding: 0;">
+              <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_config">Add</button>
+            </div>
+          </div>
+        </div>
 
           <div id="add_config" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 50%;">
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header colors">
@@ -28,13 +35,20 @@
               </div>
             </div>
           </div>
-        </div>
 
           <div id="edit_config" class="modal fade" role="dialog">
-            <div class="modal-dialog colors">
+            <div class="modal-dialog" style="width: 50%;">
               <!-- Modal content-->
               <div class="modal-content" style="background: transparent;">
                   <%= render 'form' %>
+              </div>
+            </div>
+          </div>
+
+          <div id="show_config" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 50%; padding-top: 6%;">
+              <!-- Modal content-->
+              <div class="modal-content" style="background: transparent;">
               </div>
             </div>
           </div>
@@ -54,9 +68,11 @@
                 <% @configs.each do |config| %>
                   <tr>
                     <td style="white-space: nowrap;" ><%= config.title.try(:titleize) %></td>
-                    <td style="text-align: left;"><div style="overflow:hidden; max-height: 70px;"><%= config.description.try(:titleize) %></div></td>
+                    <td style="width: 60%;"><div class="ellipsis"><%= config.description.try(:titleize) %></div></td>
                     <td><%= check_api(config) %></td>
-                    <td><a data-toggle="modal" data-target="#edit_config" data-remote="<%= edit_config_path(id: config.id) %> #edit_config" class="action_btn btn btn-success btn-sm ">Edit</a>
+                    <td>
+                    <a data-toggle="modal" data-target="#show_config" data-remote="<%= config_path(id: config.id) %> #show_config" class="action_btn btn btn-info btn-sm ">View</a>
+                    <a data-toggle="modal" data-target="#edit_config" data-remote="<%= edit_config_path(id: config.id) %> #edit_config" class="action_btn btn btn-success btn-sm ">Edit</a>
                     <%= link_to 'Delete', config, class: "action_btn btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>

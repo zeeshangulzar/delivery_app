@@ -15,6 +15,9 @@ class ConfigsController < ApplicationController
   def edit
   end
 
+  def show
+  end
+
   def create
     @config = Config.new(config_params)
 

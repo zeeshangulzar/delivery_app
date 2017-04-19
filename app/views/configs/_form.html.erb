@@ -20,23 +20,22 @@
       </ul>
     </div>
   <% end %>
-
-  <%= f.label :title %>
-  <div class="input-group">
-    <span class="input-group-addon"><i class="glyphicon glyphicon-text-color"></i></span>
-    <%= f.text_field :title, required: true, value: @config.title, class: "form-control" %>
-  </div>
-  <div class="input-group">
-    <%= f.check_box :api, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
-    <%= f.label "API", value: @config.api %>
-  </div>
-  <%= f.label :description %>
-  <div class="input-group">
-    <span class="input-group-addon"><i class="glyphicon glyphicon-text-color"></i></span>
-    <%= f.text_area :description, required: true, value: @config.description, class: "form-control", style: "height: 100px !important;" %>
-  </div>
-  <br>
-  <div class="actions">
-    <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
+  <div id="config_form">
+    <div class="input-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, required: true, value: @config.title, class: "form-control" %>
+    </div>
+    <div class="input-group">
+      <%= f.check_box :api, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
+      <%= f.label "API", value: @config.api %>
+    </div>
+    <div class="input-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, required: true, value: @config.description, class: "form-control", style: "height: 200px !important;" %>
+    </div>
+    <br>
+    <div class="actions">
+      <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
+    </div>
   </div>
 <% end %>

@@ -101,6 +101,10 @@
     width: 56px;
   }
 
+  .config_search{
+    width: 40%;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
@@ -126,6 +130,9 @@
       margin-top: 2.5%;
       margin-left: 52px;
     }
+    .config_search{
+      width: 60%;
+    }
   }
 
   @media screen and (max-width: 380px) {
@@ -145,11 +152,22 @@
     #search_form2{
       display: inline !important;
     }
-
   }
   .csv_upload input[type="file"] {
     display: block;
     width: 11px;
     height: 0px;
     opacity: 0;
+  }
+  .ellipsis{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  #config_form .input-group{
+    width: 100%;
   }
