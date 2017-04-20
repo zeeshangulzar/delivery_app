@@ -1,5 +1,5 @@
 <div class="well" style="font-size:14px;">
-<%= link_to edit_user_path(id: @user.id), class: "btn btn-info btn-sm", style: "float:right;" do%>
+  <%= link_to edit_user_path(id: @user.id), "data-toggle": "tooltip", "data-placement": "bottom", "title": "", "data-original-title": "Edit", class: "btn btn-info btn-sm", style: "float:right;" do %>
   <i class="glyphicon glyphicon-edit"></i>
 <% end %>
 

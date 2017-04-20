@@ -24,10 +24,10 @@
 
                     <div id="timeslot_btn" style="float: right; height: 31px;">
                       <button type="button" class="btn btn btn-info btn-sm"  data-toggle="modal" data-target="#add_slot">Add</button>
-                      <%= link_to download_template_time_slots_path, class: "btn btn-success btn-sm" do %>
+                      <%= link_to download_template_time_slots_path, "data-toggle": "tooltip", "data-placement": "bottom", "title": "", "data-original-title": "Download CSV", class: "btn btn-success btn-sm" do %>
                           <i class="fa fa-download"></i>
                       <% end %>
-                    <button type="button" class="btn btn btn-warning btn-sm"  data-toggle="modal" data-target="#add_slot_csv"><i class="fa fa-upload"></i></button>
+                    <button type="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Upload CSV" class="btn btn btn-warning btn-sm"  data-toggle="modal" data-target="#add_slot_csv" ><i class="fa fa-upload"></i></button>
 
                   </div>
                 </div>
