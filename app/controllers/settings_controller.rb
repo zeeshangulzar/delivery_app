@@ -6,4 +6,8 @@ class SettingsController < ApplicationController
     render 'status_code.json.jbuilder'
   end
 
+  def configuration
+    @configs = Config.where(api: true)
+  end
+
 end
