@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get 'map' => 'map#map'
   delete 'delete_map' => 'map#destroy'
   get 'save_polygon' => 'map#save_polygon'
+  post 'update_polygon' => 'map#update_polygon'
   get 'v1/service_areas', to: 'map#service_areas'
 
   post 'v1/booking_payment', to: 'payments#booking_payment'

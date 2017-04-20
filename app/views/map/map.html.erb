@@ -5,29 +5,24 @@
 <script type="text/javascript">
 var draw = false;
 var polygons = [];
-var mapPolygon;
+var edit_polygon;
 var index = 0;
+var ID = 0;
 var Qatar = [{"lat":25.233908,"lng":51.188301}];
+var focus = Qatar;
 var polygonIndex;
 var zoom = 9;
 handler = Gmaps.build('Google');
 
 $(function() {
-
-   jQuery(function(){
-      jQuery('#menu_toggle').click();
-   });
    make_map(null);
-   $("#map_li").on("click", function (){
-      document.getElementById("draw_btn").style.display = "none";
-   });
 });
 function make_map(id){
   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
       <% @hash.each.with_index do |gon, index|%>
         if (<%= index %> == id)
         {
-          handler.addPolygon(<%=raw gon.to_json %>,{
+          edit_polygon = handler.addPolygon(<%=raw gon.to_json %>,{
            strokeColor: '#FF0000',
            editable: true,
           });
@@ -70,7 +65,7 @@ function make_map(id){
       });
       handler.fitMapToBounds();
       handler.getMap().setZoom(zoom);
-      handler.map.centerOn(Qatar);
+      handler.map.centerOn(focus);
    });
 }
 function save_polygons(){
@@ -110,20 +105,43 @@ function send_polygons(){
   index = 0;
 }
 
-function edit_polygons(id,lat,lng){
+function edit_polygons(id,index,lat,lng){
+  polygonIndex = index;
+  ID = id;
   console.log(id);
-  polygonIndex = id;
   document.getElementById("save_btn").style.display = "block";
-  Qatar = [{"lat": lat ,"lng": lng }];
+  document.getElementById("cancel_btn").style.display = "block";
+  document.getElementById("draw_btn").style.display = "none";
+  focus = [{"lat": lat ,"lng": lng }];
   zoom = 10;
-  console.log(Qatar);
-  console.log(<%= 'id' %>);
-  make_map(id);
+  make_map(index);
 }
 
 function update_polygons(){
-
+  polygons = [];
+  var arr = edit_polygon.serviceObject.latLngs.b[0].b;
+  for (var i=0; i<edit_polygon.serviceObject.latLngs.b[0].length; i++)
+  {
+    polygons.push({lat: arr[i].lat(), lng: arr[i].lng()});
+  }
+  document.getElementById("save_btn").style.display = "none";
+  document.getElementById("draw_btn").style.display = "block";
+  jQuery.ajax({
+    data: { id: ID, polygons },
+    type: 'post',
+    url: "/update_polygon"
+  });
+  location.reload(true);
 }
+function cancel_update(){
+  document.getElementById("save_btn").style.display = "none";
+  document.getElementById("cancel_btn").style.display = "none";
+  document.getElementById("draw_btn").style.display = "block";
+  focus = Qatar;
+  zoom = 9;
+  make_map(null);
+}
+
 </script>
 
 <div class="right_col" role="main">
@@ -134,7 +152,9 @@ function update_polygons(){
       </div>
       <button id="draw_btn" class="btn btn-info" style="float: right;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
 
-      <button id="save_btn" class="btn btn-info" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
+      <button id="save_btn" class="btn btn-success" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
+
+      <button id="cancel_btn" class="btn btn-warning" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Cancel Update" onclick='cancel_update()'><i class="fa fa-save (alias)"></i></button>
     </div>
       <div id="polygon_name" class="modal fade" role="dialog">
         <div class="modal-dialog" style="padding-top: 120px;">

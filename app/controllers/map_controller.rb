@@ -2,7 +2,7 @@ class MapController < ApplicationController
 
   before_action :authenticate_user!,only:[:map]
   before_action :check_polygon, only:[:map]
-  before_action :set_map, only: [:destroy]
+  before_action :set_map, only: [:destroy, :update_polygon]
   before_action :token_authentication, only: [:service_areas]
 
   def map
@@ -17,7 +17,6 @@ class MapController < ApplicationController
         @hash.push(poly)
       end
     end
-    @map = @map.page(params[:page])
   end
 
   def destroy
@@ -30,6 +29,11 @@ class MapController < ApplicationController
 
   def save_polygon
     @map = Map.create(name: params[:name], polygons: params[:polygons])
+  end
+
+  def update_polygon
+    @map.polygons = params[:polygons]
+    @map.save
   end
 
   def service_areas
