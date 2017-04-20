@@ -17,4 +17,8 @@ module ApplicationHelper
     return order.pay_by_sender ? order.booking.user_name : order.recipient_name
   end
 
+  def array_method(item)
+    [item]
+  end
+
 end

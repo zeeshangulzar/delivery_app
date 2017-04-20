@@ -15,7 +15,8 @@ json.bookings @orders do |order|
     json.lng order.booking.try(:location).try(:lon)
   }
 
-  json.order{
+  json.orders{
+    json.array! array_method(order) do |order|
       json.id order.id
 
       json.recipient_details {
@@ -35,5 +36,6 @@ json.bookings @orders do |order|
       json.delivery_charges order.charges
       json.date order.created_at
 
+    end
   }
 end
