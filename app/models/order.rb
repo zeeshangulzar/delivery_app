@@ -59,5 +59,11 @@ class Order < ActiveRecord::Base
     errors.add(:recipient_id, "id is invalid") if recipient_id.present? && recipient_name.blank?
   end
 
-
+def self.search(search)
+    if search
+      where('tracking_id LIKE ?', "%#{search}%")
+    else
+      self.all
+    end
+  end
 end
