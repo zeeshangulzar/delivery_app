@@ -21,4 +21,8 @@ module ApplicationHelper
     [item]
   end
 
+  def change_date_format(date)
+    date.strftime("%Y-%m-%d")
+  end
+
 end
