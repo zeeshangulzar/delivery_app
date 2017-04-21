@@ -243,7 +243,7 @@ a[x-apple-data-detectors=true] {
                         <td><b>To: </b><%= order.location.address.try(:titleize) %></td>
                       </tr>
                       <tr>
-                        <td><b>Amount: </b>QAR <%= order.amount %></td>
+                        <td><b>Amount: </b>QAR <%= order.amount.to_i %></td>
                       </tr>
                       <tr>
                         <td><b>Tracking ID: </b><%= order.tracking_id %></td>
