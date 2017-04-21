@@ -34,3 +34,4 @@
 //= require timeslot.js
 //= require underscore
 //= require gmaps/google
+//= require ckeditor/init
