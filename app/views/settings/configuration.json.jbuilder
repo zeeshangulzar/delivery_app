@@ -1,4 +1,3 @@
-json.configurations @configs do |config|
-  json.title config.title
-  json.description config.description
+@configs.each do |config|
+  json.set! config.title, config.description
 end
