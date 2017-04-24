@@ -1,0 +1,58 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Track your orders</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <% if @orders.present? %>
+              <div class="x_content scroll">
+              <h3 style="text-align: center; ">Orders</h3>
+                <%= form_tag orders_path, remote: true, method: :get do |f| %>
+                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                   <%= text_field_tag :search, params[:search], placeholder: "Search By Tracker ID", class: "form-control has-feedback-left", onkeyup: "$(this).closest('form').submit();"%>
+                   <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                   </div>
+                    <% end %>
+                <table id="datatable" class="table table-striped table-bordered">
+                  <thead>
+                    <tr class="colors">
+                      <td rowspan="2">To</td>
+                      <td rowspan="2">Recipient</td>
+                      <td rowspan="2">Tracking ID</td>
+                      <td rowspan="2">Status</td>
+                      <th colspan="3" scope="colgroup">Quatity</th>
+                      <td rowspan="2">Order Time</td>
+                      <td rowspan="2">Amount</td>
+                      <td rowspan="2">Actions</td>
+                    </tr>
+                    <tr class="colors">
+                      <th>Small</th>
+                      <th>Medium</th>
+                      <th>Large</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders">
+                  <%= render "orders"%>
+                  </tbody>
+                </table>
+              </div>
+              <div class="dataTables_paginate paging_simple_numbers">
+                  <%= paginate @orders, window: 4 %>
+              </div>
+              <br>
+              <%= page_entries_info @orders %>
+              <br>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

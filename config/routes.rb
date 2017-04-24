@@ -50,9 +50,8 @@ Rails.application.routes.draw do
     end
   end
   resources :bookings, only: [:show, :index, :destroy]
-  resources :orders, only: [:show]
   resources :configs
-
+  resources :orders, only: [:show, :index]
 
 
   get 'map' => 'map#map'

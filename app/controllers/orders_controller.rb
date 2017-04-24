@@ -7,6 +7,10 @@ class OrdersController < ApplicationController
   before_action :set_order_by_tracking_id, only: [:track_order]
 
 
+def index
+@orders = Order.search(params[:search]).page(params[:page]).per(10)
+end
+
   def show
     @line_items  = @order.line_items.page(params[:page])
     @locations = [ @order.booking.location, @order.location ]
