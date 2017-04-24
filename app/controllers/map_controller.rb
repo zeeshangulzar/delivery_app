@@ -2,11 +2,11 @@ class MapController < ApplicationController
 
   before_action :authenticate_user!,only:[:map]
   before_action :check_polygon, only:[:map]
-  before_action :set_map, only: [:destroy]
+  before_action :set_map, only: [:destroy, :update_polygon]
   before_action :token_authentication, only: [:service_areas]
 
   def map
-    @map = Map.all
+    @map = Map.all.order(:name)
     if @map.present?
       @hash = []
       @map.each do |map|
@@ -17,19 +17,23 @@ class MapController < ApplicationController
         @hash.push(poly)
       end
     end
-    @map = @map.page(params[:page])
   end
 
   def destroy
     @map.destroy
     respond_to do |format|
-      format.html { redirect_to map_path(list: true), notice: 'Polygon is destroyed successfully.' }
+      format.html { redirect_to map_path(), notice: 'Polygon is destroyed successfully.' }
       format.json { head :no_content }
     end
   end
 
   def save_polygon
     @map = Map.create(name: params[:name], polygons: params[:polygons])
+  end
+
+  def update_polygon
+    @map.polygons = params[:polygons]
+    @map.save
   end
 
   def service_areas

@@ -5,16 +5,48 @@
 <script type="text/javascript">
 var draw = false;
 var polygons = [];
+var infoWindow = new google.maps.InfoWindow;
+var edit_polygon;
 var index = 0;
-
+var ID = 0;
+var Qatar = [{"lat":25.233908,"lng":51.188301}];
+var focus = Qatar;
+var polygonIndex;
+var zoom = 9;
 handler = Gmaps.build('Google');
 
 $(function() {
-   handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-      var Qatar = [
-         {"lat":25.426063,"lng":51.181199}
-      ];
-      handler.bounds.extendWith(handler.addPolygons(<%=raw @hash.to_json %>,{ strokeColor: '#FFBF00'}));
+  jQuery(function(){
+       jQuery('#menu_toggle').click();
+    });
+   make_map(null);
+});
+
+function make_map(id){
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      <% @hash.each.with_index do |gon, index|%>
+        if (<%= index %> == id)
+        {
+          edit_polygon = handler.addPolygon(<%=raw gon.to_json %>,{
+           strokeColor: '#FF0000',
+           editable: true,
+           //fillColor: '#FF0000'
+          });
+        }
+        else
+        {
+          poly = handler.addPolygon(<%=raw gon.to_json %>,{
+             strokeColor: '#FFBF00',
+             editable: false,
+             //fillColor: '#FF0000'
+          });
+          google.maps.event.addListener(poly.getServiceObject(), "click", function(event) {
+            infoWindow.setContent((<%= raw @map[index].name.to_json %>).toString());
+            infoWindow.setPosition(event.latLng);
+            infoWindow.open(handler.getMap());
+          });
+        }
+      <% end %>
       google.maps.event.addListener(handler.map.getServiceObject(),'click',function(event){
          if (draw == true)
          {
@@ -43,23 +75,11 @@ $(function() {
            index += 1;
          }
       });
-      handler.map.centerOn(Qatar);
       handler.fitMapToBounds();
-      handler.getMap().setZoom(9);
+      handler.getMap().setZoom(zoom);
+      handler.map.centerOn(focus);
    });
-
-   $("#map_li").on("click", function (){
-      document.getElementById("draw_btn").style.display = "none";
-   });
-   $("#list_li").on("click", function (){
-      document.getElementById("draw_btn").style.display = "block";
-   });
-   if (getURLParameter('list') == 'true')
-   {
-    $('#map_tab a[href="#list_view"]').tab('show');
-   }
-
-});
+}
 
 function save_polygons(){
    draw = !draw;
@@ -85,6 +105,7 @@ function save_polygons(){
       document.getElementById("draw_btn").className = "btn btn-primary"
    }
 }
+
 function send_polygons(){
   name_filed = document.getElementById("name_field");
   name = name_field.value;
@@ -96,7 +117,47 @@ function send_polygons(){
   name_field.value = "";
   polygons = [];
   index = 0;
+  location.reload(true);
 }
+
+function edit_polygons(id,index,lat,lng){
+  polygonIndex = index;
+  ID = id;
+  console.log(id);
+  document.getElementById("save_btn").style.display = "block";
+  document.getElementById("cancel_btn").style.display = "block";
+  document.getElementById("draw_btn").style.display = "none";
+  focus = [{"lat": lat ,"lng": lng }];
+  zoom = 10;
+  make_map(index);
+}
+
+function update_polygons(){
+  polygons = [];
+  var arr = edit_polygon.serviceObject.latLngs.b[0].b;
+  for (var i=0; i<edit_polygon.serviceObject.latLngs.b[0].length; i++)
+  {
+    polygons.push({lat: arr[i].lat(), lng: arr[i].lng()});
+  }
+  document.getElementById("save_btn").style.display = "none";
+  document.getElementById("draw_btn").style.display = "block";
+  jQuery.ajax({
+    data: { id: ID, polygons },
+    type: 'post',
+    url: "/update_polygon"
+  });
+  location.reload(true);
+}
+
+function cancel_update(){
+  document.getElementById("save_btn").style.display = "none";
+  document.getElementById("cancel_btn").style.display = "none";
+  document.getElementById("draw_btn").style.display = "block";
+  focus = Qatar;
+  zoom = 9;
+  make_map(null);
+}
+
 </script>
 
 <div class="right_col" role="main">
@@ -105,6 +166,11 @@ function send_polygons(){
       <div class="title_left" style="width: 20%;">
         <h3>Map</h3>
       </div>
+      <button id="draw_btn" class="btn btn-info" style="float: right;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
+
+      <button id="save_btn" class="btn btn-success" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
+
+      <button id="cancel_btn" class="btn btn-warning" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Cancel Update" onclick='cancel_update()'><i class="fa fa-times"></i></button>
     </div>
       <div id="polygon_name" class="modal fade" role="dialog">
         <div class="modal-dialog" style="padding-top: 120px;">
@@ -115,7 +181,7 @@ function send_polygons(){
               <h4 class="modal-title">Polygon</h4>
             </div>
             <div class="modal-body">
-              <%= text_field_tag 'name', nil, required: true, placeholder: "Name...", id: "name_field", class: "form-control"%>
+              <%= text_field_tag 'name', '', autofocus: true, required: true, placeholder: "Name...", id: "name_field", class: "form-control"%>
               <br>
               <button type="button" class="btn btn-info" style="float; right;" data-dismiss="modal" onclick='send_polygons()'>Done</button>
             </div>
@@ -125,26 +191,12 @@ function send_polygons(){
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
-            <div class="x_content">
-
-              <ul class="nav nav-tabs" id="map_tab">
-                <li class="active" id="list_li"><a data-toggle="tab" href="#map_view">Map</a></li>
-                <li id="map_li"><a data-toggle="tab" href="#list_view">List</a></li>
-                <button id="draw_btn" class="btn btn-info" style="float: right;" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
-              </ul>
-
-              <div class="tab-content">
-                <div id="map_view" class="tab-pane fade in active">
-                  <div style='width: 100%;'>
-                    <div id="map" style='width: 100%; height: 500px;'></div>
-                  </div>
-                </div>
-                <div id="list_view" class="tab-pane fade">
-                  <%= render "index" %>
-                </div>
+              <div class="col-md-10 col-sm-12 col-xs-12 form-group" style="padding: 0px 4px 0px 0px; height: 100%;">
+                <div id="map" style='width: 100%; height: 540px;'></div>
               </div>
-
-            </div>
+              <div class="col-md-2 col-sm-12 col-xs-12 form-group" style="padding: 0px;">
+                <%= render "index" %>
+              </div>
           </div>
         </div>
       </div>
