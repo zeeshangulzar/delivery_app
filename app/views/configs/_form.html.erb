@@ -1,13 +1,18 @@
 <script type="text/javascript">
   $(document).ready(function() {
+    $('.modal').on('shown.bs.modal', function(e)
+    {
+      console.log("config partial show load");
+    });
     $('.modal').on('hidden.bs.modal', function(e)
     {
+      console.log("config partial hide");
       $(this).find('form').trigger('reset');
       $(this).removeData();
     })
   });
-
 </script>
+
 <%= form_for(@config) do |f| %>
   <% if @config.errors.any? %>
     <div id="error_explanation">
@@ -31,7 +36,7 @@
     </div>
     <div class="input-group">
       <%= f.label :description %>
-      <%= f.cktext_area :description, class: "form-control", style: "height: 200px !important;" %>
+      <%= f.cktext_area :description, class: "form-control", rows: 8 %>
     </div>
     <br>
     <div class="actions">
