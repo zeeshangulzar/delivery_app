@@ -4,9 +4,10 @@ module V1
     before_action :token_authentication
     before_action :validate_verification_user, only: [:verify]
     before_action :validate_user_activation, only: [:verify]
-    before_action :get_user, except: [:verify, :guest_verify, :update_profile]
+    before_action :get_user, except: [:verify, :guest_verify, :update_profile, :resend_sms]
     before_action :non_admin_users, only: [:verify]
-    before_action :check_cell, only: [:guest_verify]
+    before_action :check_cell, only: [:guest_verify, :resend_sms]
+    before_action :find_user_by_cell, only: [:resend_sms]
     before_action :check_params_presense, only: [:update_profile]
     before_action :find_user_by_id, only: [:update_profile]
     before_action :user_authentication, only: [:update_profile]
@@ -75,6 +76,12 @@ module V1
       render json: {code: token}, status: 200
     end
 
+    def resend_sms
+      return render json: {error: "user already verified"}, status: 409 if @user.verified?
+      send_sms(@user.verified_token, params[:cell])
+      render json: {code: @user.verified_token, message: 'successful'}, status: 200
+    end
+
   private
     def validate_verification_user
       return render json: { error: 'Cell is empty'}, status: 404 if params[:cell].blank?
@@ -110,6 +117,11 @@ module V1
     def find_user_by_id
     @user = User.find_by_id(params[:user_id])
     return render json: { error: 'User not found'}, status: 404 if @user.blank?
+    end
+
+    def find_user_by_cell
+      @user = User.find_by_cell(params[:cell])
+      return render json: { error: 'User not found'}, status: 404 if @user.blank?
     end
 
     def check_params_presense

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     post 'v1/save_booking', to: 'bookings#save_booking'
     get 'v1/user_bookings', to: 'bookings#list'
     get 'v1/user_orders', to: 'bookings#orders_list'
+    post 'v1/resend_sms', to: 'users/registrations#resend_sms'
   end
 
   get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
