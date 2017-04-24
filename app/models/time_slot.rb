@@ -48,7 +48,7 @@ class TimeSlot < ActiveRecord::Base
 
     def check_time_slot
       if TimeSlot.any?{|t| t.date == self.date && self.start_time.between?(t.start_time, t.end_time)}
-        self.errors.add(:base, "slot confilicts")
+        self.errors.add(:base, "Time slot already exist")
         false
       else
         true
