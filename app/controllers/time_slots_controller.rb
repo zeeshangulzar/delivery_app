@@ -34,14 +34,11 @@ class TimeSlotsController < ApplicationController
 
   def create
     @time_slot = TimeSlot.new(time_slot_params)
-
     respond_to do |format|
       if @time_slot.save
-        format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully created.' }
-        format.json { render :show, status: :created, location: @time_slot }
+        format.js
       else
-        format.html { render :new }
-        format.json { render json: @time_slot.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

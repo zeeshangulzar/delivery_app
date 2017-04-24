@@ -1,6 +1,7 @@
 class TimeSlot < ActiveRecord::Base
   validates :date, :start_time, :end_time, :charges, presence: true
   has_one :booking, dependent: :delete
+  before_save :check_time_slot
 
   paginates_per 10
 
@@ -44,5 +45,15 @@ class TimeSlot < ActiveRecord::Base
     def self.validate_charges(charges)
       return charges.present? && charges.to_i.is_a?(Integer)
     end
+
+    def check_time_slot
+      if TimeSlot.any?{|t| t.date == self.date && self.start_time.between?(t.start_time, t.end_time)}
+        self.errors.add(:base, "Time slot already exist")
+        false
+      else
+        true
+      end
+    end
+
 
 end

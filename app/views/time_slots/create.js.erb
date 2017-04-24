@@ -1,0 +1,6 @@
+
+<% if @time_slot.errors.any? %>
+	$("#newform").html("<%= escape_javascript(render("form")) %>");
+ <% else %>
+	window.location.href = '<%= @time_slots_path %>';
+<% end %>
