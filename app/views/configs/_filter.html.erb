@@ -1,0 +1,13 @@
+<%= form_tag configs_path, method: :get  do %>
+  <div style="display: flex;">
+    <div class="input-group config_search">
+      <span class="input-group-addon colors"><i class="glyphicon glyphicon-text-color"></i></span>
+      <%= text_field_tag :title, params[:title], placeholder: 'Title',class: "form-control fields" %>
+    </div>
+
+    <div class="input-group" style="width: 10%;">
+      <span class="input-group-addon colors" style="border-radius: 4px !important; padding: 6px;"><b>API <%= check_box_tag :api, params[:api], params[:api].present?, class: "icheckbox_flat-green"%></b></span>
+      <%= submit_tag "Search", class: "btn btn-sm btn-primary config_search_btn" %>
+    </div>
+  </div>
+<% end %>

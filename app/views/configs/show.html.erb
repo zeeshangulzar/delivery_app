@@ -1,0 +1,23 @@
+<div id="show_config">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header colors">
+        <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+        <h4 class="modal-title">Configuration</h4>
+      </div>
+      <div class="modal-body" style="font-size: 14px;">
+        <div class="input-group">
+          <h4>Title: </h4>
+          <%= @config.title %>
+        </div>
+        <div class="input-group">
+          <h4>API: </h4>
+          <%= check_api(config) %>
+        </div>
+        <div class="input-group">
+        <h4>Description: </h4>
+          <%= @config.description %>
+        </div>
+      </div>
+    </div>
+</div>

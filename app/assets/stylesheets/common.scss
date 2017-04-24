@@ -101,6 +101,33 @@
     width: 56px;
   }
 
+  .ellipsis{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  #config_form .input-group{
+    width: 100%;
+  }
+
+  .config_search{
+    width: 45%;
+  }
+
+  .config_add_btn{
+    margin-left: 28%;
+  }
+
+  .config_search_btn{
+    float: left;
+    height: 34px;
+    margin: 0 0 0 30%;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
@@ -126,6 +153,12 @@
       margin-top: 2.5%;
       margin-left: 52px;
     }
+    .config_search{
+      width: 58%;
+    }
+    .config_add_btn{
+      margin: 0 !important;
+    }
   }
 
   @media screen and (max-width: 380px) {
@@ -145,7 +178,9 @@
     #search_form2{
       display: inline !important;
     }
-
+    .config_search_btn{
+      margin: 0 0 0 8%;
+    }
   }
   .csv_upload input[type="file"] {
     display: block;

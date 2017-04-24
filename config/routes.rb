@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     delete 'v1/user_deleted_location', to: 'locations#delete_user_location'
     post 'v1/user_updated_location', to: 'locations#update_user_location'
     get 'v1/status_code', to: 'settings#status_code'
+    get 'v1/configurations', to: 'settings#configuration'
     post 'v1/guest_verify', to: 'users/registrations#guest_verify'
     post 'v1/save_booking', to: 'bookings#save_booking'
     get 'v1/user_bookings', to: 'bookings#list'
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
   end
   resources :bookings, only: [:show, :index, :destroy]
   resources :orders, only: [:show]
+  resources :configs
 
 
 

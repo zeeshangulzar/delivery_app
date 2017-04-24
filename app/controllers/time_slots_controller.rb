@@ -69,6 +69,7 @@ class TimeSlotsController < ApplicationController
   def daily_time_slots
     @time_slots = TimeSlot.where('date BETWEEN ? AND ?', @start_date, @end_date).order(:date)
     @dates = @time_slots.group(:date)
+    @policy = Config.find_by_title('Privacy Policy')
   end
 
   def download_template

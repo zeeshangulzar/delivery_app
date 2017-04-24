@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.modal').on('hidden.bs.modal', function(e)
+    {
+      $(this).find('form').trigger('reset');
+      $(this).removeData();
+    })
+  });
+
+</script>
+<%= form_for(@config) do |f| %>
+  <% if @config.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@config.errors.count, "error") %> prohibited this config from being saved:</h2>
+
+      <ul>
+      <% @config.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div id="config_form">
+    <div class="input-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, required: true, value: @config.title, class: "form-control" %>
+    </div>
+    <div class="input-group">
+      <%= f.check_box :api, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
+      <%= label_tag "API", "API" %>
+    </div>
+    <div class="input-group">
+      <%= f.label :description %>
+      <%= f.cktext_area :description, class: "form-control", style: "height: 200px !important;" %>
+    </div>
+    <br>
+    <div class="actions">
+      <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
+    </div>
+  </div>
+<% end %>

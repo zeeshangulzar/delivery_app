@@ -25,4 +25,11 @@ module ApplicationHelper
     date.strftime("%Y-%m-%d")
   end
 
+  def format_description(text)
+    return if text.blank?
+    value = text.gsub("\r", "").split("\n").reject { |t| t.empty? }
+    value = value.first if value.count == 1
+    value
+  end
+
 end
