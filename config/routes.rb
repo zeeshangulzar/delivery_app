@@ -52,7 +52,7 @@ Rails.application.routes.draw do
   resources :bookings, only: [:show, :index, :destroy]
   resources :configs
   resources :orders, only: [:show, :index]
-
+  resources :questions
 
   get 'map' => 'map#map'
   delete 'delete_map' => 'map#destroy'
