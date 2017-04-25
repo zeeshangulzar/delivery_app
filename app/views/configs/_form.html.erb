@@ -9,7 +9,7 @@
       console.log("config partial hide");
       $(this).find('form').trigger('reset');
       $(this).removeData();
-    })
+    });
   });
 </script>
 
@@ -30,8 +30,8 @@
       <%= f.label :title %>
         <%= f.text_field :title, required: true, value: @config.title, class: "form-control", readonly: (params[:action] == 'edit' ? true : false) %>
     </div>
-    <div class="input-group">
-      <%= f.check_box :api, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
+    <div class="input-group" style="display: none;">
+      <%= f.check_box :api, checked: true, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
       <%= label_tag "API", "API" %>
     </div>
     <div class="input-group">
