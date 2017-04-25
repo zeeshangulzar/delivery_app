@@ -1,6 +1,8 @@
 class Question < ActiveRecord::Base
 
-	paginates_per 10
+has_many :answers
+
+paginates_per 10
 
 private
 

@@ -1,7 +1,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:show, :edit, :update, :destroy, :index]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_action :token_authentication, only: [:display_questions]
+  before_action :token_authentication, only: [:display_questions, :save_answers]
+  before_action :check_params, only: [:save_answers]
   
   # GET /questions
   # GET /questions.json
@@ -11,7 +12,16 @@ class QuestionsController < ApplicationController
   end
 
   def display_questions
-    @questions = Question.last(5)
+    @questions = Question.where(active: true).last(5)
+  end
+
+  def save_answers
+    params[:answers].each do |answer|
+      @question = Question.find_by_id(answer["question_id"])
+       return render json: { error: "Question #{answer["question_id"]} not found"}, status: 404 if @question.blank?
+      @question.answers.create(content: answer["content"], count: answer["count"])
+    end
+    return render json: { mesage: "successfull "}, status: 200 
   end
 
   # GET /questions/1
@@ -81,4 +91,14 @@ class QuestionsController < ApplicationController
     def question_params
       params.require(:question).permit(:content, :active)
     end
+
+
+
+    def check_params
+    params[:answers].each.with_index do |answer, answer_index|
+      return render json: { error: "Please provide question id "}, status: 404 if answer["question_id"].blank?
+      return render json: { error: "Rating count can not be blank "}, status: 404 if answer["count"].blank?
+    end
+    end
+
 end
