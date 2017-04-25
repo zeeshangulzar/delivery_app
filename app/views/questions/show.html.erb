@@ -1,14 +1,68 @@
-<p id="notice"><%= notice %></p>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<div class="right_col" role="main">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Questions</h3>
+      </div>
+    </div>
 
-<p>
-  <strong>Content:</strong>
-  <%= @question.content %>
-</p>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+			<div id="container" style="min-width: 310px; height: 500px; max-width: 700px; margin: 0 auto"></div>
+        </div>
+     </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
 
-<p>
-  <strong>Active:</strong>
-  <%= @question.active %>
-</p>
-
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+    // Build the chart
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Question submisssions'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Poplularity',
+            colorByPoint: true,
+            data: [{
+                name: 'Rating 1',
+                y: <%= @rating1%>
+            }, {
+                name: 'Rating 2',
+                y: <%= @rating2%>,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Rating 3',
+                y: <%= @rating3%>
+            }, {
+                name: 'Rating 4',
+                y: <%= @rating4%>
+            }, {
+                name: 'Rating 5',
+                y: <%= @rating5%>
+            }]
+        }]
+    });
+});
+</script>

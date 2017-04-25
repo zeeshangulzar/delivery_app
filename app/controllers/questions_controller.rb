@@ -27,6 +27,12 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   # GET /questions/1.json
   def show
+    @rating1 = @question.answers.where(count: 1).count
+    @rating2 = @question.answers.where(count: 2).count
+    @rating3 = @question.answers.where(count: 3).count
+    @rating4 = @question.answers.where(count: 4).count
+    @rating5 = @question.answers.where(count: 5).count
+
   end
 
   # GET /questions/new
