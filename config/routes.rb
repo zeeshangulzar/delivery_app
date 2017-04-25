@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
   get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
   get 'v1/user_get_location', to: 'locations#get_user_location'
+  get 'v1/display_questions', to: 'questions#display_questions'
+  
 
   get 'v1/track_order', to: 'orders#track_order'
 

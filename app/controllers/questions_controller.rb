@@ -1,12 +1,17 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:show, :edit, :update, :destroy, :index]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :token_authentication, only: [:display_questions]
   
   # GET /questions
   # GET /questions.json
   def index
     @questions = Question.search(params).page(params[:page]).per(10)
     @question = Question.new
+  end
+
+  def display_questions
+    @questions = Question.last(5)
   end
 
   # GET /questions/1
