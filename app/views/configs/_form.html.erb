@@ -28,7 +28,7 @@
   <div id="config_form">
     <div class="input-group">
       <%= f.label :title %>
-      <%= f.text_field :title, required: true, value: @config.title, class: "form-control" %>
+        <%= f.text_field :title, required: true, value: @config.title, class: "form-control", readonly: (params[:action] == 'edit' ? true : false) %>
     </div>
     <div class="input-group">
       <%= f.check_box :api, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
