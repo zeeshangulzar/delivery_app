@@ -13,34 +13,45 @@
   });
 </script>
 
-<%= form_for(@config) do |f| %>
-  <% if @config.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@config.errors.count, "error") %> prohibited this config from being saved:</h2>
+<div class="modal-dialog" style="width: 50%;">
+ <!--Modal content-->
+ <div class="modal-content">
+   <div class="modal-header colors">
+     <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+     <h4 class="modal-title">Edit Configurations</h4>
+   </div>
+   <div class="modal-body">
+    <%= form_for(@config) do |f| %>
+      <% if @config.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@config.errors.count, "error") %> prohibited this config from being saved:</h2>
 
-      <ul>
-      <% @config.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+          <ul>
+          <% @config.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <div id="config_form">
-    <div class="input-group">
-      <%= f.label :title %>
-        <%= f.text_field :title, required: true, value: @config.title, class: "form-control", readonly: (params[:action] == 'edit' ? true : false) %>
-    </div>
-    <div class="input-group" style="display: none;">
-      <%= f.check_box :api, checked: true, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
-      <%= label_tag "API", "API" %>
-    </div>
-    <div class="input-group">
-      <%= f.label :description %>
-      <%= f.cktext_area :description, class: "form-control", rows: 8 %>
-    </div>
-    <br>
-    <div class="actions">
-      <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
-    </div>
-  </div>
-<% end %>
+      <div id="config_form">
+        <div class="input-group">
+          <%= f.label :title %>
+            <%= f.text_field :title, required: true, value: @config.title, class: "form-control", readonly: (params[:action] == 'edit' ? true : false) %>
+        </div>
+        <div class="input-group" style="display: none;">
+          <%= f.check_box :api, checked: true, class: "icheckbox_flat-green", style: "margin: 0px 6px 0px 0px;" %>
+          <%= label_tag "API", "API" %>
+        </div>
+        <div class="input-group">
+          <%= f.label :description %>
+          <%= f.cktext_area :description, class: "form-control", rows: 8 %>
+        </div>
+        <br>
+        <div class="actions">
+          <%= f.submit "Save", class: "btn btn-dark", style: "float: right;" %>
+        </div>
+      </div>
+    <% end %>
+   </div>
+ </div>
+</div>
