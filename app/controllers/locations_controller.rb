@@ -9,7 +9,7 @@ class LocationsController < ApplicationController
   def save_user_location
     location = Location.save_location(@user, params)
     if location.persisted?
-      render json: { message: 'Successful' }, status: 200
+      render json: { location_id: location.id, message: 'Successful' }, status: 200
     else
       render json: { error: location.errors.full_messages.to_sentence }, status: 406
     end
