@@ -2,21 +2,33 @@
 <div class="right_col" role="main">
     <div class="page-title">
       <div class="title_left">
-        <h3>Questions</h3>
-      </div>
-    </div>
+        <h3>Question Details</h3>
 
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-			<div id="container" style="min-width: 310px; height: 500px; max-width: 700px; margin: 0 auto"></div>
+      </div>
+        <div class="title_right">
+          <%= link_to "", questions_path, class: "btn btn-dark btn-sm glyphicon glyphicon-arrow-left", style: "float: right;"%>
         </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div id="container" style="min-width: 310px; height: 500px; max-width: 700px; margin: 0 auto"></div>
+                </div>
+               <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h4>Content</h4>
+                        <%= @question.content%>
+                    <h4>Status</h4>
+                        <%= @question.active? ? "Active" : "InActive"%>
+                     <h4>Total Submisssions:</h4>  <%= @question.answers.count%>
+                </div>
+            </div>
+           </div>
      </div>
-  </div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
-
+    $(document).ready(function () {
     // Build the chart
     Highcharts.chart('container', {
         chart: {
@@ -64,5 +76,6 @@
             }]
         }]
     });
+    document.getElementsByClassName("highcharts-credits")[0].style.display = 'none';
 });
 </script>
