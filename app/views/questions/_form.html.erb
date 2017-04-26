@@ -24,8 +24,9 @@
       <%= f.text_area :content, required: true, class: "resizable_textarea form-control", style: "width: 100%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;"%>
     </div>
     <div class="col-md-9 col-sm-9 col-xs-12">
+    <br>
         <%= f.label :active, class: "flat"%>
-         <%= f.check_box :active, {class: "flat"}, "true", "false"%>
+         <%= f.check_box :active, {}, "true", "false"%>
     </div>
 </div>
   <div class="actions">
