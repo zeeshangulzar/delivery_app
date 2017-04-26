@@ -32,7 +32,12 @@
             </li>
             <li><a href=<%= map_path() %>><i class="fa fa-map-marker"></i> Map</a></li>
             <li><a href=<%= time_slots_path() %>><i class="fa fa-calendar"></i> Time Slots</a></li>
-            <li><a href=<%= bookings_path() %>><i class="fa fa-cubes"></i> Bookings</a></li>
+            <li><a><i class="fa fa-cubes"></i> Bookings <span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu" style="display: none">
+                <li><%= link_to "Bookings", bookings_path() %></li>
+                <li><%= link_to "Force Assign Bookings", force_assign_bookings_path() %></li>
+              </ul>
+            </li>
             <li><a href=<%= configs_path() %>><i class="fa fa-cogs"></i> Settings</a></li>
             <li><a href=<%= orders_path() %>><i class="fa fa-sitemap"></i> Track Orders</a></li>
           </ul>
