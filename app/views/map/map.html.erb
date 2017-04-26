@@ -85,7 +85,9 @@ function save_polygons(){
    draw = !draw;
    if (draw == false)
    {
-      document.getElementById("draw_btn").className = "btn btn-info"
+      document.getElementById("cancel_btn").style.display = "none";
+      document.getElementById("draw_btn").className = "btn btn-info";
+      document.getElementById("draw_icon").className = "fa fa-pencil";
       if (index != 0)
       {
         $("#polygon_name").modal();
@@ -102,7 +104,9 @@ function save_polygons(){
    }
    else
    {
-      document.getElementById("draw_btn").className = "btn btn-primary"
+      document.getElementById("cancel_btn").style.display = "block";
+      document.getElementById("draw_btn").className = "btn btn-success";
+      document.getElementById("draw_icon").className = "fa fa-save (alias)";
    }
 }
 
@@ -153,6 +157,10 @@ function cancel_update(){
   document.getElementById("save_btn").style.display = "none";
   document.getElementById("cancel_btn").style.display = "none";
   document.getElementById("draw_btn").style.display = "block";
+  name_field.value = "";
+  polygons = [];
+  index = 0;
+  draw = false;
   focus = Qatar;
   zoom = 9;
   make_map(null);
@@ -166,11 +174,11 @@ function cancel_update(){
       <div class="title_left" style="width: 20%;">
         <h3>Map</h3>
       </div>
-      <button id="draw_btn" class="btn btn-info" style="float: right;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Draw Polygon" onclick='save_polygons()'><i class="fa fa-pencil"></i></button>
+      <button id="draw_btn" class="btn btn-info" style="float: right;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Create Polygon" onclick='save_polygons()'><i id="draw_icon" class="fa fa-pencil"></i></button>
 
       <button id="save_btn" class="btn btn-success" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Update Polygon" onclick='update_polygons()'><i class="fa fa-save (alias)"></i></button>
 
-      <button id="cancel_btn" class="btn btn-warning" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Cancel Update" onclick='cancel_update()'><i class="fa fa-times"></i></button>
+      <button id="cancel_btn" class="btn btn-warning" style="float: right; display: none;" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Cancel" onclick='cancel_update()'><i class="fa fa-times"></i></button>
     </div>
       <div id="polygon_name" class="modal fade" role="dialog">
         <div class="modal-dialog" style="padding-top: 120px;">
