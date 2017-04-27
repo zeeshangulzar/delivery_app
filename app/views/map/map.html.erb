@@ -157,6 +157,8 @@ function cancel_update(){
   document.getElementById("save_btn").style.display = "none";
   document.getElementById("cancel_btn").style.display = "none";
   document.getElementById("draw_btn").style.display = "block";
+  document.getElementById("draw_btn").className = "btn btn-info";
+  document.getElementById("draw_icon").className = "fa fa-pencil";
   name_field.value = "";
   polygons = [];
   index = 0;
