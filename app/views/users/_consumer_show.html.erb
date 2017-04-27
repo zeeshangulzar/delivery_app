@@ -5,13 +5,25 @@
 <div class="well" style="font-size:14px;">
   <div id="info_well" style="display: flex;">
     <div id="user_info" style="width: 49%">
-      <div class="fa_icon" ><i class="fa fa-user"></i><b> Name: </b></div>
-      <div class="icon_field" ><%= @user.name.try(:titleize) %></div>
-      <div class="fa_icon" ><i class="fa fa-envelope"></i><b> Email: </b></div>
-      <div class="icon_field" ><%= @user.email %></div>
-      <div class="fa_icon" ><i class="fa fa-phone-square" ></i><b> Cell: </b></div>
-      <div class="icon_field" ><%= @user.cell %></div>
+      <table id="view_table" class="table">
+        <tbody>
+          <tr>
+            <td><i class="fa fa-user"></i><b> Name: </b></td>
+            <td><%= @user.name.try(:titleize) %></td>
+          </tr>
+          <tr>
+            <td><i class="fa fa-envelope"></i><b> Email: </b></td>
+            <td><%= @user.email %></td>
+          </tr>
+          <tr>
+            <td><i class="fa fa-phone-square" ></i><b> Cell: </b></td>
+            <td><%= @user.cell %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+
     <div id="user_info" style="width: 49%">
       <div class="fa_icon" ><i class="fa fa-check-square-o"></i><b> Verified: </b></div>
       <div class="icon_field" ><%= is_verified(@user) %></div>

@@ -158,6 +158,10 @@
     margin-top: 2%;
   }
 
+  .view_table.tr{
+    text-align: left !important;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
