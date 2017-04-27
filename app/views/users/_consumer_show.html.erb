@@ -2,36 +2,42 @@
   <%= render 'order_widgets' %>
 <% end %>
 
-<div class="well" style="font-size:14px;">
-  <div id="info_well" style="display: flex;">
-    <div id="user_info" style="width: 49%">
-      <table id="view_table" class="table">
-        <tbody>
-          <tr>
-            <td><i class="fa fa-user"></i><b> Name: </b></td>
-            <td><%= @user.name.try(:titleize) %></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-envelope"></i><b> Email: </b></td>
-            <td><%= @user.email %></td>
-          </tr>
-          <tr>
-            <td><i class="fa fa-phone-square" ></i><b> Cell: </b></td>
-            <td><%= @user.cell %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-
-    <div id="user_info" style="width: 49%">
-      <div class="fa_icon" ><i class="fa fa-check-square-o"></i><b> Verified: </b></div>
-      <div class="icon_field" ><%= is_verified(@user) %></div>
-      <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Last Updated: </b></div>
-      <div class="icon_field" ><%= time_format(@user.updated_at) %></div>
-      <div class="fa_icon" ><i class="fa fa-calendar"></i><b> Registered At: </b></div>
-      <div class="icon_field" ><%= time_format(@user.created_at) %></div>
-    </div>
+<div class="well col-md-12 col-sm-12 col-xs-12" style="font-size:14px;">
+  <div id="user_info" class="col-md-6 col-sm-6 col-xs-12">
+    <table id="view_table" class="table">
+      <tbody>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-user"></i><b> Name: </b></td>
+          <td><%= @user.name.try(:titleize) %></td>
+        </tr>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-envelope"></i><b> Email: </b></td>
+          <td><%= @user.email %></td>
+        </tr>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-phone-square" ></i><b> Cell: </b></td>
+          <td><%= @user.cell %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="user_info" class="col-md-6 col-sm-6 col-xs-12">
+    <table id="view_table" class="table">
+      <tbody>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-check-square-o"></i><b> Verified: </b></td>
+          <td><%= is_verified(@user) %></td>
+        </tr>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-calendar"></i><b> Last Updated: </b></td>
+          <td><%= time_format(@user.updated_at) %></td>
+        </tr>
+        <tr>
+          <td class="fa_icon"><i class="fa fa-calendar"></i><b> Registered At: </b></td>
+          <td><%= time_format(@user.created_at) %></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
