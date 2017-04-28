@@ -18,19 +18,19 @@
                   <tbody>
                     <tr>
                       <td class="fa_icon"><i class="fa fa-map-marker"></i><b> From: </b></td>
-                      <td><%= @booking.location.address.try(:titleize) %></td>
+                      <td class="break_text"><%= @booking.location.address.try(:titleize) %></td>
                     </tr>
                     <tr>
                       <td class="fa_icon"><i class="fa fa-spinner"></i><b> Status: </b></td>
-                      <td><%= @booking.status.try(:titleize) %></td>
+                      <td class="break_text"><%= @booking.status.try(:titleize) %></td>
                     </tr>
                     <tr>
                       <td class="fa_icon"><i class="fa fa-money"></i><b> Total Amount: </b></td>
-                      <td><%= append_qar(@booking.total_amount) %></td>
+                      <td class="break_text"><%= append_qar(@booking.total_amount) %></td>
                     </tr>
                     <tr>
                       <td class="fa_icon"><i class="fa fa-calendar"></i><b> Schedule: </b></td>
-                      <td><%= @booking.time_slot.date.strftime('%d %b %Y') %>
+                      <td class="break_text"><%= @booking.time_slot.date.strftime('%d %b %Y') %>
                       <%= Time.parse(@booking.time_slot.start_time.to_s).strftime("%l:%M %P") %> <b>to</b>
                       <%= Time.parse(@booking.time_slot.end_time.to_s).strftime("%l:%M %P") %></td>
                     </tr>
@@ -40,32 +40,19 @@
               <div id="user_info" class="col-md-6 col-sm-6 col-xs-12">
                 <table id="view_table" class="table">
                   <tbody>
+                    <tr><td colspan="2"><b>Sender Details:</b><td></tr>
                     <tr>
-                      <td class="fa_icon"><i class="fa fa-map-marker"></i><b> From: </b></td>
-                      <td><%= @booking.location.address.try(:titleize) %></td>
+                      <td class="fa_icon"><i class="fa fa-user" style="margin-left:10px;"></i><b> Name: </b></td>
+                      <td class="break_text"><%= @booking.user_name.try(:titleize) %></td>
                     </tr>
                     <tr>
-                      <td class="fa_icon"><i class="fa fa-spinner"></i><b> Status: </b></td>
-                      <td><%= @booking.status.try(:titleize) %></td>
+                      <td class="fa_icon"><i class="fa fa-envelope" style="margin-left:10px;"></i><b> Email: </b></td>
+                      <td class="break_text"><%= @booking.user_email %></td>
                     </tr>
                     <tr>
-                      <td class="fa_icon"><i class="fa fa-money"></i><b> Total Amount: </b></td>
-                      <td><%= append_qar(@booking.total_amount) %></td>
+                      <td class="fa_icon"><i class="fa fa-phone-square" style="margin-left:10px;"></i><b> Cell: </b></td>
+                      <td class="break_text"><%= @booking.user_cell %></td>
                     </tr>
-                    <tr>
-                      <td class="fa_icon"><i class="fa fa-calendar"></i><b> Schedule: </b></td>
-                      <td><%= @booking.time_slot.date.strftime('%d %b %Y') %>
-                      <%= Time.parse(@booking.time_slot.start_time.to_s).strftime("%l:%M %P") %> <b>to</b>
-                      <%= Time.parse(@booking.time_slot.end_time.to_s).strftime("%l:%M %P") %></td>
-                    </tr>
-
-                    <b>Sender Details:</b><br>
-                    <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-user"></i><b> Name: </b></div>
-                    <div class="icon_field" ><%= @booking.user_name.try(:titleize) %></div>
-                    <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-envelope"></i><b> Email: </b></div>
-                    <div class="icon_field" ><%= @booking.user_email %></div>
-                    <div class="fa_icon" style="margin-left: 4%"><i class="fa fa-phone-square"></i><b> Cell: </b></div>
-                    <div class="icon_field" ><%= @booking.user_cell %></div>
                   </tbody>
                 </table>
               </div>

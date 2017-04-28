@@ -178,6 +178,10 @@
     top: 12px;
   }
 
+  .break_text{
+    word-break: break-all;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;

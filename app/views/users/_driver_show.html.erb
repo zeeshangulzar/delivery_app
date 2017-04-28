@@ -11,19 +11,19 @@
         <tbody>
           <tr>
             <td class="fa_icon"><i class="fa fa-user"></i><b> Name: </b></td>
-            <td><%= @user.name.try(:titleize) %></td>
+            <td class="break_text"><%= @user.name.try(:titleize) %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-envelope"></i><b> Email: </b></td>
-            <td><%= @user.email %></td>
+            <td class="break_text"><%= @user.email %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-phone-square" ></i><b> Cell: </b></td>
-            <td><%= @user.cell %></td>
+            <td class="break_text"><%= @user.cell %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-male" ></i><b> Nationality: </b></td>
-            <td><%= @user.profile.nationality %></td>
+            <td class="break_text"><%= @user.profile.nationality %></td>
           </tr>
         </tbody>
       </table>
@@ -33,19 +33,19 @@
         <tbody>
           <tr>
             <td class="fa_icon"><i class="fa fa-gears (alias)"></i><b> Car Make: </b></td>
-            <td><%= @user.profile.vehicle_make %></td>
+            <td class="break_text"><%= @user.profile.vehicle_make %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-automobile (alias)"></i><b> Plate #: </b></td>
-            <td><%= @user.profile.plate_name %></td>
+            <td class="break_text"><%= @user.profile.plate_name %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-automobile (alias)"></i><b> License #: </b></td>
-            <td><%= @user.profile.license_number %></td>
+            <td class="break_text"><%= @user.profile.license_number %></td>
           </tr>
           <tr>
             <td class="fa_icon"><i class="fa fa-calendar"></i><b> Registered At: </b></td>
-            <td><%= time_format(@user.created_at) %></td>
+            <td class="break_text"><%= time_format(@user.created_at) %></td>
           </tr>
         </tbody>
       </table>

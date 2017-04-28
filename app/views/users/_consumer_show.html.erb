@@ -8,15 +8,15 @@
       <tbody>
         <tr>
           <td class="fa_icon"><i class="fa fa-user"></i><b> Name: </b></td>
-          <td><%= @user.name.try(:titleize) %></td>
+          <td class="break_text"><%= @user.name.try(:titleize) %></td>
         </tr>
         <tr>
           <td class="fa_icon"><i class="fa fa-envelope"></i><b> Email: </b></td>
-          <td><%= @user.email %></td>
+          <td class="break_text"><%= @user.email %></td>
         </tr>
         <tr>
           <td class="fa_icon"><i class="fa fa-phone-square" ></i><b> Cell: </b></td>
-          <td><%= @user.cell %></td>
+          <td class="break_text"><%= @user.cell %></td>
         </tr>
       </tbody>
     </table>
@@ -26,15 +26,15 @@
       <tbody>
         <tr>
           <td class="fa_icon"><i class="fa fa-check-square-o"></i><b> Verified: </b></td>
-          <td><%= is_verified(@user) %></td>
+          <td class="break_text"><%= is_verified(@user) %></td>
         </tr>
         <tr>
           <td class="fa_icon"><i class="fa fa-calendar"></i><b> Last Updated: </b></td>
-          <td><%= time_format(@user.updated_at) %></td>
+          <td class="break_text"><%= time_format(@user.updated_at) %></td>
         </tr>
         <tr>
           <td class="fa_icon"><i class="fa fa-calendar"></i><b> Registered At: </b></td>
-          <td><%= time_format(@user.created_at) %></td>
+          <td class="break_text"><%= time_format(@user.created_at) %></td>
         </tr>
       </tbody>
     </table>
