@@ -23,42 +23,18 @@
                     </div>
 
                     <div id="timeslot_btn" style="float: right; height: 31px;">
-                      <button type="button" class="btn btn btn-info btn-sm"  data-toggle="modal" data-target="#add_slot">Add</button>
+                      <%= link_to "Add", new_time_slot_path, remote: true, class: "btn btn btn-info btn-sm"%>
                       <%= link_to download_template_time_slots_path, "data-toggle": "tooltip", "data-placement": "bottom", "title": "", "data-original-title": "Download CSV", class: "btn btn-success btn-sm" do %>
                           <i class="fa fa-download"></i>
                       <% end %>
-                   <div data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Upload CSV" style="float: right;">
-                    <button type="button" class="btn btn btn-warning btn-sm"  data-toggle="modal" data-target="#add_slot_csv" ><i class="fa fa-upload"></i></button>
-                    </div>
-
+                     <div data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Upload CSV" style="float: right;">
+                      <button type="button" class="btn btn btn-warning btn-sm"  data-toggle="modal" data-target="#add_slot_csv" ><i class="fa fa-upload"></i></button>
+                     </div>
                   </div>
+
                 </div>
               </fieldset>
             </form>
-          </div>
-
-          <div id="add_slot" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header colors">
-                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
-                  <h4 class="modal-title">New Time Slot</h4>
-                </div>
-                <div id="newform" class="modal-body">
-                  <%= render 'form' %>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="edit_slot" class="modal fade" role="dialog">
-            <div class="modal-dialog colors">
-              <!-- Modal content-->
-              <div class="modal-content" style="background: transparent;">
-                  <%= render 'form' %>
-              </div>
-            </div>
           </div>
 
           <div id="add_slot_csv" class="modal fade" role="dialog">
@@ -67,7 +43,7 @@
               <div class="modal-content">
                 <div class="modal-header colors">
                   <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
-                  <h4 class="modal-title">Import Time Slots</h4>
+                  <h4 id = "title-text" class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                   <%= form_tag import_time_slots_path, method: :post, multipart: true  do %>
@@ -75,7 +51,6 @@
                       <i class="fa fa-file-excel-o"> Choose file</i>
                       <input name="file" type="file" accept= '.csv'/>
                     </label><br>
-
                     <%= submit_tag "Import", class: "btn btn-success btn-sm", style: "float: right;" %>
                   <% end %>
                 </div>
@@ -102,8 +77,7 @@
                     <td><%= Time.parse(time_slot.start_time).strftime("%l:%M %P") %></td>
                     <td><%= Time.parse(time_slot.end_time).strftime("%l:%M %P") %></td>
                     <td><%= append_qar(time_slot.charges) %></td>
-                    <td><a data-toggle="modal" data-target="#edit_slot" data-remote="<%= edit_time_slot_path(id: time_slot.id) %> #edit_slot" class="btn btn-success btn-sm ">Edit</a>
-                    <%= link_to 'Delete', time_slot, class: "btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td><%= link_to 'Edit', edit_time_slot_path(time_slot), remote: true, class: "btn btn btn-success btn-sm" %></td>
                   </tr>
                 <% end %>
                 </tbody>
