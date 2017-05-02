@@ -10,70 +10,72 @@
 
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-        <div class="well">
-          <div style="height: 34px;">
-            <div class="col-md-8 col-sm-8 col-xs-12" style="padding: 0; height: 40px;">
-              <%= render "filter" %>
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-12" style="float: right; padding: 0;">
-              <button type="button" class="btn btn-info btn-sm config_add_btn" data-toggle="modal" data-target="#add_config">Add</button>
-            </div>
-          </div>
-        </div>
-
-          <div id="add_config" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="width: 50%;">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header colors">
-                  <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
-                  <h4 class="modal-title">New Configurations</h4>
-                </div>
-                <div class="modal-body">
-                  <%= render 'form' %>
-                </div>
+          <div class="well">
+            <div style="height: 34px;">
+              <div class="col-md-8 col-sm-8 col-xs-12" style="padding: 0; height: 40px;">
+                <%= render "filter" %>
               </div>
+              <div class="col-md-1 col-sm-1 col-xs-12" style="float: right; padding: 0; display:none;">
+               <button type="button" class="btn btn-info btn-sm config_add_btn" data-toggle="modal" data-target="#add_config">Add</button>
+             </div>
             </div>
           </div>
 
           <div id="edit_config" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="width: 50%;">
-              <!-- Modal content-->
-              <div class="modal-content" style="background: transparent;">
-                  <%= render 'form' %>
-              </div>
-            </div>
+           <div class="modal-dialog" style="width: 50%;">
+             <!--Modal content-->
+             <div class="modal-content">
+               <div class="modal-header colors">
+                 <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                 <h4 class="modal-title">Edit Configurations</h4>
+               </div>
+               <div class="modal-body">
+                 <%= render 'form' %>
+               </div>
+             </div>
+           </div>
           </div>
 
-          <div id="show_config" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="width: 50%; padding-top: 6%;">
-              <!-- Modal content-->
-              <div class="modal-content" style="background: transparent;">
-              </div>
+          <div id="add_config" class="modal fade" role="dialog">
+           <div class="modal-dialog" style="width: 50%;">
+             <!--Modal content-->
+             <div class="modal-content">
+               <div class="modal-header colors">
+                 <button type="button" class="close colors" data-dismiss="modal" method="reset">X</button>
+                 <h4 class="modal-title">New Configurations</h4>
+               </div>
+               <div class="modal-body">
+                 <%= render 'form' %>
+               </div>
+             </div>
+           </div>
+          </div>
+
+        <div id="config_modal" class="modal fade" role="dialog">
+          <div class="modal-dialog" style="width: 50%; padding-top: 6%;">
+            <!--Modal content-->
+            <div class="modal-content" style="background: transparent;">
+              <%= render 'form' %>
             </div>
           </div>
+        </div>
 
           <div class="x_content">
             <div class="x_content" style="overflow-x: scroll">
               <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                   <tr class="colors">
-                    <th>Title</th>
-                    <th>Descriptions</th>
-                    <th>API</th>
+                    <th>Configuration Name</th>
+                    <th>Content</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
               <tbody>
                 <% @configs.each do |config| %>
                   <tr>
-                    <td style="white-space: nowrap;" ><%= config.title.try(:titleize) %></td>
+                    <td><%= config.title.try(:titleize) %></td>
                     <td style="width: 60%;"><div class="ellipsis"><%= config.description.try(:titleize) %></div></td>
-                    <td><%= check_api(config) %></td>
-                    <td>
-                    <a data-toggle="modal" data-target="#show_config" data-remote="<%= config_path(id: config.id) %> #show_config" class="action_btn btn btn-info btn-sm ">View</a>
-                    <a data-toggle="modal" data-target="#edit_config" data-remote="<%= edit_config_path(id: config.id) %> #edit_config" class="action_btn btn btn-success btn-sm ">Edit</a>
-                    <%= link_to 'Delete', config, class: "action_btn btn btn-danger btn-sm ", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td><%= link_to 'Edit', edit_config_path(config), remote: true, class: "btn btn btn-success btn-sm" %></td>
                   </tr>
                 <% end %>
                 </tbody>
