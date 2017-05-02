@@ -50,6 +50,9 @@ Rails.application.routes.draw do
     end
   end
   resources :bookings, only: [:show, :index, :destroy]
+  get 'force_assign_bookings' => 'bookings#unassigned_bookings'
+  get 'assign_booking' => 'bookings#assign_booking'
+  get 'assign_to_driver' => 'bookings#assign_to_driver'
   resources :configs
   resources :orders, only: [:show, :index]
 

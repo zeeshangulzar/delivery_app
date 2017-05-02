@@ -5,12 +5,14 @@ class Booking < ActiveRecord::Base
   has_many :orders, dependent: :delete_all
   belongs_to :time_slot
   has_many :payments, class_name: "Transaction", as: :transactionable
+  belongs_to :driver, class_name: "User", foreign_key: "driver_id"
 
   paginates_per 10
 
   validates :time_slot, :total_amount, presence: true
   validates :user_name, :user_cell, :user_email, presence: true, if: 'user_id.blank?'
   validate :validate_sender_id, if: 'user_id.present?'
+  validate :validate_user_role, if: 'driver_id.present?'
 
   scope :ordered, -> { order('created_at DESC') }
 
@@ -48,5 +50,7 @@ class Booking < ActiveRecord::Base
     def validate_sender_id
       errors.add(:base, "sender id is invalid") if user_id.present? && user_name.blank?
     end
-
+    def validate_user_role
+      errors.add(:base, "only driver can be assigned") if driver_id.present? && driver.role != 'driver'
+    end
 end
