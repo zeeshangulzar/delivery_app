@@ -15,7 +15,7 @@
               <div class="x_content scroll">
               <h3 style="text-align: center; ">Orders</h3>
                 <%= form_tag orders_path, remote: true, method: :get do |f| %>
-                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                <div class="col-md-5 col-sm-6 col-xs-12 form-group has-feedback">
                    <%= text_field_tag :search, params[:search], placeholder: "Search By Tracker ID", class: "form-control has-feedback-left", onkeyup: "$(this).closest('form').submit();"%>
                    <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
                    </div>
