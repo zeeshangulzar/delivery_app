@@ -10,7 +10,7 @@ var edit_polygon;
 var index = 0;
 var ID = 0;
 var Qatar = [{"lat":25.233908,"lng":51.188301}];
-var focus = Qatar;
+var map_focus = Qatar;
 var polygonIndex;
 var zoom = 9;
 handler = Gmaps.build('Google');
@@ -77,7 +77,7 @@ function make_map(id){
       });
       handler.fitMapToBounds();
       handler.getMap().setZoom(zoom);
-      handler.map.centerOn(focus);
+      handler.map.centerOn(map_focus);
    });
 }
 
@@ -114,7 +114,7 @@ function send_polygons(){
   name_filed = document.getElementById("name_field");
   name = name_field.value;
   jQuery.ajax({
-    data: { name, polygons },
+    data: ({name: name, polygons: polygons}),
     type: 'get',
     url: "/save_polygon"
   });
@@ -131,7 +131,7 @@ function edit_polygons(id,index,lat,lng){
   document.getElementById("save_btn").style.display = "block";
   document.getElementById("cancel_btn").style.display = "block";
   document.getElementById("draw_btn").style.display = "none";
-  focus = [{"lat": lat ,"lng": lng }];
+  map_focus = [{"lat": lat ,"lng": lng }];
   zoom = 10;
   make_map(index);
 }
@@ -146,7 +146,7 @@ function update_polygons(){
   document.getElementById("save_btn").style.display = "none";
   document.getElementById("draw_btn").style.display = "block";
   jQuery.ajax({
-    data: { id: ID, polygons },
+    //data: { id: ID, polygons },
     type: 'post',
     url: "/update_polygon"
   });
@@ -163,7 +163,7 @@ function cancel_update(){
   polygons = [];
   index = 0;
   draw = false;
-  focus = Qatar;
+  map_focus = Qatar;
   zoom = 9;
   make_map(null);
 }
