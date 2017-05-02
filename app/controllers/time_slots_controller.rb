@@ -46,10 +46,11 @@ class TimeSlotsController < ApplicationController
   def update
     respond_to do |format|
       if @time_slot.update(time_slot_params)
+        format.js
         format.html { redirect_to time_slots_path(), notice: 'Time slot was successfully updated.' }
         format.json { render :show, status: :ok, location: @time_slot }
       else
-        format.html { render :edit }
+        format.js
         format.json { render json: @time_slot.errors, status: :unprocessable_entity }
       end
     end
