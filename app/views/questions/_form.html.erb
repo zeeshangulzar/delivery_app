@@ -1,12 +1,4 @@
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('.modal').on('hidden.bs.modal', function(e)
-    {
-      $(this).find('form').trigger('reset');
-      $(this).removeData();
-    })
-  });
-</script>
+
 <%= form_for @question, remote: :true do |f| %>
   <% if @question.errors.any? %>
     <div id="error_explanation">

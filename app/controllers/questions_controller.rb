@@ -38,12 +38,15 @@ class QuestionsController < ApplicationController
   # GET /questions/new
   def new
     @question = Question.new
+    respond_to do |format|
+        format.js
+      end
   end
 
   # GET /questions/1/edit
   def edit
      respond_to do |format|
-        format.html
+        format.js
       end
   end
 
