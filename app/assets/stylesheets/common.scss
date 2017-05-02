@@ -62,8 +62,7 @@
   }
 
   .fa_icon{
-    width: 160px;
-    float: left;
+    width: 32%;
   }
 
   .icons_field{
@@ -128,6 +127,61 @@
     margin: 0 0 0 30%;
   }
 
+.alert-error {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+ }
+
+.alert-alert {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+ }
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+ }
+
+.alert-notice {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+ }
+
+ .alert-error, .alert-alert, .alert-success, .alert-notice{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 2%;
+  }
+
+  #view_table{
+    margin-bottom: 0;
+  }
+
+  #view_table tr{
+    text-align: left !important;
+  }
+
+  #view_table td{
+    border: none;
+    padding: 0 !important;
+    vertical-align: top !important;
+  }
+
+  .driver_edit_btn{
+    float: right;
+    position: absolute;
+    right: 6px;
+    top: 12px;
+  }
+
+  .break_text{
+    word-break: break-all;
+  }
+
   @media screen and (max-width: 768px) {
     .view_field{
       width: 100% !important;
@@ -146,7 +200,6 @@
     }
     .well {
         padding: 10px;
-        height: 90px;
     }
     .csv_form{
       width: 45%;
@@ -159,14 +212,14 @@
     .config_add_btn{
       margin: 0 !important;
     }
+    .fa_icon{
+      width: 45%;
+    }
   }
 
   @media screen and (max-width: 380px) {
     #info_well{
       display: block !important;
-    }
-    #user_info{
-      width: 100% !important;
     }
     .x_panel{
       padding-left: 8px;

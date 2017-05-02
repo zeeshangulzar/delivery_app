@@ -14,8 +14,14 @@
           <div class="x_content">
 
             <% if params[:role] == "consumer" %>
+              <div class="well">
+                <%= render "driver_filters" %>
+              </div>
               <%= render "consumers" %>
             <% elsif params[:role] == "driver" %>
+              <div class="well">
+                <%= render "driver_filters" %>
+              </div>
               <%= render "drivers" %>
             <% end %>
 

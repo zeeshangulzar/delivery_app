@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     post 'v1/pw_update', to: 'users/passwords#update'
     post 'v1/delete', to: 'users/registrations#delete'
     post 'v1/user_saved_location', to: 'locations#save_user_location'
-    delete 'v1/user_deleted_location', to: 'locations#delete_user_location'
+    post 'v1/user_deleted_location', to: 'locations#delete_user_location'
     post 'v1/user_updated_location', to: 'locations#update_user_location'
     get 'v1/status_code', to: 'settings#status_code'
     get 'v1/configurations', to: 'settings#configuration'
@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     post 'v1/save_booking', to: 'bookings#save_booking'
     get 'v1/user_bookings', to: 'bookings#list'
     get 'v1/user_orders', to: 'bookings#orders_list'
+    post 'v1/resend_sms', to: 'users/registrations#resend_sms'
   end
 
   get 'v1/daily_time_slots', to: 'time_slots#daily_time_slots'
@@ -53,6 +54,9 @@ Rails.application.routes.draw do
     end
   end
   resources :bookings, only: [:show, :index, :destroy]
+  get 'force_assign_bookings' => 'bookings#unassigned_bookings'
+  get 'assign_booking' => 'bookings#assign_booking'
+  get 'assign_to_driver' => 'bookings#assign_to_driver'
   resources :configs
   resources :orders, only: [:show, :index]
   resources :questions

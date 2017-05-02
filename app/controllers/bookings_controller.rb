@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
 
-  before_action :authenticate_user!,only:[:index,:show]
+  before_action :authenticate_user!,only:[:index,:show,:unassigned_bookings,:assign_booking]
   before_action :check_sender, only: [:save_booking]
   before_action :populate_user_id, only: [:save_booking]
   before_action :token_authentication, only: [:save_booking]
@@ -9,7 +9,7 @@ class BookingsController < ApplicationController
   before_action :check_from, only: [:save_booking]
   before_action :check_slot, only: [:save_booking]
   before_action :check_orders, only: [:save_booking]
-  before_action :set_booking, only: [:show, :destroy]
+  before_action :set_booking, only: [:show, :destroy, :assign_booking, :assign_to_driver]
   after_action :send_email, only: [:save_booking]
   before_filter :set_format, only: [:save_booking]
   before_action :booking_user_authentication, only: [:list, :orders_list]
@@ -55,7 +55,26 @@ class BookingsController < ApplicationController
   def index
     @status = Booking.pluck(:status).uniq
     @bookings = Booking.get_list(params)
+  end
 
+  def unassigned_bookings
+    index
+    @bookings = @bookings.where(driver: nil)
+  end
+
+  def assign_booking
+    @users = User.where(role: 'driver', status: 'active')
+  end
+
+  def assign_to_driver
+    @booking.driver_id = params[:driver]
+    respond_to do |format|
+      if @booking.save!
+        format.html { redirect_to force_assign_bookings_path(), notice: 'Booking is Assigned Successfully.' }
+      else
+        format.html { redirect_to assign_booking_path(booking: params[:booking]), notice: 'Booking Assignment Failed' }
+      end
+    end
   end
 
   def destroy

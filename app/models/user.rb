@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :social_logins, dependent: :delete_all
   has_many :bookings, dependent: :delete_all
   has_many :orders
+  has_many :bookings, foreign_key: 'driver_id'
 
   has_many :locations, as: :locateable, dependent: :delete_all
   has_many :authentication_tokens, dependent: :delete_all
